@@ -2,7 +2,7 @@ import React from 'react'
 import { TextInputProps, View } from 'react-native'
 import { HelperText } from 'react-native-paper'
 
-import theme from '../../Theme'
+import theme from '../../../theme'
 import { TextInput, Spinner } from './styles'
 
 // type RNPaperInputProps = React.ComponentProps<typeof TextInput>

@@ -1,7 +1,10 @@
 import styled from 'styled-components/native'
-import { TextInput as PaperTextInput, ActivityIndicator } from 'react-native-paper'
+import {
+  TextInput as PaperTextInput,
+  ActivityIndicator,
+} from 'react-native-paper'
 
-import theme from '../../Theme'
+import theme from '../../../theme'
 
 type TextInputProps = {
   extraMargin: boolean

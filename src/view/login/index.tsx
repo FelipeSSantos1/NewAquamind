@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { Formik } from 'formik'
 // import { useDispatch } from 'react-redux'
-// import * as Yup from 'yup'
 import { Platform } from 'react-native'
 
 // import { LoginProps } from '../../routes'
 // import { ConfigRTK } from '../../store/config'
 // import UserRTK from '../../store/user'
 // import { getUser as APIGetUser } from '../../API/user'
-import Input from 'view/components/Input'
+import Input from '../components/Input'
 import headerImage from '../../assets/appImages/loginHeader.png'
-// import { YupErrorsType, checkValidation } from '../../helper'
+import { formValidation, FormData } from './types'
 import {
   Container,
   AppNameView,
@@ -24,87 +24,104 @@ import {
   ScrollView,
 } from './styles'
 
-type FormData = {
-  email: string
-  password: string
-}
-
-const Login = ({ navigation }: LoginProps) => {
+const Login = () => {
   // const dispatch = useDispatch()
-  // const [email, setEmail] = useState('')
-  // const [password, setPassword] = useState('')
-  // const [errors, setErrors] = useState<YupErrorsType<FormData>>({})
-  // const formValues = {
-  //   email,
-  //   password,
-  // }
-  // const validation = Yup.object({
-  //   email: Yup.string().email('Invalid e-mail').required('required'),
-  //   password: Yup.string().required('required'),
-  // })
 
-  // const checkLogin = async () => {
-  //   // dispatch(
-  //   //   setAlert({
-  //   //     visible: true,
-  //   //     alertTitle: 'Delete Photo',
-  //   //     alertMessage: 'Are you sure that you want to delete this photo?',
-  //   //     cancelText: 'Cancel',
-  //   //   }),
-  //   // )
-  //   dispatch(ConfigRTK.actions.setLoading({ visible: true }))
+  const checkLogin = async (values: FormData) => {
+    // dispatch(
+    //   setAlert({
+    //     visible: true,
+    //     alertTitle: 'Delete Photo',
+    //     alertMessage: 'Are you sure that you want to delete this photo?',
+    //     cancelText: 'Cancel',
+    //   }),
+    // )
+    // dispatch(ConfigRTK.actions.setLoading({ visible: true }))
 
-  //   const resultValidation = await checkValidation(errors, formValues, validation)
+    // const resultValidation = await checkValidation(errors, formValues, validation)
 
-  //   if (resultValidation) {
-  //     setErrors(resultValidation)
-  //     dispatch(ConfigRTK.actions.setLoading({ visible: false }))
-  //     return
-  //   }
-  //   setErrors({})
-  //   const response = await APIGetUser(1)
-  //   if (response) {
-  //     dispatch(UserRTK.actions.setUser(response))
-  //     dispatch(ConfigRTK.actions.setLoading({ visible: false }))
-  //     dispatch(ConfigRTK.actions.setAuthenticated(true))
-  //   }
-  // }
+    // if (resultValidation) {
+    //   setErrors(resultValidation)
+    //   dispatch(ConfigRTK.actions.setLoading({ visible: false }))
+    //   return
+    // }
+    // setErrors({})
+    // const response = await APIGetUser(1)
+    // if (response) {
+    //   dispatch(UserRTK.actions.setUser(response))
+    //   dispatch(ConfigRTK.actions.setLoading({ visible: false }))
+    //   dispatch(ConfigRTK.actions.setAuthenticated(true))
+    // }
+    console.log(values)
+  }
 
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
       <ScrollView>
-        <ImageHeader source={headerImage} />
+        <ImageHeader source={headerImage} resizeMode="cover" />
         <Container>
           <AppNameView>
             <AppSubTitle>Welcome to</AppSubTitle>
             <AppTitle>Aquamind Care</AppTitle>
           </AppNameView>
-          <Input
-            label="E-mail"
-            onChangeText={text => {}}
-            value={email}
-            error={errors.email}
-            keyboardType="email-address"
-          />
-          <Input
-            label="Password"
-            onChangeText={text => {}}
-            value={password}
-            error={errors.password}
-            secureTextEntry
-          />
-          <LoginButton mode="contained" onPress={() => null}>
-            Login
-          </LoginButton>
+          <Formik
+            initialValues={{
+              email: '',
+              password: '',
+            }}
+            onSubmit={checkLogin}
+            validationSchema={formValidation}
+          >
+            {({
+              values,
+              handleChange,
+              errors,
+              setFieldTouched,
+              touched,
+              isValid,
+              handleSubmit,
+            }) => (
+              <>
+                <Input
+                  label="E-mail"
+                  onChangeText={handleChange('email')}
+                  onBlur={() => setFieldTouched('email')}
+                  value={values.email}
+                  error={
+                    touched.email && errors.email ? errors.email : undefined
+                  }
+                  keyboardType="email-address"
+                />
+                <Input
+                  label="Password"
+                  onChangeText={handleChange('password')}
+                  onBlur={() => setFieldTouched('password')}
+                  value={values.password}
+                  error={
+                    touched.password && errors.password
+                      ? errors.password
+                      : undefined
+                  }
+                  secureTextEntry
+                />
+                <LoginButton
+                  mode="contained"
+                  onPress={handleSubmit}
+                  disabled={!isValid}
+                >
+                  Login
+                </LoginButton>
+              </>
+            )}
+          </Formik>
           <RowView>
-            <SecondaryButton
-              onPress={() => navigation.navigate('createAccount')}>
+            <SecondaryButton onPress={() => null}>
               Create account
             </SecondaryButton>
             <SeparatorView />
-            <SecondaryButton
-              onPress={() => navigation.navigate('forgotPassword')}>
+            <SecondaryButton onPress={() => null}>
               Forgot Password
             </SecondaryButton>
           </RowView>
