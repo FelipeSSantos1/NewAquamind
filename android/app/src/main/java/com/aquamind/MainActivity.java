@@ -1,4 +1,4 @@
-package com.aquamind;
+package app.aquamind;
 import expo.modules.ReactActivityDelegateWrapper;
 import com.facebook.react.ReactActivityDelegate;
 
