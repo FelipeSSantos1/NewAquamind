@@ -24,7 +24,7 @@ import {
   ScrollView,
 } from './styles'
 
-const Login = () => {
+const Login: React.FC = () => {
   // const dispatch = useDispatch()
 
   const checkLogin = async (values: FormData) => {

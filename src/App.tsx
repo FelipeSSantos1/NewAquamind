@@ -1,14 +1,24 @@
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
+import { Provider as PaperProvider, configureFonts } from 'react-native-paper'
+import { StatusBar } from 'react-native'
 
-import Sample from './sample'
+import theme from './theme'
 import Login from './view/login'
+
+const myTheme = {
+  ...theme,
+  fonts: configureFonts({ default: { ...theme.fonts } }),
+}
 
 const App: React.FC = () => {
   return (
-    <NavigationContainer>
-      <Login />
-    </NavigationContainer>
+    <PaperProvider theme={myTheme}>
+      <NavigationContainer>
+        <StatusBar barStyle="light-content" />
+        <Login />
+      </NavigationContainer>
+    </PaperProvider>
   )
 }
 
