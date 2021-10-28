@@ -1,4 +1,5 @@
 package app.aquamind;
+import android.os.Bundle;
 import expo.modules.ReactActivityDelegateWrapper;
 import com.facebook.react.ReactActivityDelegate;
 
@@ -20,5 +21,10 @@ public class MainActivity extends ReactActivity {
     return new ReactActivityDelegateWrapper(this,
       new ReactActivityDelegate(this, getMainComponentName())
     );
+  }
+
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(null);
   }
 }
