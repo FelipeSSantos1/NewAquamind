@@ -1,11 +1,11 @@
 import React from 'react'
 import { Formik } from 'formik'
-// import { useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Platform } from 'react-native'
 
 // import { LoginProps } from '../../routes'
 // import { ConfigRTK } from '../../store/config'
-// import UserRTK from '../../store/user'
+import UserRTK from '../../store/user'
 // import { getUser as APIGetUser } from '../../API/user'
 import Input from '../components/Input'
 import headerImage from '../../assets/appImages/loginHeader.png'
@@ -25,9 +25,10 @@ import {
 } from './styles'
 
 const Login: React.FC = () => {
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
   const checkLogin = async (values: FormData) => {
+    dispatch(UserRTK.actions.setEmail(values.email))
     // dispatch(
     //   setAlert({
     //     visible: true,
@@ -38,14 +39,6 @@ const Login: React.FC = () => {
     // )
     // dispatch(ConfigRTK.actions.setLoading({ visible: true }))
 
-    // const resultValidation = await checkValidation(errors, formValues, validation)
-
-    // if (resultValidation) {
-    //   setErrors(resultValidation)
-    //   dispatch(ConfigRTK.actions.setLoading({ visible: false }))
-    //   return
-    // }
-    // setErrors({})
     // const response = await APIGetUser(1)
     // if (response) {
     //   dispatch(UserRTK.actions.setUser(response))
