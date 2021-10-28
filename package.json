@@ -1,0 +1,50 @@
+{
+  "name": "aquamind",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "android": "npx react-native run-android",
+    "ios": "npx react-native run-ios --simulator=\"iPhone 13 Pro\"",
+    "start": "npx react-native start",
+    "pod": "npx pod-install",
+    "podUpdate": "npx pod-install --repo-update",
+    "images": "npx expo-optimize",
+    "clean": "cd android && ./gradlew cleanBuildCache && ./gradlew clean",
+    "reset": "yarn clean && rm -f ./yarn.lock && rm -rf ./node_modules && rm -f ./ios/Podfile.lock.lock && rm -rf ./ios/Pods && yarn install && yarn pod",
+    "resetMetro": "watchman watch-del-all && rm -rf $TMPDIR/metro-* && rm -rf $TMPDIR/haste-map-*",
+    "android:release": "cd android && ./gradlew assembleRelease && open app/build/outputs/apk/release",
+    "jsbundle": "react-native bundle --entry-file='index.js' --bundle-output='./ios/main.jsbundle' --dev=false --platform='ios'"
+  },
+  "dependencies": {
+    "react": "17.0.2",
+    "react-native": "0.66.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@babel/runtime": "^7.12.5",
+    "@react-native-community/eslint-config": "^2.0.0",
+    "@types/jest": "^26.0.23",
+    "@types/react-native": "^0.65.0",
+    "@types/react-test-renderer": "^17.0.1",
+    "babel-jest": "^26.6.3",
+    "eslint": "^7.14.0",
+    "jest": "^26.6.3",
+    "metro-react-native-babel-preset": "^0.66.2",
+    "react-test-renderer": "17.0.2",
+    "typescript": "^3.8.3"
+  },
+  "resolutions": {
+    "@types/react": "^17"
+  },
+  "jest": {
+    "preset": "react-native",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  }
+}
