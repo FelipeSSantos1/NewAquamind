@@ -18,6 +18,8 @@ export type UserState = {
   updatedAt: string
   profileId: number | null
   profile: Profile | null
+  accessToken?: string
+  refreshToken?: string
 }
 
 export enum Role {

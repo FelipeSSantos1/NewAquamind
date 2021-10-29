@@ -37,6 +37,7 @@ const Login: React.FC<NavPropsLogin> = ({ navigation }) => {
   ) => {
     setIsLoading(true)
     const user = await authAPI.login(values)
+    setIsLoading(false)
 
     if (!user) {
       dispatch(
@@ -47,7 +48,6 @@ const Login: React.FC<NavPropsLogin> = ({ navigation }) => {
           okText: 'Ok',
         })
       )
-      setIsLoading(false)
       return
     }
 
@@ -61,7 +61,7 @@ const Login: React.FC<NavPropsLogin> = ({ navigation }) => {
         })
       )
     } else {
-      actions.resetForm({ values: { email: values.email, password: '' } })
+      actions.resetForm()
       if (user.accessToken) {
         await SecureStore.setItemAsync('accessToken', user.accessToken)
       }
@@ -75,8 +75,6 @@ const Login: React.FC<NavPropsLogin> = ({ navigation }) => {
 
       navigation.navigate('Tabs')
     }
-
-    setIsLoading(false)
   }
 
   return (

@@ -12,6 +12,8 @@ const initialState: UserState = {
   updatedAt: '',
   profileId: null,
   profile: null,
+  accessToken: undefined,
+  refreshToken: undefined,
 }
 
 export default createSlice({
