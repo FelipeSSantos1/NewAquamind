@@ -6,7 +6,7 @@ import * as SecureStore from 'expo-secure-store'
 
 // import { LoginProps } from '../../routes'
 // import { ConfigRTK } from '../../store/config'
-import { CreateAccountNavProps } from '../../routes/types'
+import { NavPropsCreateAccount } from '../../routes/types'
 import UserRTK from '../../store/user'
 import ConfigRTK from '../../store/config'
 import * as authAPI from '../../API/auth'
@@ -27,7 +27,7 @@ import {
   ScrollView,
 } from './styles'
 
-const CreateAccount: React.FC<CreateAccountNavProps> = ({ navigation }) => {
+const CreateAccount: React.FC<NavPropsCreateAccount> = ({ navigation }) => {
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
 

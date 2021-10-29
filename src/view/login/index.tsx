@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { Formik } from 'formik'
+import { Formik, FormikHelpers } from 'formik'
 import { useDispatch } from 'react-redux'
 import { Platform } from 'react-native'
 import * as SecureStore from 'expo-secure-store'
 
 // import { LoginProps } from '../../routes'
 // import { ConfigRTK } from '../../store/config'
-import { LoginNavProps } from '../../routes/types'
+import { NavPropsLogin } from '../../routes/types'
 import UserRTK from '../../store/user'
 import ConfigRTK from '../../store/config'
 import * as authAPI from '../../API/auth'
@@ -27,11 +27,14 @@ import {
   ScrollView,
 } from './styles'
 
-const Login: React.FC<LoginNavProps> = ({ navigation }) => {
+const Login: React.FC<NavPropsLogin> = ({ navigation }) => {
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
 
-  const checkLogin = async (values: FormData) => {
+  const checkLogin = async (
+    values: FormData,
+    actions: FormikHelpers<FormData>
+  ) => {
     setIsLoading(true)
     const user = await authAPI.login(values)
 
@@ -58,6 +61,7 @@ const Login: React.FC<LoginNavProps> = ({ navigation }) => {
         })
       )
     } else {
+      actions.resetForm({ values: { email: values.email, password: '' } })
       if (user.accessToken) {
         await SecureStore.setItemAsync('accessToken', user.accessToken)
       }
@@ -69,7 +73,7 @@ const Login: React.FC<LoginNavProps> = ({ navigation }) => {
       user.refreshToken = undefined
       dispatch(UserRTK.actions.setUser(user))
 
-      // redirect to main screen
+      navigation.navigate('Tabs')
     }
 
     setIsLoading(false)
@@ -91,7 +95,7 @@ const Login: React.FC<LoginNavProps> = ({ navigation }) => {
               email: '',
               password: '',
             }}
-            onSubmit={checkLogin}
+            onSubmit={(values, actions) => checkLogin(values, actions)}
             validationSchema={formValidation}
           >
             {({

@@ -20,12 +20,12 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <PaperProvider theme={myTheme}>
-        <PersistGate loading={<AppLoading />} persistor={persistor}>
-          <NavigationContainer>
+        <NavigationContainer>
+          <PersistGate loading={<AppLoading />} persistor={persistor}>
             <StatusBar barStyle="light-content" />
             <Routes />
-          </NavigationContainer>
-        </PersistGate>
+          </PersistGate>
+        </NavigationContainer>
         <Alert />
       </PaperProvider>
     </Provider>

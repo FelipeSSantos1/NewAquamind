@@ -1,12 +1,12 @@
 import React from 'react'
 import { View, Text } from 'react-native'
 
-const ForgotPassword: React.FC = () => {
+const Tank: React.FC = () => {
   return (
     <View>
-      <Text>ForgotPassword</Text>
+      <Text>Tank</Text>
     </View>
   )
 }
 
-export default ForgotPassword
+export default Tank
