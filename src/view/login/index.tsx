@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Formik } from 'formik'
 import { useDispatch } from 'react-redux'
-import { Platform } from 'react-native'
+import { Alert, Platform } from 'react-native'
 
 // import { LoginProps } from '../../routes'
 // import { ConfigRTK } from '../../store/config'
 import UserRTK from '../../store/user'
-// import { getUser as APIGetUser } from '../../API/user'
+import * as authAPI from '../../API/auth'
 import Input from '../components/Input'
 import headerImage from '../../assets/appImages/loginHeader.png'
 import { formValidation, FormData } from './types'
@@ -26,26 +26,25 @@ import {
 
 const Login: React.FC = () => {
   const dispatch = useDispatch()
+  const [isLoading, setIsLoading] = useState(false)
 
   const checkLogin = async (values: FormData) => {
-    dispatch(UserRTK.actions.setEmail(values.email))
-    // dispatch(
-    //   setAlert({
-    //     visible: true,
-    //     alertTitle: 'Delete Photo',
-    //     alertMessage: 'Are you sure that you want to delete this photo?',
-    //     cancelText: 'Cancel',
-    //   }),
-    // )
-    // dispatch(ConfigRTK.actions.setLoading({ visible: true }))
+    setIsLoading(true)
+    const user = await authAPI.login(values)
 
-    // const response = await APIGetUser(1)
-    // if (response) {
-    //   dispatch(UserRTK.actions.setUser(response))
-    //   dispatch(ConfigRTK.actions.setLoading({ visible: false }))
-    //   dispatch(ConfigRTK.actions.setAuthenticated(true))
-    // }
-    console.log(values)
+    if (!user) {
+      Alert.alert('Oops', 'Something went wrong, try again')
+      setIsLoading(false)
+      return
+    }
+
+    if ('statusCode' in user) {
+      Alert.alert('Oops', user.message)
+    } else {
+      dispatch(UserRTK.actions.setUser(user))
+    }
+
+    setIsLoading(false)
   }
 
   return (
@@ -102,7 +101,8 @@ const Login: React.FC = () => {
                 <LoginButton
                   mode="contained"
                   onPress={handleSubmit}
-                  disabled={!isValid}
+                  disabled={!isValid || isLoading}
+                  loading={isLoading}
                 >
                   Login
                 </LoginButton>
