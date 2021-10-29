@@ -10,11 +10,17 @@ type Profile = {
 export type UserState = {
   id: string
   email: string
+  password: string
   active: boolean
   emailVerified: boolean
-  role: string
-  profileId: number
-  accessToken?: string
-  refreshToken?: string
-  profile: Profile
+  role: 'USER' | 'ADMIN'
+  createdAt: string
+  updatedAt: string
+  profileId: number | null
+  profile: Profile | null
+}
+
+export enum Role {
+  USER = 'USER',
+  ADMIN = 'ADMIN',
 }

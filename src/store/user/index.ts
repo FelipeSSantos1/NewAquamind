@@ -2,10 +2,16 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { UserState } from './types'
 
 const initialState: UserState = {
+  id: '',
   email: '',
-  name: '',
-  username: '',
-  avatar: '',
+  password: '',
+  active: false,
+  emailVerified: false,
+  role: 'USER',
+  createdAt: '',
+  updatedAt: '',
+  profileId: null,
+  profile: null,
 }
 
 export default createSlice({
