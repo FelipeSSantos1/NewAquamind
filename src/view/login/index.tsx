@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Formik } from 'formik'
 import { useDispatch } from 'react-redux'
 import { Alert, Platform } from 'react-native'
+import * as SecureStore from 'expo-secure-store'
 
 // import { LoginProps } from '../../routes'
 // import { ConfigRTK } from '../../store/config'
@@ -49,6 +50,12 @@ const Login: React.FC = () => {
         }),
       )
     } else {
+      if (user.accessToken) {
+        await SecureStore.setItemAsync('accessToken', user.accessToken)
+      }
+      if (user.refreshToken) {
+        await SecureStore.setItemAsync('refreshToken', user.refreshToken)
+      }
       user.accessToken = undefined
       user.refreshToken = undefined
       dispatch(UserRTK.actions.setUser(user))
@@ -95,6 +102,9 @@ const Login: React.FC = () => {
                     touched.email && errors.email ? errors.email : undefined
                   }
                   keyboardType="email-address"
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  autoCompleteType="email"
                 />
                 <Input
                   label="Password"
