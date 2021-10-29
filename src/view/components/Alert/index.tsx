@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
 
 import { RootState } from '../../../store/rootReducer'
-import { ConfigRTK } from '../../../store/config'
-import theme from '../../Theme'
+import ConfigRTK from '../../../store/config'
+import theme from '../../../theme'
 
 import { Button } from './styles'
 
@@ -53,7 +53,9 @@ const Alert: React.FC = () => {
               dispatch(ConfigRTK.actions.hideAlert())
             }}
           >
-            {!_.isEmpty(_.trim(config.alert.okText)) ? _.trim(config.alert.okText) : 'Done'}
+            {!_.isEmpty(_.trim(config.alert.okText))
+              ? _.trim(config.alert.okText)
+              : 'Done'}
           </Button>
         </Dialog.Actions>
       </Dialog>

@@ -5,6 +5,7 @@ import { PersistGate } from 'redux-persist/integration/react'
 import { Provider as PaperProvider, configureFonts } from 'react-native-paper'
 import { StatusBar } from 'react-native'
 
+import Alert from './view/components/Alert'
 import AppLoading from './view/components/FakeLoadingScreen'
 import { store, persistor } from './store'
 import theme from './theme'
@@ -25,6 +26,7 @@ const App: React.FC = () => {
             <Login />
           </NavigationContainer>
         </PersistGate>
+        <Alert />
       </PaperProvider>
     </Provider>
   )

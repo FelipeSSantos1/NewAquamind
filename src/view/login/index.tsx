@@ -6,6 +6,7 @@ import { Alert, Platform } from 'react-native'
 // import { LoginProps } from '../../routes'
 // import { ConfigRTK } from '../../store/config'
 import UserRTK from '../../store/user'
+import ConfigRTK from '../../store/config'
 import * as authAPI from '../../API/auth'
 import Input from '../components/Input'
 import headerImage from '../../assets/appImages/loginHeader.png'
@@ -39,8 +40,17 @@ const Login: React.FC = () => {
     }
 
     if ('statusCode' in user) {
-      Alert.alert('Oops', user.message)
+      dispatch(
+        ConfigRTK.actions.setAlert({
+          visible: true,
+          alertTitle: 'Oops!',
+          alertMessage: user.message,
+          okText: 'Ok',
+        }),
+      )
     } else {
+      user.accessToken = undefined
+      user.refreshToken = undefined
       dispatch(UserRTK.actions.setUser(user))
     }
 
