@@ -6,7 +6,7 @@ import * as SecureStore from 'expo-secure-store'
 
 // import { LoginProps } from '../../routes'
 // import { ConfigRTK } from '../../store/config'
-import { LoginNavProps } from '../../routes/types'
+import { CreateAccountNavProps } from '../../routes/types'
 import UserRTK from '../../store/user'
 import ConfigRTK from '../../store/config'
 import * as authAPI from '../../API/auth'
@@ -27,7 +27,7 @@ import {
   ScrollView,
 } from './styles'
 
-const Login: React.FC<LoginNavProps> = ({ navigation }) => {
+const CreateAccount: React.FC<CreateAccountNavProps> = ({ navigation }) => {
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
 
@@ -141,9 +141,7 @@ const Login: React.FC<LoginNavProps> = ({ navigation }) => {
             )}
           </Formik>
           <RowView>
-            <SecondaryButton
-              onPress={() => navigation.navigate('CreateAccount')}
-            >
+            <SecondaryButton onPress={() => navigation.goBack()}>
               Create account
             </SecondaryButton>
             <SeparatorView />
@@ -157,4 +155,4 @@ const Login: React.FC<LoginNavProps> = ({ navigation }) => {
   )
 }
 
-export default Login
+export default CreateAccount

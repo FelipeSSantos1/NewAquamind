@@ -9,7 +9,7 @@ import Alert from './view/components/Alert'
 import AppLoading from './view/components/FakeLoadingScreen'
 import { store, persistor } from './store'
 import theme from './theme'
-import Login from './view/login'
+import Routes from './routes'
 
 const myTheme = {
   ...theme,
@@ -23,7 +23,7 @@ const App: React.FC = () => {
         <PersistGate loading={<AppLoading />} persistor={persistor}>
           <NavigationContainer>
             <StatusBar barStyle="light-content" />
-            <Login />
+            <Routes />
           </NavigationContainer>
         </PersistGate>
         <Alert />
