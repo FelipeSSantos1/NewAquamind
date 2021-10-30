@@ -7,7 +7,7 @@ import * as Network from 'expo-network'
 import { NavPropsForgotPassword } from '../../routes/types'
 import * as authAPI from '../../API/auth'
 import ConfigRTK from '../../store/config'
-import Input from '../components/Input'
+import Input from '../components/input'
 import headerImage from '../../assets/appImages/loginHeader.png'
 import { formValidation, FormData } from './types'
 import {

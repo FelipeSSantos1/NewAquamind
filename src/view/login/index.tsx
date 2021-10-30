@@ -8,7 +8,7 @@ import { NavPropsLogin } from '../../routes/types'
 import UserRTK from '../../store/user'
 import ConfigRTK from '../../store/config'
 import * as authAPI from '../../API/auth'
-import Input from '../components/Input'
+import Input from '../components/input'
 import headerImage from '../../assets/appImages/loginHeader.png'
 import { formValidation, FormData } from './types'
 import {
