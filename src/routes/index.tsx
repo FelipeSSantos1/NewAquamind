@@ -1,6 +1,8 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { useSelector } from 'react-redux'
 
 import { RootState } from '../store/rootReducer'
 import Login from '../view/login'
@@ -8,6 +10,7 @@ import CreateAccount from '../view/createAccount'
 import ForgotPassword from '../view/forgotPassword'
 import FeedView from '../view/feed'
 import TankView from '../view/tank'
+import theme from '../theme'
 import {
   ParamListRootStack,
   ParamListTabStack,
@@ -15,7 +18,6 @@ import {
   ParamListFeedStack,
   ParamListTankStack,
 } from './types'
-import { useSelector } from 'react-redux'
 
 const RootStack = createNativeStackNavigator<ParamListRootStack>()
 const AuthStack = createNativeStackNavigator<ParamListAuthStack>()
@@ -36,12 +38,28 @@ const Auth: React.FC = () => (
   </AuthStack.Navigator>
 )
 const Feed: React.FC = () => (
-  <FeedStack.Navigator initialRouteName="Feed">
+  <FeedStack.Navigator
+    initialRouteName="Feed"
+    screenOptions={{
+      headerTintColor: theme.colors.surface,
+      headerStyle: {
+        backgroundColor: theme.colors.primary,
+      },
+    }}
+  >
     <FeedStack.Screen name="Feed" component={FeedView} />
   </FeedStack.Navigator>
 )
 const Tank: React.FC = () => (
-  <TankStack.Navigator initialRouteName="Tank">
+  <TankStack.Navigator
+    initialRouteName="Tank"
+    screenOptions={{
+      headerTintColor: theme.colors.surface,
+      headerStyle: {
+        backgroundColor: theme.colors.primary,
+      },
+    }}
+  >
     <TankStack.Screen name="Tank" component={TankView} />
   </TankStack.Navigator>
 )
@@ -50,11 +68,43 @@ const Tabs: React.FC = () => (
   <Tab.Navigator
     screenOptions={{
       headerShown: false,
+      tabBarActiveBackgroundColor: theme.colors.background,
+      tabBarInactiveBackgroundColor: theme.colors.background,
+      tabBarShowLabel: false,
+      tabBarStyle: {
+        backgroundColor: theme.colors.background,
+      },
     }}
     initialRouteName="FeedTab"
   >
-    <Tab.Screen name="FeedTab" component={Feed} />
-    <Tab.Screen name="TankTab" component={Tank} />
+    <Tab.Screen
+      name="FeedTab"
+      component={Feed}
+      options={{
+        tabBarLabel: 'Feed',
+        tabBarIcon: ({ focused }) => (
+          <MaterialCommunityIcons
+            name={focused ? 'image-multiple' : 'image-multiple-outline'}
+            color={theme.colors.primary}
+            size={focused ? 24 : 22}
+          />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="TankTab"
+      component={Tank}
+      options={{
+        tabBarLabel: 'My Tank',
+        tabBarIcon: ({ focused }) => (
+          <MaterialCommunityIcons
+            name={focused ? 'fishbowl' : 'fishbowl-outline'}
+            color={theme.colors.primary}
+            size={24}
+          />
+        ),
+      }}
+    />
   </Tab.Navigator>
 )
 
