@@ -1,18 +1,17 @@
 import React, { useState } from 'react'
-import { Formik } from 'formik'
+import { Formik, FormikHelpers } from 'formik'
 import { useDispatch } from 'react-redux'
 import { Platform } from 'react-native'
-import * as SecureStore from 'expo-secure-store'
+import { Portal, Dialog } from 'react-native-paper'
 
-// import { LoginProps } from '../../routes'
-// import { ConfigRTK } from '../../store/config'
 import { NavPropsCreateAccount } from '../../routes/types'
-import UserRTK from '../../store/user'
-import ConfigRTK from '../../store/config'
 import * as authAPI from '../../API/auth'
+import { FormValidation, FormData, FormResendValidation } from './types'
+import ConfigRTK from '../../store/config'
 import Input from '../components/Input'
 import headerImage from '../../assets/appImages/loginHeader.png'
-import { formValidation, FormData } from './types'
+import theme from '../../theme'
+
 import {
   Container,
   AppNameView,
@@ -22,20 +21,73 @@ import {
   LoginButton,
   RowView,
   SecondaryButton,
-  SeparatorView,
   KeyboardAvoidingView,
   ScrollView,
+  PaperButton,
 } from './styles'
 
 const CreateAccount: React.FC<NavPropsCreateAccount> = ({ navigation }) => {
   const dispatch = useDispatch()
-  const [isLoading, setIsLoading] = useState(false)
+  const [createIsLoading, setCreateIsLoading] = useState(false)
+  const [sendIsLoading, setSendIsLoading] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
-  const checkLogin = async (values: FormData) => {
-    setIsLoading(true)
-    const user = await authAPI.login(values)
+  const resendEmail = async ({ email }: { email: string }) => {
+    setSendIsLoading(true)
+    const result = await authAPI.resendEmail({ email })
+    setSendIsLoading(false)
+    setShowModal(false)
 
-    if (!user) {
+    if (!result) {
+      dispatch(
+        ConfigRTK.actions.setAlert({
+          visible: true,
+          alertTitle: 'Oops!',
+          alertMessage: 'Something went wrong, try again',
+          okText: 'Ok',
+          okPress: () => {
+            dispatch(ConfigRTK.actions.hideAlert())
+            setShowModal(true)
+          },
+        })
+      )
+      return
+    }
+
+    if (typeof result !== 'boolean') {
+      dispatch(
+        ConfigRTK.actions.setAlert({
+          visible: true,
+          alertTitle: 'Oops!',
+          alertMessage: result.message,
+          okText: 'Ok',
+          okPress: () => {
+            dispatch(ConfigRTK.actions.hideAlert())
+            setShowModal(true)
+          },
+        })
+      )
+    } else {
+      dispatch(
+        ConfigRTK.actions.setAlert({
+          visible: true,
+          alertTitle: 'Success!',
+          alertMessage: `An email for validate your account was sent to ${email}. Check also your spam folder, just in case.`,
+          okText: 'Ok',
+        })
+      )
+    }
+  }
+
+  const createAccount = async (
+    values: FormData,
+    actions: FormikHelpers<FormData>
+  ) => {
+    setCreateIsLoading(true)
+    const result = await authAPI.createAccount(values)
+    setCreateIsLoading(false)
+
+    if (!result) {
       dispatch(
         ConfigRTK.actions.setAlert({
           visible: true,
@@ -44,35 +96,35 @@ const CreateAccount: React.FC<NavPropsCreateAccount> = ({ navigation }) => {
           okText: 'Ok',
         })
       )
-      setIsLoading(false)
       return
     }
 
-    if ('statusCode' in user) {
+    if ('statusCode' in result) {
       dispatch(
         ConfigRTK.actions.setAlert({
           visible: true,
           alertTitle: 'Oops!',
-          alertMessage: user.message,
+          alertMessage: result.message,
           okText: 'Ok',
         })
       )
     } else {
-      if (user.accessToken) {
-        await SecureStore.setItemAsync('accessToken', user.accessToken)
-      }
-      if (user.refreshToken) {
-        await SecureStore.setItemAsync('refreshToken', user.refreshToken)
-      }
+      actions.resetForm({
+        values: { email: values.email, confirmPassword: '', password: '' },
+      })
 
-      user.accessToken = undefined
-      user.refreshToken = undefined
-      dispatch(UserRTK.actions.setUser(user))
-
-      // redirect to main screen
+      if (result.emailSent) {
+        dispatch(
+          ConfigRTK.actions.setAlert({
+            visible: true,
+            alertTitle: 'Success',
+            alertMessage: `Your account was created. Please follow the instructions on email that was sent to ${values.email} to validate it`,
+            okText: 'Ok',
+          })
+        )
+        return
+      }
     }
-
-    setIsLoading(false)
   }
 
   return (
@@ -80,19 +132,21 @@ const CreateAccount: React.FC<NavPropsCreateAccount> = ({ navigation }) => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <ScrollView>
-        <ImageHeader source={headerImage} resizeMode="cover" />
+        <ImageHeader source={headerImage} />
         <Container>
           <AppNameView>
-            <AppSubTitle>Welcome to</AppSubTitle>
-            <AppTitle>Aquamind Care</AppTitle>
+            <AppSubTitle> </AppSubTitle>
+            <AppTitle>Create Account</AppTitle>
           </AppNameView>
+
           <Formik
             initialValues={{
               email: '',
               password: '',
+              confirmPassword: '',
             }}
-            onSubmit={checkLogin}
-            validationSchema={formValidation}
+            onSubmit={(values, actions) => createAccount(values, actions)}
+            validationSchema={FormValidation}
           >
             {({
               values,
@@ -129,28 +183,98 @@ const CreateAccount: React.FC<NavPropsCreateAccount> = ({ navigation }) => {
                   }
                   secureTextEntry
                 />
+                <Input
+                  label="Confirm Password"
+                  onChangeText={handleChange('confirmPassword')}
+                  onBlur={() => setFieldTouched('confirmPassword')}
+                  value={values.confirmPassword}
+                  error={
+                    touched.confirmPassword && errors.confirmPassword
+                      ? errors.confirmPassword
+                      : undefined
+                  }
+                  secureTextEntry
+                />
                 <LoginButton
                   mode="contained"
                   onPress={handleSubmit}
-                  disabled={!isValid || isLoading}
-                  loading={isLoading}
+                  disabled={!isValid || createIsLoading}
+                  loading={createIsLoading}
                 >
-                  Login
+                  Create Account
                 </LoginButton>
               </>
             )}
           </Formik>
           <RowView>
-            <SecondaryButton onPress={() => navigation.goBack()}>
-              Create account
+            <SecondaryButton
+              onPress={() => setShowModal(true)}
+              color={theme.colors.accent}
+            >
+              Didn't received the email? Resend it!
             </SecondaryButton>
-            <SeparatorView />
-            <SecondaryButton onPress={() => null}>
-              Forgot Password
+          </RowView>
+          <RowView>
+            <SecondaryButton onPress={() => navigation.goBack()}>
+              Go to Login
             </SecondaryButton>
           </RowView>
         </Container>
       </ScrollView>
+
+      <Formik
+        initialValues={{
+          email: '',
+        }}
+        onSubmit={resendEmail}
+        validationSchema={FormResendValidation}
+      >
+        {({
+          values,
+          handleChange,
+          errors,
+          setFieldTouched,
+          touched,
+          isValid,
+          handleSubmit,
+        }) => (
+          <Portal>
+            <Dialog visible={showModal} onDismiss={() => setShowModal(false)}>
+              <Dialog.Title>Send a new email to</Dialog.Title>
+
+              <Dialog.Content>
+                <Input
+                  label="E-mail"
+                  onChangeText={handleChange('email')}
+                  onBlur={() => setFieldTouched('email')}
+                  value={values.email}
+                  error={
+                    touched.email && errors.email ? errors.email : undefined
+                  }
+                  keyboardType="email-address"
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  autoCompleteType="email"
+                />
+              </Dialog.Content>
+              <Dialog.Actions>
+                <PaperButton
+                  color={theme.colors.error}
+                  onPress={() => setShowModal(false)}
+                >
+                  Cancel
+                </PaperButton>
+                <PaperButton
+                  onPress={handleSubmit}
+                  disabled={!isValid || sendIsLoading}
+                >
+                  Send
+                </PaperButton>
+              </Dialog.Actions>
+            </Dialog>
+          </Portal>
+        )}
+      </Formik>
     </KeyboardAvoidingView>
   )
 }

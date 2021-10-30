@@ -4,8 +4,6 @@ import { useDispatch } from 'react-redux'
 import { Platform } from 'react-native'
 import * as SecureStore from 'expo-secure-store'
 
-// import { LoginProps } from '../../routes'
-// import { ConfigRTK } from '../../store/config'
 import { NavPropsLogin } from '../../routes/types'
 import UserRTK from '../../store/user'
 import ConfigRTK from '../../store/config'
@@ -149,7 +147,9 @@ const Login: React.FC<NavPropsLogin> = ({ navigation }) => {
               Create account
             </SecondaryButton>
             <SeparatorView />
-            <SecondaryButton onPress={() => null}>
+            <SecondaryButton
+              onPress={() => navigation.navigate('ForgotPassword')}
+            >
               Forgot Password
             </SecondaryButton>
           </RowView>

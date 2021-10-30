@@ -1,19 +1,17 @@
 import React from 'react'
-import { TextInputProps, View } from 'react-native'
+import { View, TextInputProps } from 'react-native'
 import { HelperText } from 'react-native-paper'
 
 import theme from '../../../theme'
+import { InputProps } from './types'
 import { TextInput, Spinner } from './styles'
 
-// type RNPaperInputProps = React.ComponentProps<typeof TextInput>
-// type InputProps = RNPaperInputProps & { error: string }
-type InputProps = TextInputProps & {
-  label: string
-  error: string | undefined
-  loading?: boolean
-}
-
-const Input: React.FC<InputProps> = ({ error, label, loading, ...props }) => {
+const Input: React.FC<InputProps & TextInputProps> = ({
+  error,
+  label,
+  loading,
+  ...props
+}) => {
   const hasError = !!error
   return (
     <View>
@@ -22,8 +20,8 @@ const Input: React.FC<InputProps> = ({ error, label, loading, ...props }) => {
         error={hasError}
         label={label}
         dense
-        {...props}
         extraMargin={!!error}
+        {...props}
       />
       {loading && <Spinner color={theme.colors.primary} />}
       {error && (

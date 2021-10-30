@@ -20,7 +20,7 @@ api.interceptors.request.use(
   },
   error => {
     return Promise.reject(error)
-  },
+  }
 )
 
 api.interceptors.response.use(
@@ -65,7 +65,7 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(err)
-  },
+  }
 )
 
 export default api

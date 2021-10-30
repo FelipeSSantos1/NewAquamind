@@ -55,3 +55,9 @@ export const ScrollView = styled.ScrollView`
   flex: 1;
   background-color: ${theme.colors.surface};
 `
+export const PaperButton = styled(Button).attrs({
+  compact: true,
+  mode: 'text',
+})`
+  min-width: 76px;
+`

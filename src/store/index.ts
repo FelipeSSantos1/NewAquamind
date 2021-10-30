@@ -10,6 +10,7 @@ import {
   REHYDRATE,
 } from 'redux-persist'
 import AsyncStorage from '@react-native-community/async-storage'
+import ConfigRTK from './config'
 
 import { rootReducer } from './rootReducer'
 
@@ -40,7 +41,15 @@ const store = configureStore({
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredActions: [
+          FLUSH,
+          REHYDRATE,
+          PAUSE,
+          PERSIST,
+          PURGE,
+          REGISTER,
+          ConfigRTK.actions.setAlert.type,
+        ],
       },
     }).concat(middlewares),
 })
