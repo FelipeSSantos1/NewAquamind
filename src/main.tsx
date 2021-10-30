@@ -6,6 +6,7 @@ import { Provider as PaperProvider, configureFonts } from 'react-native-paper'
 import { StatusBar } from 'react-native'
 
 import Alert from './view/components/alert'
+import Drawer from './view/components/drawer'
 import AppLoading from './view/components/fakeLoadingScreen'
 import { store, persistor } from './store'
 import theme from './theme'
@@ -24,9 +25,10 @@ const App: React.FC = () => {
           <PersistGate loading={<AppLoading />} persistor={persistor}>
             <StatusBar barStyle="light-content" />
             <Routes />
+            <Drawer />
+            <Alert />
           </PersistGate>
         </NavigationContainer>
-        <Alert />
       </PaperProvider>
     </Provider>
   )

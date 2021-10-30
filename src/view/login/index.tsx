@@ -72,8 +72,7 @@ const Login: React.FC<NavPropsLogin> = ({ navigation }) => {
     user.accessToken = undefined
     user.refreshToken = undefined
     dispatch(UserRTK.actions.setUser(user))
-
-    navigation.navigate('Tabs')
+    dispatch(ConfigRTK.actions.setAuthenticated(true))
   }
 
   return (

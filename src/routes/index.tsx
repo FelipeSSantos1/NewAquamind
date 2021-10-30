@@ -2,7 +2,8 @@ import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { IconButton } from 'react-native-paper'
 
 import { RootState } from '../store/rootReducer'
 import Login from '../view/login'
@@ -10,6 +11,7 @@ import CreateAccount from '../view/createAccount'
 import ForgotPassword from '../view/forgotPassword'
 import FeedView from '../view/feed'
 import TankView from '../view/tank'
+import ConfigRTK from '../store/config'
 import theme from '../theme'
 import {
   ParamListRootStack,
@@ -37,19 +39,37 @@ const Auth: React.FC = () => (
     <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} />
   </AuthStack.Navigator>
 )
-const Feed: React.FC = () => (
-  <FeedStack.Navigator
-    initialRouteName="Feed"
-    screenOptions={{
-      headerTintColor: theme.colors.surface,
-      headerStyle: {
-        backgroundColor: theme.colors.primary,
-      },
-    }}
-  >
-    <FeedStack.Screen name="Feed" component={FeedView} />
-  </FeedStack.Navigator>
-)
+const Feed: React.FC = () => {
+  const dispatch = useDispatch()
+
+  return (
+    <FeedStack.Navigator
+      initialRouteName="Feed"
+      screenOptions={{
+        headerTintColor: theme.colors.surface,
+        headerStyle: {
+          backgroundColor: theme.colors.primary,
+        },
+      }}
+    >
+      <FeedStack.Screen
+        name="Feed"
+        component={FeedView}
+        options={{
+          headerRight: () => (
+            <IconButton
+              icon="menu"
+              color={theme.colors.surface}
+              onPress={() => dispatch(ConfigRTK.actions.showDrawer(true))}
+              hasTVPreferredFocus={undefined}
+              tvParallaxProperties={undefined}
+            />
+          ),
+        }}
+      />
+    </FeedStack.Navigator>
+  )
+}
 const Tank: React.FC = () => (
   <TankStack.Navigator
     initialRouteName="Tank"
@@ -109,17 +129,20 @@ const Tabs: React.FC = () => (
 )
 
 const Routes: React.FC = () => {
-  const { user } = useSelector((state: RootState) => state)
+  const { config } = useSelector((state: RootState) => state)
+  const { authenticated } = config
 
   return (
     <RootStack.Navigator
       screenOptions={{
         headerShown: false,
       }}
-      initialRouteName={user.id ? 'Tabs' : 'Auth'}
     >
-      <RootStack.Screen name="Auth" component={Auth} />
-      <RootStack.Screen name="Tabs" component={Tabs} />
+      {authenticated ? (
+        <RootStack.Screen name="Tabs" component={Tabs} />
+      ) : (
+        <RootStack.Screen name="Auth" component={Auth} />
+      )}
     </RootStack.Navigator>
   )
 }
