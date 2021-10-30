@@ -2,9 +2,13 @@ export type AuthParams = {
   email: string
   password: string
 }
-
 export type ResendEmailParams = {
   email: string
+}
+export type ForgotPasswordParams = {
+  email: string
+  ip: string
+  device: string
 }
 
 export type CreateAccountResponse = {
@@ -18,4 +22,7 @@ export type CreateAccountResponse = {
   createdAt: string
   updatedAt: string
   profileId: number
+}
+export type ForgotPasswordResponse = {
+  emailSent: boolean
 }

@@ -1,6 +1,11 @@
 import styled from 'styled-components/native'
 import { Image, Dimensions } from 'react-native'
-import { Title, Subheading, Button } from 'react-native-paper'
+import {
+  Title,
+  Subheading,
+  Button,
+  Text as PaperText,
+} from 'react-native-paper'
 
 import theme from '../../theme'
 
@@ -16,6 +21,9 @@ export const AppNameView = styled.View`
   left: ${theme.sizes.pagePadding}px;
   position: absolute;
 `
+export const Text = styled(PaperText)`
+  margin-bottom: ${theme.sizes.margin}px;
+`
 export const AppTitle = styled(Title)`
   color: ${theme.colors.primary};
   top: -9px;
@@ -27,7 +35,9 @@ export const ImageHeader = styled(Image)`
   background-color: ${theme.colors.surface};
   width: ${width}px;
 `
-export const LoginButton = styled(Button)`
+export const LoginButton = styled(Button).attrs({
+  mode: 'contained',
+})`
   margin: ${theme.sizes.margin}px 0;
 `
 export const SecondaryButton = styled(Button).attrs({
@@ -42,10 +52,6 @@ export const RowView = styled.View`
   flex-direction: row;
   justify-content: center;
   width: 100%;
-`
-export const SeparatorView = styled.View`
-  width: 1px;
-  background-color: ${theme.colors.disabled};
 `
 export const KeyboardAvoidingView = styled.KeyboardAvoidingView`
   flex: 1;

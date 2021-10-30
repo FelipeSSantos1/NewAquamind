@@ -132,7 +132,7 @@ const CreateAccount: React.FC<NavPropsCreateAccount> = ({ navigation }) => {
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
       <ScrollView>
-        <ImageHeader source={headerImage} />
+        <ImageHeader source={headerImage} resizeMode="cover" />
         <Container>
           <AppNameView>
             <AppSubTitle> </AppSubTitle>

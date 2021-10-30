@@ -58,21 +58,22 @@ const Login: React.FC<NavPropsLogin> = ({ navigation }) => {
           okText: 'Ok',
         })
       )
-    } else {
-      actions.resetForm()
-      if (user.accessToken) {
-        await SecureStore.setItemAsync('accessToken', user.accessToken)
-      }
-      if (user.refreshToken) {
-        await SecureStore.setItemAsync('refreshToken', user.refreshToken)
-      }
-
-      user.accessToken = undefined
-      user.refreshToken = undefined
-      dispatch(UserRTK.actions.setUser(user))
-
-      navigation.navigate('Tabs')
+      return
     }
+
+    actions.resetForm()
+    if (user.accessToken) {
+      await SecureStore.setItemAsync('accessToken', user.accessToken)
+    }
+    if (user.refreshToken) {
+      await SecureStore.setItemAsync('refreshToken', user.refreshToken)
+    }
+
+    user.accessToken = undefined
+    user.refreshToken = undefined
+    dispatch(UserRTK.actions.setUser(user))
+
+    navigation.navigate('Tabs')
   }
 
   return (

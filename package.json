@@ -24,6 +24,8 @@
     "axios": "^0.24.0",
     "color": "^4.0.1",
     "expo": "^43.0.1",
+    "expo-device": "~4.0.3",
+    "expo-network": "~4.0.3",
     "expo-secure-store": "~11.0.3",
     "formik": "^2.2.9",
     "lodash": "^4.17.21",
