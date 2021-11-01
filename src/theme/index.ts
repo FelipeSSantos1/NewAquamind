@@ -1,5 +1,4 @@
 import { DefaultTheme, Colors } from 'react-native-paper'
-import color from 'color'
 import { Dimensions } from 'react-native'
 
 const { width, height } = Dimensions.get('window')
@@ -74,9 +73,9 @@ const theme: MyTheme = {
     error: '#DD3308',
     text: '#37474F',
     onSurface: Colors.black,
-    disabled: color(Colors.black).alpha(0.26).rgb().string(),
-    placeholder: color(Colors.black).alpha(0.54).rgb().string(),
-    backdrop: color(Colors.black).alpha(0.5).rgb().string(),
+    disabled: 'rgba(0, 0, 0, 0.26)',
+    placeholder: 'rgba(0, 0, 0, 0.54)',
+    backdrop: 'rgba(0, 0, 0, 0.50)',
     notification: '#7A08DD',
   },
   sizes: {
