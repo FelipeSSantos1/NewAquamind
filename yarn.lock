@@ -3819,7 +3819,7 @@ expo-secure-store@~11.0.3:
   dependencies:
     expo-modules-core "~0.4.4"
 
-expo-splash-screen@~0.13.3:
+expo-splash-screen@~0.13.3, expo-splash-screen@~0.13.4:
   version "0.13.4"
   resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.13.4.tgz#70de5dcbb5bbd3ce88185e830d84f123c8afafe1"
   integrity sha512-xcRCx07WlPGP8+qKxqAW4KP1+j7/a9H+xn8/cmpKAmzYbs/ttTRzDEQzEq8BvVqyoBPS6Qo7Hwl1BHDpssjftw==

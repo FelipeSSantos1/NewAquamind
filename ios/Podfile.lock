@@ -24,6 +24,9 @@ PODS:
     - React-Core
   - EXSecureStore (11.0.3):
     - ExpoModulesCore
+  - EXSplashScreen (0.13.4):
+    - ExpoModulesCore
+    - React-Core
   - FBLazyVector (0.66.1)
   - FBReactNativeSpec (0.66.1):
     - RCT-Folly (= 2021.06.28.00-v2)
@@ -365,7 +368,7 @@ PODS:
     - React-perflogger (= 0.66.1)
   - RNCAsyncStorage (1.12.1):
     - React-Core
-  - RNScreens (3.8.0):
+  - RNScreens (3.9.0):
     - React-Core
     - React-RCTImage
   - RNVectorIcons (9.0.0):
@@ -388,6 +391,7 @@ DEPENDENCIES:
   - Expo (from `../node_modules/expo/ios`)
   - ExpoModulesCore (from `../node_modules/expo-modules-core/ios`)
   - EXSecureStore (from `../node_modules/expo-secure-store/ios`)
+  - EXSplashScreen (from `../node_modules/expo-splash-screen/ios`)
   - FBLazyVector (from `../node_modules/react-native/Libraries/FBLazyVector`)
   - FBReactNativeSpec (from `../node_modules/react-native/React/FBReactNativeSpec`)
   - Flipper (= 0.99.0)
@@ -489,6 +493,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/expo-modules-core/ios"
   EXSecureStore:
     :path: "../node_modules/expo-secure-store/ios"
+  EXSplashScreen:
+    :path: "../node_modules/expo-splash-screen/ios"
   FBLazyVector:
     :path: "../node_modules/react-native/Libraries/FBLazyVector"
   FBReactNativeSpec:
@@ -571,6 +577,7 @@ SPEC CHECKSUMS:
   Expo: cb542da0f7c8565a58231488066262f079eb1831
   ExpoModulesCore: eea3472f70e921feb4dd24387662cbe0b67c9f8d
   EXSecureStore: 919bf7c28472862020d2cd7b59b69aae160b5d40
+  EXSplashScreen: 68390ddb65a5def66ce8cf46a1e14a9b33cdac70
   FBLazyVector: 500821d196c3d1bd10e7e828bc93ce075234080f
   FBReactNativeSpec: 74c869e2cffa2ffec685cd1bac6788c021da6005
   Flipper: 30e8eeeed6abdc98edaf32af0cda2f198be4b733
@@ -613,7 +620,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 33a949a51bec5f8a3c9e8d8092deb259600d761e
   ReactCommon: 620442811dc6f707b4bf5e3b27d4f19c12d5a821
   RNCAsyncStorage: b03032fdbdb725bea0bd9e5ec5a7272865ae7398
-  RNScreens: 6e1ea5787989f92b0671049b808aef64fa1ef98c
+  RNScreens: 4d79118be80f79fa1f4aa131909a1d6e86280af3
   RNVectorIcons: 4143ba35feebab8fdbe6bc43d1e776b393d47ac8
   Yoga: 2b4a01651f42a32f82e6cef3830a3ba48088237f
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
