@@ -1,6 +1,8 @@
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store'
 
+import Logout from '../store/logout'
+
 const baseURL = 'http://192.168.0.115:3000'
 const api = axios.create({
   baseURL,
@@ -24,47 +26,49 @@ api.interceptors.request.use(
 )
 
 api.interceptors.response.use(
-  res => {
-    return res
-  },
-  async err => {
-    const originalConfig = err.config
+  res => res,
+  async error => {
+    const originalConfig = error.config
+    const UNAUTHORIZED = 401
 
-    if (err.response) {
-      if (err.response.status === 401 && !originalConfig._retry) {
-        originalConfig._retry = true
+    if (
+      error.response &&
+      error.response.status === UNAUTHORIZED &&
+      !originalConfig._retry
+    ) {
+      originalConfig._retry = true
 
-        const token = await SecureStore.getItemAsync('refreshToken')
-        const refreshAccessTokenAPI = axios.create({
-          baseURL,
+      const token = await SecureStore.getItemAsync('refreshToken')
+      const refreshAccessTokenAPI = axios.create({
+        baseURL,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+      return refreshAccessTokenAPI
+        .get('/auth/refreshAccessToken', {
           headers: {
-            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
           },
         })
-        return refreshAccessTokenAPI
-          .get('/auth/refreshAccessToken', {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          })
-          .then(async refreshTokenResponse => {
-            const { accessToken } = refreshTokenResponse.data
-            await SecureStore.setItemAsync('accessToken', accessToken)
-            api.defaults.headers.common.Authorization = `Bearer ${accessToken}`
+        .then(async refreshTokenResponse => {
+          const { accessToken } = refreshTokenResponse.data
+          await SecureStore.setItemAsync('accessToken', accessToken)
+          api.defaults.headers.common.Authorization = `Bearer ${accessToken}`
 
-            return api(originalConfig)
-          })
-          .catch(_error => {
-            if (_error.response && _error.response.data) {
-              return Promise.reject(_error.response.data)
-            }
+          return api(originalConfig)
+        })
+        .catch(_error => {
+          Logout()
+          if (_error.response && _error.response.data) {
+            return Promise.reject(_error.response.data)
+          }
 
-            return Promise.reject(_error)
-          })
-      }
+          return Promise.reject(_error)
+        })
     }
 
-    return Promise.reject(err)
+    return Promise.reject(error)
   }
 )
 

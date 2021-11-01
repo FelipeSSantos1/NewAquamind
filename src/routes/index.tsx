@@ -70,19 +70,36 @@ const Feed: React.FC = () => {
     </FeedStack.Navigator>
   )
 }
-const Tank: React.FC = () => (
-  <TankStack.Navigator
-    initialRouteName="Tank"
-    screenOptions={{
-      headerTintColor: theme.colors.surface,
-      headerStyle: {
-        backgroundColor: theme.colors.primary,
-      },
-    }}
-  >
-    <TankStack.Screen name="Tank" component={TankView} />
-  </TankStack.Navigator>
-)
+const Tank: React.FC = () => {
+  const dispatch = useDispatch()
+  return (
+    <TankStack.Navigator
+      initialRouteName="Tank"
+      screenOptions={{
+        headerTintColor: theme.colors.surface,
+        headerStyle: {
+          backgroundColor: theme.colors.primary,
+        },
+      }}
+    >
+      <TankStack.Screen
+        name="Tank"
+        component={TankView}
+        options={{
+          headerRight: () => (
+            <IconButton
+              icon="menu"
+              color={theme.colors.surface}
+              onPress={() => dispatch(ConfigRTK.actions.showDrawer(true))}
+              hasTVPreferredFocus={undefined}
+              tvParallaxProperties={undefined}
+            />
+          ),
+        }}
+      />
+    </TankStack.Navigator>
+  )
+}
 
 const Tabs: React.FC = () => (
   <Tab.Navigator

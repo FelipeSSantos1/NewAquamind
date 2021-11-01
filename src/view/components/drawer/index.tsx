@@ -6,18 +6,17 @@ import {
   SafeAreaView,
 } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import * as SecureStore from 'expo-secure-store'
 import { Portal, Drawer } from 'react-native-paper'
 import * as Animatable from 'react-native-animatable'
 import { useSelector, useDispatch } from 'react-redux'
 
-import { persistor } from '../../../store'
 import { RootState } from '../../../store/rootReducer'
-import UserRTK from '../../../store/user'
+// import UserRTK from '../../../store/user'
 // import TanksRTK from '../../../store/tanks'
 // import PlantsRTK from '../../../store/plants'
 // import FertilizersRTK from '../../../store/fertilizers'
 import ConfigRTK from '../../../store/config'
+import Logout from '../../../store/logout'
 import {
   MainView,
   DialogContent,
@@ -47,19 +46,6 @@ const BottomDrawer: React.FC = () => {
     if (toScreen) {
       navigation.navigate(toScreen)
     }
-  }
-
-  const runLogout = async () => {
-    dispatch(ConfigRTK.actions.showDrawer(false))
-    dispatch(UserRTK.actions.logout())
-    // dispatch(TanksRTK.actions.logout())
-    // dispatch(PlantsRTK.actions.logout())
-    // dispatch(FertilizersRTK.actions.logout())
-    dispatch(ConfigRTK.actions.logout())
-
-    persistor.purge()
-    await SecureStore.deleteItemAsync('accessToken')
-    await SecureStore.deleteItemAsync('refreshToken')
   }
 
   return (
@@ -94,7 +80,7 @@ const BottomDrawer: React.FC = () => {
                 <Drawer.Item
                   label="Log out"
                   icon="logout"
-                  onPress={() => runLogout()}
+                  onPress={() => Logout()}
                 />
               </ScrollView>
             </DialogContent>
