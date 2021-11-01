@@ -26,23 +26,35 @@ type MyTheme = typeof DefaultTheme & {
   }
 }
 // https://coolors.co/086bdb
+// Roboto_100Thin,
+// Roboto_100Thin_Italic,
+// Roboto_900Black_Italic,
+// Roboto_900Black,
+// Roboto_700Bold_Italic,
+// Roboto_700Bold,
+// Roboto_500Medium_Italic,
+// Roboto_500Medium,
+// Roboto_400Regular_Italic,
+// Roboto_300Light_Italic,
+// Roboto_300Light,
+// Roboto_400Regular
 const theme: MyTheme = {
   ...DefaultTheme,
   fonts: {
     regular: {
-      fontFamily: 'Roboto-Regular',
+      fontFamily: 'Roboto_400Regular',
       fontWeight: '400' as '400',
     },
     medium: {
-      fontFamily: 'Roboto-Medium',
+      fontFamily: 'Roboto_500Medium',
       fontWeight: '500' as '500',
     },
     light: {
-      fontFamily: 'Roboto-Light',
+      fontFamily: 'Roboto_300Light',
       fontWeight: '300' as '300',
     },
     thin: {
-      fontFamily: 'Roboto-Thin',
+      fontFamily: 'Roboto_100Thin',
       fontWeight: '100' as '100',
     },
     sizes: {
