@@ -1,4 +1,4 @@
-type Profile = {
+export type Profile = {
   id: number
   username: string
   name?: string
@@ -20,9 +20,4 @@ export type UserState = {
   profile: Profile | null
   accessToken?: string
   refreshToken?: string
-}
-
-export enum Role {
-  USER = 'USER',
-  ADMIN = 'ADMIN',
 }

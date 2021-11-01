@@ -1,25 +1,58 @@
-import React from 'react'
-import { View } from 'react-native'
-import { Text } from 'react-native-paper'
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import _ from 'lodash'
 
+// import FakeLoadingScreen from '../Components/FakeLoadingScreen'
+import ConfigRTK from '../../store/config'
+import FeedRTK from '../../store/feed'
+import { RootState } from '../../store/rootReducer'
+import { getAllFeed } from '../../API/feed'
+import { ScrollView } from './styles'
+import FeedBox from './Components/FeedBox'
 import { NavPropsFeed } from '../../routes/types'
 
 const Feed: React.FC<NavPropsFeed> = ({ navigation }) => {
-  // const dispatch = useDispatch()
-  // const logout = () => {
-  //   dispatch(UserRTK.actions.logout())
-  //   navigation.navigate('Auth')
-  //   navigation.dispatch(state => {
-  //     return CommonActions.reset({
-  //       ...state,
-  //       index: 0,
-  //     })
-  //   })
+  const dispatch = useDispatch()
+  const feeds = useSelector((state: RootState) => state.feed)
+
+  useEffect(() => {
+    async function fetchFeed() {
+      const response = await getAllFeed({ take: 10, cursor: 0 })
+
+      if (!response) {
+        return
+      }
+      if ('statusCode' in response) {
+        dispatch(
+          ConfigRTK.actions.setAlert({
+            visible: true,
+            alertTitle: 'Oops!',
+            alertMessage: response.message,
+            okText: 'Ok',
+          })
+        )
+        return
+      }
+
+      if (response) {
+        dispatch(FeedRTK.actions.setFeed(response))
+      }
+    }
+    fetchFeed()
+  }, [dispatch])
+
+  if (!feeds) {
+    return null
+  }
+  // if (!feeds) {
+  //   return <FakeLoadingScreen />
   // }
   return (
-    <View>
-      <Text>Feed</Text>
-    </View>
+    <ScrollView>
+      {_.map(feeds, feed => (
+        <FeedBox key={feed.id} feed={feed} navigation={navigation} />
+      ))}
+    </ScrollView>
   )
 }
 
