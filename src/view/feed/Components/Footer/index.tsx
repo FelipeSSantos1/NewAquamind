@@ -1,46 +1,69 @@
 import React from 'react'
+import { Button, IconButton } from 'react-native-paper'
 
 import theme from '../../../../theme'
-import { RowView, Icon, Text } from './styles'
+import { FooterProps } from './types'
+import { RowView, Text } from './styles'
 
-type FooterProps = {
-  liked: boolean
-  likes?: number
-  comments?: number
-}
-export default ({ liked, likes, comments }: FooterProps) => {
-  const numberLikes = likes || 0
+const Footer: React.FC<FooterProps> = ({
+  liked,
+  likes,
+  comments,
+  tankId,
+  navigation,
+}) => {
   let textLikes = 'no likes'
-  if (numberLikes > 1) {
-    textLikes = `${numberLikes} likes`
+  if (likes > 1) {
+    textLikes = `${likes} likes`
   }
-  if (numberLikes === 1) {
-    textLikes = `${numberLikes} like`
+  if (likes === 1) {
+    textLikes = `${likes} like`
   }
 
-  const numberComments = comments || 0
   let textComments = 'no comments'
-  if (numberComments > 1) {
-    textComments = `${numberComments} comments`
+  if (comments > 1) {
+    textComments = `${comments} comments`
   }
-  if (numberComments === 1) {
-    textComments = `${numberComments} comment`
+  if (comments === 1) {
+    textComments = `${comments} comment`
   }
   return (
-    <RowView>
-      <Icon
-        icon={liked ? 'heart' : 'heart-outline'}
-        animated
-        color={liked ? theme.colors.error : theme.colors.text}
-        onPress={() => console.log('test')}
-      />
+    <>
+      <RowView>
+        <RowView>
+          <IconButton
+            icon={liked ? 'heart' : 'heart-outline'}
+            color={theme.colors.text}
+            onPress={() => navigation.navigate('Feed')}
+            animated={true}
+            hasTVPreferredFocus={undefined}
+            tvParallaxProperties={undefined}
+          />
+          <IconButton
+            icon="comment-outline"
+            color={theme.colors.text}
+            onPress={() => navigation.navigate('Feed')}
+            hasTVPreferredFocus={undefined}
+            tvParallaxProperties={undefined}
+          />
+        </RowView>
+        {tankId && (
+          <Button
+            icon="fishbowl-outline"
+            mode="text"
+            color={theme.colors.text}
+            compact
+            uppercase={false}
+            onPress={() => null}
+          >
+            tank spec
+          </Button>
+        )}
+      </RowView>
       <Text>{textLikes}</Text>
-      <Icon
-        icon="comment-outline"
-        animated
-        onPress={() => console.log('test')}
-      />
       <Text>{textComments}</Text>
-    </RowView>
+    </>
   )
 }
+
+export default Footer

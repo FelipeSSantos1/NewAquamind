@@ -3,15 +3,15 @@ import { View } from 'react-native'
 import moment from 'moment'
 
 import defaultAvatar from '../../../../assets/Avatar.png'
+import { UserHeaderProps } from './types'
 import { RowView, Avatar, Text, Dimensions, Date } from './styles'
 
-type UserHeaderProps = {
-  url?: string
-  userName: string
-  dimensions: string
-  date: string
-}
-export default ({ url, userName, dimensions, date }: UserHeaderProps) => {
+const UserHeader: React.FC<UserHeaderProps> = ({
+  url,
+  userName,
+  dimensions,
+  date,
+}) => {
   return (
     <RowView>
       <Avatar source={url ? { uri: url } : defaultAvatar} />
@@ -23,3 +23,5 @@ export default ({ url, userName, dimensions, date }: UserHeaderProps) => {
     </RowView>
   )
 }
+
+export default UserHeader
