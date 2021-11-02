@@ -72,11 +72,33 @@ const Footer: React.FC<FooterProps> = ({
   }
 
   const dislikePost = async () => {
+    const postIndex = _.findIndex(feeds, { id: feedId })
+    feeds[postIndex].LikePost = []
+    feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost - 1
+    dispatch(FeedRTK.actions.setFeed([...feeds]))
+
     const response = await API.dislikePost(feedId)
     if (!response) {
+      feeds[postIndex].LikePost = [
+        {
+          postId: feedId,
+          profileId: user.profileId,
+        },
+      ]
+      feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost + 1
+      dispatch(FeedRTK.actions.setFeed([...feeds]))
       return
     }
     if ('statusCode' in response) {
+      feeds[postIndex].LikePost = [
+        {
+          postId: feedId,
+          profileId: user.profileId,
+        },
+      ]
+      feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost + 1
+      dispatch(FeedRTK.actions.setFeed([...feeds]))
+
       dispatch(
         ConfigRTK.actions.setAlert({
           visible: true,
@@ -87,11 +109,6 @@ const Footer: React.FC<FooterProps> = ({
       )
       return
     }
-
-    const postIndex = _.findIndex(feeds, { id: feedId })
-    feeds[postIndex].LikePost = []
-    feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost - 1
-    dispatch(FeedRTK.actions.setFeed([...feeds]))
   }
 
   const toggleLike = () => {
@@ -109,7 +126,7 @@ const Footer: React.FC<FooterProps> = ({
           <IconButton
             icon={liked ? 'heart' : 'heart-outline'}
             color={liked ? theme.colors.error : theme.colors.text}
-            onPress={_.debounce(toggleLike, 500, { trailing: true })}
+            onPress={_.debounce(toggleLike, 300, { trailing: true })}
             animated={true}
             hasTVPreferredFocus={undefined}
             tvParallaxProperties={undefined}
