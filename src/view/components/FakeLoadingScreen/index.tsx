@@ -4,7 +4,7 @@ import { MainView, Spinner } from './styles'
 
 const FakeLoadingScreen: React.FC = () => (
   <MainView>
-    <Spinner size={50} />
+    <Spinner size={30} />
   </MainView>
 )
 

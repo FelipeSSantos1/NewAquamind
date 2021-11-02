@@ -7,8 +7,8 @@ import _ from 'lodash'
 import { baseImageUrl } from '../../../../services/constant'
 import defaultAvatar from '../../../../assets/Avatar.png'
 import theme from '../../../../theme'
-import UserHeader from '../UserHeader'
-import Footer from '../Footer'
+import UserHeader from '../userHeader'
+import Footer from '../footer'
 import DoubleTap from '../../../components/doubleTap'
 import { FeedBoxProps } from './types'
 import ConfigRTK from '../../../../store/config'
@@ -19,6 +19,7 @@ import { RootState } from 'store/rootReducer'
 const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed }) => {
   const dispatch = useDispatch()
   const feeds = useSelector((state: RootState) => state.feed)
+  const user = useSelector((state: RootState) => state.user)
 
   const width = theme.sizes.width
   const maxHeightRatio =
@@ -55,11 +56,33 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed }) => {
   }
 
   const likePost = async (feedId: number) => {
+    const postIndex = _.findIndex(feeds, { id: feedId })
+    if (feeds[postIndex].LikePost.length) {
+      return
+    }
+
+    feeds[postIndex].LikePost = [
+      {
+        postId: feedId,
+        profileId: user.profileId,
+      },
+    ]
+    feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost + 1
+    dispatch(FeedRTK.actions.setFeed([...feeds]))
+
     const response = await API.likePost(feedId)
     if (!response) {
+      feeds[postIndex].LikePost = []
+      feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost - 1
+      dispatch(FeedRTK.actions.setFeed([...feeds]))
+
       return
     }
     if ('statusCode' in response) {
+      feeds[postIndex].LikePost = []
+      feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost - 1
+      dispatch(FeedRTK.actions.setFeed([...feeds]))
+
       dispatch(
         ConfigRTK.actions.setAlert({
           visible: true,
@@ -70,16 +93,6 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed }) => {
       )
       return
     }
-
-    const postIndex = _.findIndex(feeds, { id: feedId })
-    feeds[postIndex].LikePost = [
-      {
-        postId: response.postId,
-        profileId: response.profileId,
-      },
-    ]
-    feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost + 1
-    dispatch(FeedRTK.actions.setFeed([...feeds]))
   }
 
   const styles = StyleSheet.create({

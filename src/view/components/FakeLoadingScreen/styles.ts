@@ -7,10 +7,8 @@ export const MainView = styled.View`
   flex: 1;
   align-items: center;
   justify-content: center;
-  background-color: ${theme.colors.surface};
+  padding: ${theme.sizes.padding}px;
 `
 export const Spinner = styled(ActivityIndicator).attrs({
   color: theme.colors.primary,
-})`
-  margin: ${theme.sizes.margin}px 0 0 0;
-`
+})``

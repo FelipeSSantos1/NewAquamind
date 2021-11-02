@@ -16,8 +16,8 @@ export type UserState = {
   role: 'USER' | 'ADMIN'
   createdAt: string
   updatedAt: string
-  profileId: number | null
-  profile: Profile | null
+  profileId: number
+  profile: Profile
   accessToken?: string
   refreshToken?: string
 }

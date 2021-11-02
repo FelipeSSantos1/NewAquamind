@@ -59,7 +59,9 @@ api.interceptors.response.use(
           return api(originalConfig)
         })
         .catch(_error => {
-          Logout()
+          if (_error.response.status === UNAUTHORIZED) {
+            Logout()
+          }
           if (_error.response && _error.response.data) {
             return Promise.reject(_error.response.data)
           }

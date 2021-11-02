@@ -21,6 +21,7 @@ const Footer: React.FC<FooterProps> = ({
 }) => {
   const dispatch = useDispatch()
   const feeds = useSelector((state: RootState) => state.feed)
+  const user = useSelector((state: RootState) => state.user)
 
   let textLikes = 'no likes'
   if (likes > 1) {
@@ -39,11 +40,25 @@ const Footer: React.FC<FooterProps> = ({
   }
 
   const likePost = async () => {
+    const postIndex = _.findIndex(feeds, { id: feedId })
+    feeds[postIndex].LikePost = [
+      {
+        postId: feedId,
+        profileId: user.profileId,
+      },
+    ]
+    feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost + 1
+    dispatch(FeedRTK.actions.setFeed([...feeds]))
+
     const response = await API.likePost(feedId)
     if (!response) {
       return
     }
     if ('statusCode' in response) {
+      feeds[postIndex].LikePost = []
+      feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost - 1
+      dispatch(FeedRTK.actions.setFeed([...feeds]))
+
       dispatch(
         ConfigRTK.actions.setAlert({
           visible: true,
@@ -54,17 +69,8 @@ const Footer: React.FC<FooterProps> = ({
       )
       return
     }
-
-    const postIndex = _.findIndex(feeds, { id: feedId })
-    feeds[postIndex].LikePost = [
-      {
-        postId: response.postId,
-        profileId: response.profileId,
-      },
-    ]
-    feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost + 1
-    dispatch(FeedRTK.actions.setFeed([...feeds]))
   }
+
   const dislikePost = async () => {
     const response = await API.dislikePost(feedId)
     if (!response) {
@@ -87,6 +93,7 @@ const Footer: React.FC<FooterProps> = ({
     feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost - 1
     dispatch(FeedRTK.actions.setFeed([...feeds]))
   }
+
   const toggleLike = () => {
     if (liked) {
       dislikePost()

@@ -1,58 +1,101 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
+import { FlatList } from 'react-native'
+import { Button } from 'react-native-paper'
 import _ from 'lodash'
 
-// import FakeLoadingScreen from '../Components/FakeLoadingScreen'
 import ConfigRTK from '../../store/config'
 import FeedRTK from '../../store/feed'
+import { Feed } from '../../store/feed/types'
 import { RootState } from '../../store/rootReducer'
 import { getAllFeed } from '../../API/feed'
-import { ScrollView } from './styles'
-import FeedBox from './Components/FeedBox'
+import FeedBox from './components/feedBox'
 import { NavPropsFeed } from '../../routes/types'
 
-const Feed: React.FC<NavPropsFeed> = ({ navigation }) => {
+const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   const dispatch = useDispatch()
   const feeds = useSelector((state: RootState) => state.feed)
-  useEffect(() => {
-    async function fetchFeed() {
-      const response = await getAllFeed({ take: 10, cursor: 0 })
+  const [refreshing, setRefreshing] = useState(false)
+  const [bottomRefreshing, setBottomRefreshing] = useState(false)
+  const [cursor, setCursor] = useState(0)
 
-      if (!response) {
-        return
-      }
-      if ('statusCode' in response) {
-        dispatch(
-          ConfigRTK.actions.setAlert({
-            visible: true,
-            alertTitle: 'Oops!',
-            alertMessage: response.message,
-            okText: 'Ok',
-          })
-        )
-        return
-      }
+  const fetchFeed = async () => {
+    const response = await getAllFeed({ take: 10, cursor })
 
-      if (response) {
+    if (!response) {
+      return
+    }
+    if ('statusCode' in response) {
+      dispatch(
+        ConfigRTK.actions.setAlert({
+          visible: true,
+          alertTitle: 'Oops!',
+          alertMessage: response.message,
+          okText: 'Ok',
+        })
+      )
+      return
+    }
+
+    if (response) {
+      if (cursor > 0) {
+        dispatch(FeedRTK.actions.setFeed([...feeds, ...response]))
+      } else {
         dispatch(FeedRTK.actions.setFeed(response))
       }
+      if (response.length) {
+        setCursor(response[response.length - 1].id)
+      }
     }
-    fetchFeed()
+  }
+
+  useEffect(() => {
+    resetData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch])
 
-  const renderFeed = () => {
-    return _.map(feeds, feed => (
-      <FeedBox key={feed.id} feed={feed} navigation={navigation} />
-    ))
+  const resetData = async () => {
+    setCursor(0)
+    dispatch(FeedRTK.actions.setFeed([]))
+    setRefreshing(true)
+    await fetchFeed()
+    setRefreshing(false)
   }
 
-  if (!feeds) {
-    return null
-  }
-  // if (!feeds) {
-  //   return <FakeLoadingScreen />
-  // }
-  return <ScrollView>{renderFeed()}</ScrollView>
+  const renderFeed = useCallback(
+    ({ item }: { item: Feed }) => (
+      <FeedBox key={item.id} feed={item} navigation={navigation} />
+    ),
+    [navigation]
+  )
+
+  return (
+    <FlatList
+      data={feeds}
+      renderItem={item => renderFeed(item)}
+      keyExtractor={item => item.id.toString()}
+      onRefresh={resetData}
+      refreshing={refreshing}
+      onEndReachedThreshold={0.5}
+      onEndReached={() => fetchFeed()}
+      ListFooterComponent={
+        <Button
+          mode="text"
+          compact
+          uppercase={false}
+          loading={bottomRefreshing}
+          disabled={bottomRefreshing}
+          onPress={_.debounce(async () => {
+            setBottomRefreshing(true)
+            await fetchFeed()
+            setBottomRefreshing(false)
+          }, 300)}
+        >
+          Load More
+        </Button>
+      }
+    />
+  )
 }
 
-export default Feed
+export default FeedView
