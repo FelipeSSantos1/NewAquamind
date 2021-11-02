@@ -1,9 +1,15 @@
 import React from 'react'
 import { Button, IconButton } from 'react-native-paper'
+import _ from 'lodash'
 
 import theme from '../../../../theme'
 import { FooterProps } from './types'
+import * as API from '../../../../API/feed'
 import { RowView, Text } from './styles'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from 'store/rootReducer'
+import ConfigRTK from '../../../../store/config'
+import FeedRTK from '../../../../store/feed'
 
 const Footer: React.FC<FooterProps> = ({
   liked,
@@ -11,7 +17,11 @@ const Footer: React.FC<FooterProps> = ({
   comments,
   tankId,
   navigation,
+  feedId,
 }) => {
+  const dispatch = useDispatch()
+  const feeds = useSelector((state: RootState) => state.feed)
+
   let textLikes = 'no likes'
   if (likes > 1) {
     textLikes = `${likes} likes`
@@ -27,6 +37,64 @@ const Footer: React.FC<FooterProps> = ({
   if (comments === 1) {
     textComments = `${comments} comment`
   }
+
+  const likePost = async () => {
+    const response = await API.likePost(feedId)
+    if (!response) {
+      return
+    }
+    if ('statusCode' in response) {
+      dispatch(
+        ConfigRTK.actions.setAlert({
+          visible: true,
+          alertTitle: 'Oops!',
+          alertMessage: response.message,
+          okText: 'Ok',
+        })
+      )
+      return
+    }
+
+    const postIndex = _.findIndex(feeds, { id: feedId })
+    feeds[postIndex].LikePost = [
+      {
+        postId: response.postId,
+        profileId: response.profileId,
+      },
+    ]
+    feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost + 1
+    dispatch(FeedRTK.actions.setFeed([...feeds]))
+  }
+  const dislikePost = async () => {
+    const response = await API.dislikePost(feedId)
+    if (!response) {
+      return
+    }
+    if ('statusCode' in response) {
+      dispatch(
+        ConfigRTK.actions.setAlert({
+          visible: true,
+          alertTitle: 'Oops!',
+          alertMessage: response.message,
+          okText: 'Ok',
+        })
+      )
+      return
+    }
+
+    const postIndex = _.findIndex(feeds, { id: feedId })
+    feeds[postIndex].LikePost = []
+    feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost - 1
+    dispatch(FeedRTK.actions.setFeed([...feeds]))
+  }
+  const toggleLike = () => {
+    if (liked) {
+      dislikePost()
+    } else {
+      likePost()
+    }
+  }
+
   return (
     <>
       <RowView>
@@ -34,7 +102,7 @@ const Footer: React.FC<FooterProps> = ({
           <IconButton
             icon={liked ? 'heart' : 'heart-outline'}
             color={liked ? theme.colors.error : theme.colors.text}
-            onPress={() => navigation.navigate('Feed')}
+            onPress={_.debounce(toggleLike, 500, { trailing: true })}
             animated={true}
             hasTVPreferredFocus={undefined}
             tvParallaxProperties={undefined}

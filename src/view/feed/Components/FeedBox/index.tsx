@@ -1,8 +1,7 @@
-// resources: https://www.youtube.com/watch?v=MukiK57qwVY
-
 import React from 'react'
-import { Alert, Image, StyleSheet, View } from 'react-native'
+import { Image, StyleSheet, View } from 'react-native'
 import PagerView from 'react-native-pager-view'
+import { useDispatch, useSelector } from 'react-redux'
 import _ from 'lodash'
 
 import { baseImageUrl } from '../../../../services/constant'
@@ -12,12 +11,18 @@ import UserHeader from '../UserHeader'
 import Footer from '../Footer'
 import DoubleTap from '../../../components/doubleTap'
 import { FeedBoxProps } from './types'
+import ConfigRTK from '../../../../store/config'
+import FeedRTK from '../../../../store/feed'
+import * as API from '../../../../API/feed'
+import { RootState } from 'store/rootReducer'
 
-const FeedBox: React.FC<FeedBoxProps> = ({ feed, navigation }) => {
+const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed }) => {
+  const dispatch = useDispatch()
+  const feeds = useSelector((state: RootState) => state.feed)
+
   const width = theme.sizes.width
   const maxHeightRatio =
     _.min(_.map(feed.Photos, photo => photo.width / photo.height)) || 1
-
   const viewWidth = theme.sizes.width
   const viewHeight = width / maxHeightRatio
 
@@ -49,8 +54,32 @@ const FeedBox: React.FC<FeedBoxProps> = ({ feed, navigation }) => {
     })
   }
 
-  const likePost = () => {
-    Alert.alert(`Like Post ${feed.id}`)
+  const likePost = async (feedId: number) => {
+    const response = await API.likePost(feedId)
+    if (!response) {
+      return
+    }
+    if ('statusCode' in response) {
+      dispatch(
+        ConfigRTK.actions.setAlert({
+          visible: true,
+          alertTitle: 'Oops!',
+          alertMessage: response.message,
+          okText: 'Ok',
+        })
+      )
+      return
+    }
+
+    const postIndex = _.findIndex(feeds, { id: feedId })
+    feeds[postIndex].LikePost = [
+      {
+        postId: response.postId,
+        profileId: response.profileId,
+      },
+    ]
+    feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost + 1
+    dispatch(FeedRTK.actions.setFeed([...feeds]))
   }
 
   const styles = StyleSheet.create({
@@ -70,7 +99,9 @@ const FeedBox: React.FC<FeedBoxProps> = ({ feed, navigation }) => {
         navigation={navigation}
         profileId={feed.profileId}
       />
-      <DoubleTap onPress={likePost}>
+      <DoubleTap
+        onPress={_.debounce(() => likePost(feed.id), 500, { leading: true })}
+      >
         <PagerView style={styles.pagerView} initialPage={0} showPageIndicator>
           {renderImages()}
         </PagerView>
@@ -80,6 +111,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ feed, navigation }) => {
         likes={feed._count.LikePost}
         comments={feed._count.Comment}
         tankId={feed.tankId}
+        feedId={feed.id}
         navigation={navigation}
       />
     </>

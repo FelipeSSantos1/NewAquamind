@@ -14,7 +14,6 @@ import { NavPropsFeed } from '../../routes/types'
 const Feed: React.FC<NavPropsFeed> = ({ navigation }) => {
   const dispatch = useDispatch()
   const feeds = useSelector((state: RootState) => state.feed)
-
   useEffect(() => {
     async function fetchFeed() {
       const response = await getAllFeed({ take: 10, cursor: 0 })
@@ -41,19 +40,19 @@ const Feed: React.FC<NavPropsFeed> = ({ navigation }) => {
     fetchFeed()
   }, [dispatch])
 
+  const renderFeed = () => {
+    return _.map(feeds, feed => (
+      <FeedBox key={feed.id} feed={feed} navigation={navigation} />
+    ))
+  }
+
   if (!feeds) {
     return null
   }
   // if (!feeds) {
   //   return <FakeLoadingScreen />
   // }
-  return (
-    <ScrollView>
-      {_.map(feeds, feed => (
-        <FeedBox key={feed.id} feed={feed} navigation={navigation} />
-      ))}
-    </ScrollView>
-  )
+  return <ScrollView>{renderFeed()}</ScrollView>
 }
 
 export default Feed
