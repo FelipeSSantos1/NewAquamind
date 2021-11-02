@@ -6,6 +6,10 @@ type Photo = {
   width: number
   height: number
 }
+type LikePost = {
+  postId: number
+  profileId: number
+}
 type Count = {
   Comment: number
   LikePost: number
@@ -27,5 +31,6 @@ export type Feed = {
   Photos: Photo[]
   Profile?: Profile
   Tank?: Tank
+  LikePost: LikePost[]
   _count: Count
 }

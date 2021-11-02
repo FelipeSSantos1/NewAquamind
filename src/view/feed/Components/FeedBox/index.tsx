@@ -76,7 +76,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ feed, navigation }) => {
         </PagerView>
       </DoubleTap>
       <Footer
-        liked
+        liked={!!feed.LikePost.length}
         likes={feed._count.LikePost}
         comments={feed._count.Comment}
         tankId={feed.tankId}

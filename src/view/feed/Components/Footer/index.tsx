@@ -33,7 +33,7 @@ const Footer: React.FC<FooterProps> = ({
         <RowView>
           <IconButton
             icon={liked ? 'heart' : 'heart-outline'}
-            color={theme.colors.text}
+            color={liked ? theme.colors.error : theme.colors.text}
             onPress={() => navigation.navigate('Feed')}
             animated={true}
             hasTVPreferredFocus={undefined}
