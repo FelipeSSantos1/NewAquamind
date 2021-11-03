@@ -4,24 +4,26 @@ import { HelperText } from 'react-native-paper'
 
 import theme from '../../../theme'
 import { InputProps } from './types'
-import { TextInput, Spinner } from './styles'
+import { PaperTextInput, Spinner } from './styles'
 
 const Input: React.FC<InputProps & TextInputProps> = ({
   error,
   label,
   loading,
-  ...props
+  forwardRef,
+  ...extraProps
 }) => {
   const hasError = !!error
   return (
     <View>
-      <TextInput
+      <PaperTextInput
         mode="outlined"
         error={hasError}
         label={label}
         dense
         extraMargin={!!error}
-        {...props}
+        ref={forwardRef}
+        {...extraProps}
       />
       {loading && <Spinner color={theme.colors.primary} />}
       {error && (

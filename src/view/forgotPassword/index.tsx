@@ -118,6 +118,8 @@ const ForgotPassword: React.FC<NavPropsForgotPassword> = ({ navigation }) => {
                   autoCorrect={false}
                   autoCapitalize="none"
                   autoCompleteType="email"
+                  onSubmitEditing={handleSubmit}
+                  returnKeyType="go"
                 />
                 <LoginButton
                   onPress={handleSubmit}

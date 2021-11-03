@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Formik, FormikHelpers } from 'formik'
 import { useDispatch } from 'react-redux'
-import { Platform } from 'react-native'
+import { Platform, TextInput } from 'react-native'
 import { Portal, Dialog } from 'react-native-paper'
 
 import { NavPropsCreateAccount } from '../../routes/types'
@@ -31,6 +31,9 @@ const CreateAccount: React.FC<NavPropsCreateAccount> = ({ navigation }) => {
   const [createIsLoading, setCreateIsLoading] = useState(false)
   const [sendIsLoading, setSendIsLoading] = useState(false)
   const [showModal, setShowModal] = useState(false)
+  const passwordInputRef = useRef<typeof Input & TextInput>(null)
+  const confirmPasswordInputRef = useRef<typeof Input & TextInput>(null)
+  //confirmPasswordInputRef
 
   const resendEmail = async ({ email }: { email: string }) => {
     setSendIsLoading(true)
@@ -170,6 +173,7 @@ const CreateAccount: React.FC<NavPropsCreateAccount> = ({ navigation }) => {
                   autoCorrect={false}
                   autoCapitalize="none"
                   autoCompleteType="email"
+                  onSubmitEditing={() => passwordInputRef.current?.focus()}
                 />
                 <Input
                   label="Password"
@@ -182,6 +186,10 @@ const CreateAccount: React.FC<NavPropsCreateAccount> = ({ navigation }) => {
                       : undefined
                   }
                   secureTextEntry
+                  forwardRef={passwordInputRef}
+                  onSubmitEditing={() =>
+                    confirmPasswordInputRef.current?.focus()
+                  }
                 />
                 <Input
                   label="Confirm Password"
@@ -194,6 +202,9 @@ const CreateAccount: React.FC<NavPropsCreateAccount> = ({ navigation }) => {
                       : undefined
                   }
                   secureTextEntry
+                  forwardRef={confirmPasswordInputRef}
+                  onSubmitEditing={handleSubmit}
+                  returnKeyType="go"
                 />
                 <LoginButton
                   mode="contained"

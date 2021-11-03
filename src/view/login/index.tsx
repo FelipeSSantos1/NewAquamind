@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import { Formik, FormikHelpers } from 'formik'
 import { useDispatch } from 'react-redux'
-import { Platform } from 'react-native'
+import { Platform, TextInput } from 'react-native'
 import * as SecureStore from 'expo-secure-store'
 
 import { NavPropsLogin } from '../../routes/types'
@@ -28,6 +28,7 @@ import {
 const Login: React.FC<NavPropsLogin> = ({ navigation }) => {
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
+  const passwordInputRef = useRef<typeof Input & TextInput>(null)
 
   const checkLogin = async (
     values: FormData,
@@ -116,9 +117,12 @@ const Login: React.FC<NavPropsLogin> = ({ navigation }) => {
                   autoCorrect={false}
                   autoCapitalize="none"
                   autoCompleteType="email"
+                  onSubmitEditing={() => passwordInputRef.current?.focus()}
+                  returnKeyType="next"
                 />
                 <Input
                   label="Password"
+                  forwardRef={passwordInputRef}
                   onChangeText={handleChange('password')}
                   onBlur={() => setFieldTouched('password')}
                   value={values.password}
@@ -128,6 +132,8 @@ const Login: React.FC<NavPropsLogin> = ({ navigation }) => {
                       : undefined
                   }
                   secureTextEntry
+                  onSubmitEditing={handleSubmit}
+                  returnKeyType="go"
                 />
                 <LoginButton
                   mode="contained"
