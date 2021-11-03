@@ -13,6 +13,7 @@ type MyTheme = typeof DefaultTheme & {
   }
   colors: {
     green: string
+    lightText: string
   }
   fonts: {
     sizes: {
@@ -42,19 +43,19 @@ const theme: MyTheme = {
   fonts: {
     regular: {
       fontFamily: 'Roboto_400Regular',
-      fontWeight: '400' as '400',
+      fontWeight: '400',
     },
     medium: {
       fontFamily: 'Roboto_500Medium',
-      fontWeight: '500' as '500',
+      fontWeight: '500',
     },
     light: {
       fontFamily: 'Roboto_300Light',
-      fontWeight: '300' as '300',
+      fontWeight: '300',
     },
     thin: {
       fontFamily: 'Roboto_100Thin',
-      fontWeight: '100' as '100',
+      fontWeight: '100',
     },
     sizes: {
       xxsmall: 12,
@@ -72,6 +73,7 @@ const theme: MyTheme = {
     surface: Colors.white,
     error: '#DD3308',
     text: '#37474F',
+    lightText: '#59696F',
     onSurface: Colors.black,
     disabled: 'rgba(0, 0, 0, 0.26)',
     placeholder: 'rgba(0, 0, 0, 0.54)',

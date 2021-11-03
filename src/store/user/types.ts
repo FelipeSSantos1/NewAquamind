@@ -17,7 +17,7 @@ export type UserState = {
   createdAt: string
   updatedAt: string
   profileId: number
-  profile: Profile
+  Profile: Profile
   accessToken?: string
   refreshToken?: string
 }

@@ -1,36 +1,34 @@
 import styled from 'styled-components/native'
-import { StyleSheet } from 'react-native'
-import { Avatar as PaperAvatar, Text } from 'react-native-paper'
+import { StyleSheet, KeyboardAvoidingView } from 'react-native'
+import { TextInput, Avatar } from 'react-native-paper'
 
-import { MessageStyled } from './types'
 import theme from '../../theme'
 
-const width = theme.sizes.width
 export const Container = styled.View`
   flex: 1;
-  margin: ${theme.sizes.padding / 2}px;
+`
+export const PaperTextInput = styled(TextInput)`
+  flex: 1;
+  margin-left: ${theme.sizes.margin}px;
+  max-height: 100px;
 `
 export const RowView = styled.View`
   flex-direction: row;
-  align-items: center;
+  align-items: flex-end;
 `
-export const SubRowView = styled(RowView)`
-  margin-left: 30px;
-`
-export const Avatar = styled(PaperAvatar.Image)`
+export const PaperAvatar = styled(Avatar.Image)`
   background-color: transparent;
   border-width: ${StyleSheet.hairlineWidth}px;
   border-color: ${theme.colors.text};
   margin: ${theme.sizes.padding / 2}px 0;
 `
-export const TextUserName = styled(Text)`
-  font-family: ${theme.fonts.medium.fontFamily};
+export const PaperKeyboardAvoidingView = styled(KeyboardAvoidingView)`
+  flex: 1;
 `
-export const TextMessage = styled(Text)<MessageStyled>`
-  margin-left: ${theme.sizes.padding / 2}px;
-  width: ${props => {
-    return props.main
-      ? width - (52 + theme.sizes.padding + theme.sizes.padding / 2) + 'px'
-      : width - (82 + theme.sizes.padding + theme.sizes.padding / 2) + 'px'
-  }};
-`
+
+export const ContentContainerStyle = StyleSheet.create({
+  flatlist: {
+    maxWidth: theme.sizes.width,
+    margin: theme.sizes.margin / 2,
+  },
+})

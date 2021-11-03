@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import { FlatList } from 'react-native'
+import React, { useEffect, useState, useCallback, useRef } from 'react'
+import { FlatList, Platform, TextInput } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { Divider, IconButton } from 'react-native-paper'
 import * as Haptics from 'expo-haptics'
@@ -12,21 +12,26 @@ import * as API from '../../API/comment'
 import { NavPropsComment } from '../../routes/types'
 import { RootState } from 'store/rootReducer'
 import { CommentState, SubComment } from '../../store/comment/types'
+import Strip from './components/strip'
 import theme from '../../theme'
 import {
-  Avatar,
-  RowView,
-  TextUserName,
-  TextMessage,
   Container,
-  SubRowView,
+  PaperTextInput,
+  ContentContainerStyle,
+  RowView,
+  PaperAvatar,
+  PaperKeyboardAvoidingView,
 } from './styles'
 
 const CommentView: React.FC<NavPropsComment> = ({ route }) => {
   const dispatch = useDispatch()
-  const { comment } = useSelector((state: RootState) => state)
+  const { comment, user } = useSelector((state: RootState) => state)
   const [refreshing, setRefreshing] = useState(false)
   const [likeRefreshing, setLikeRefreshing] = useState(false)
+  const [textComment, setTextComment] = useState('')
+  const [loadingAddComment, setLoadingAddComment] = useState(false)
+  const [parentId, setParentId] = useState<number | undefined>(undefined)
+  const inputTextRef = useRef<TextInput>(null)
 
   const { postId } = route.params
 
@@ -126,6 +131,12 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
     setLikeRefreshing(false)
   }
 
+  const replyHandler = (username: string, parentIdParam: number) => {
+    setTextComment(`@${username} `)
+    setParentId(parentIdParam)
+    inputTextRef.current?.focus()
+  }
+
   const renderFeed = ({ item }: { item: CommentState }) => {
     const mainliked = item.LikeComment.length > 0
 
@@ -133,71 +144,119 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
       return _.map(comments, subComment => {
         const subLiked = subComment.LikeComment.length > 0
         return (
-          <SubRowView key={subComment.id}>
-            <Avatar
-              source={{ uri: `${baseImageUrl}/${subComment.Profile.avatar}` }}
-              size={30}
-            />
-            <TextMessage main={false}>
-              <TextUserName>{subComment.Profile.username} </TextUserName>
-              {subComment.comment}
-            </TextMessage>
-            <IconButton
-              icon={subLiked ? 'heart' : 'heart-outline'}
-              color={subLiked ? theme.colors.error : theme.colors.text}
-              onPress={_.debounce(
-                () => toggleLike(subComment.id, subLiked),
-                300
-              )}
-              disabled={likeRefreshing}
-              animated={true}
-              size={10}
-              hasTVPreferredFocus={undefined}
-              tvParallaxProperties={undefined}
-            />
-          </SubRowView>
+          <Strip
+            key={subComment.id}
+            item={subComment}
+            likeFunction={_.debounce(
+              () => toggleLike(subComment.id, subLiked),
+              300
+            )}
+            replyFunction={_.debounce(
+              () =>
+                replyHandler(
+                  subComment.Profile.username,
+                  subComment.parentId || subComment.id
+                ),
+              300
+            )}
+            refreshing={likeRefreshing}
+            sub={true}
+          />
         )
       })
     }
 
     return (
       <>
-        <RowView>
-          <Avatar
-            source={{ uri: `${baseImageUrl}/${item.Profile.avatar}` }}
-            size={30}
-          />
-          <TextMessage main={true}>
-            <TextUserName>{item.Profile.username} </TextUserName>
-            {item.comment}
-          </TextMessage>
-          <IconButton
-            icon={mainliked ? 'heart' : 'heart-outline'}
-            color={mainliked ? theme.colors.error : theme.colors.text}
-            onPress={_.debounce(() => toggleLike(item.id, mainliked), 300)}
-            animated={true}
-            size={10}
-            disabled={likeRefreshing}
-            hasTVPreferredFocus={undefined}
-            tvParallaxProperties={undefined}
-          />
-        </RowView>
+        <Strip
+          key={item.id}
+          item={item}
+          likeFunction={_.debounce(() => toggleLike(item.id, mainliked), 300)}
+          replyFunction={_.debounce(
+            () => replyHandler(item.Profile.username, item.id),
+            300
+          )}
+          refreshing={likeRefreshing}
+          sub={false}
+        />
         {subComments(item.Comment)}
       </>
     )
   }
 
+  const addComment = async () => {
+    setLoadingAddComment(true)
+    const response = await API.addComment({
+      postId,
+      comment: _.replace(_.trim(textComment), /\r?\n|\r/, ''),
+      parentId,
+    })
+    if (!response) {
+      setLoadingAddComment(false)
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+      return
+    }
+    if ('statusCode' in response) {
+      setLoadingAddComment(false)
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+      dispatch(
+        ConfigRTK.actions.setAlert({
+          visible: true,
+          alertTitle: 'Oops!',
+          alertMessage: response.message,
+          okText: 'Ok',
+        })
+      )
+      return
+    }
+    await fetch()
+    setTextComment('')
+    setParentId(undefined)
+    setLoadingAddComment(false)
+    inputTextRef.current?.blur()
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+  }
+
   return (
-    <Container>
-      <FlatList
-        data={comment}
-        renderItem={item => renderFeed(item)}
-        keyExtractor={item => item.id.toString()}
-        ItemSeparatorComponent={() => <Divider />}
-        onRefresh={refreshData}
-        refreshing={refreshing}
-      />
-    </Container>
+    <PaperKeyboardAvoidingView
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 92 : 0}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <Container>
+        <FlatList
+          data={comment}
+          renderItem={item => renderFeed(item)}
+          keyExtractor={item => item.id.toString()}
+          ItemSeparatorComponent={() => <Divider />}
+          onRefresh={refreshData}
+          refreshing={refreshing}
+          contentContainerStyle={ContentContainerStyle.flatlist}
+        />
+        <RowView>
+          <PaperAvatar
+            source={{ uri: `${baseImageUrl}/${user.Profile.avatar || ''}` }}
+            size={40}
+          />
+          <PaperTextInput
+            ref={inputTextRef}
+            placeholder="Add a comment..."
+            multiline={true}
+            numberOfLines={5}
+            mode="outlined"
+            value={textComment}
+            onChangeText={setTextComment}
+          />
+          <IconButton
+            icon="arrow-up-circle"
+            color={theme.colors.primary}
+            onPress={_.debounce(() => addComment(), 300)}
+            disabled={!textComment || loadingAddComment}
+            hasTVPreferredFocus={undefined}
+            tvParallaxProperties={undefined}
+          />
+        </RowView>
+      </Container>
+    </PaperKeyboardAvoidingView>
   )
 }
 

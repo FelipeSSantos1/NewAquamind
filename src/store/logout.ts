@@ -8,8 +8,8 @@ import FeedRTK from './feed'
 export default async () => {
   const { dispatch } = store
 
-  dispatch(UserRTK.actions.logout())
   dispatch(ConfigRTK.actions.logout())
+  dispatch(UserRTK.actions.logout())
   dispatch(FeedRTK.actions.logout())
 
   persistor.purge()
