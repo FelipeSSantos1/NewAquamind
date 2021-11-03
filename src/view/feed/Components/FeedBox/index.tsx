@@ -2,6 +2,7 @@ import React from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import PagerView from 'react-native-pager-view'
 import { useDispatch, useSelector } from 'react-redux'
+import * as Haptics from 'expo-haptics'
 import _ from 'lodash'
 
 import { baseImageUrl } from '../../../../services/constant'
@@ -72,6 +73,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed }) => {
 
     const response = await API.likePost(feedId)
     if (!response) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
       feeds[postIndex].LikePost = []
       feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost - 1
       dispatch(FeedRTK.actions.setFeed([...feeds]))
@@ -79,6 +81,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed }) => {
       return
     }
     if ('statusCode' in response) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
       feeds[postIndex].LikePost = []
       feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost - 1
       dispatch(FeedRTK.actions.setFeed([...feeds]))
@@ -93,6 +96,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed }) => {
       )
       return
     }
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
   }
 
   const styles = StyleSheet.create({

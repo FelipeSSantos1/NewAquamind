@@ -29,6 +29,7 @@
     "expo-app-loading": "~1.2.1",
     "expo-device": "~4.0.3",
     "expo-font": "~10.0.3",
+    "expo-haptics": "~11.0.3",
     "expo-network": "~4.0.3",
     "expo-secure-store": "~11.0.3",
     "expo-splash-screen": "~0.13.4",

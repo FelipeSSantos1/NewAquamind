@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from 'react'
 import { FlatList } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { Divider, IconButton } from 'react-native-paper'
+import * as Haptics from 'expo-haptics'
 import _ from 'lodash'
 
 import { baseImageUrl } from '../../services/constant'
@@ -77,10 +78,12 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
     setLikeRefreshing(true)
     const response = await API.likeComment(id)
     if (!response) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
       setLikeRefreshing(false)
       return
     }
     if ('statusCode' in response) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
       setLikeRefreshing(false)
       dispatch(
         ConfigRTK.actions.setAlert({
@@ -93,6 +96,7 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
       return
     }
     await fetch()
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
     setLikeRefreshing(false)
   }
 
@@ -100,10 +104,12 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
     setLikeRefreshing(true)
     const response = await API.dislikeComment(id)
     if (!response) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
       setLikeRefreshing(false)
       return
     }
     if ('statusCode' in response) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
       setLikeRefreshing(false)
       dispatch(
         ConfigRTK.actions.setAlert({
@@ -116,6 +122,7 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
       return
     }
     await fetch()
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
     setLikeRefreshing(false)
   }
 

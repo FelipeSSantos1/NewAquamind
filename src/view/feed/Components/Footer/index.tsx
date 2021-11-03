@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, IconButton } from 'react-native-paper'
+import * as Haptics from 'expo-haptics'
 import _ from 'lodash'
 
 import theme from '../../../../theme'
@@ -52,9 +53,11 @@ const Footer: React.FC<FooterProps> = ({
 
     const response = await API.likePost(feedId)
     if (!response) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
       return
     }
     if ('statusCode' in response) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
       feeds[postIndex].LikePost = []
       feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost - 1
       dispatch(FeedRTK.actions.setFeed([...feeds]))
@@ -69,6 +72,7 @@ const Footer: React.FC<FooterProps> = ({
       )
       return
     }
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
   }
 
   const dislikePost = async () => {
@@ -79,6 +83,7 @@ const Footer: React.FC<FooterProps> = ({
 
     const response = await API.dislikePost(feedId)
     if (!response) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
       feeds[postIndex].LikePost = [
         {
           postId: feedId,
@@ -90,6 +95,7 @@ const Footer: React.FC<FooterProps> = ({
       return
     }
     if ('statusCode' in response) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
       feeds[postIndex].LikePost = [
         {
           postId: feedId,
@@ -109,6 +115,7 @@ const Footer: React.FC<FooterProps> = ({
       )
       return
     }
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
   }
 
   const toggleLike = () => {
