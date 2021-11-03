@@ -10,6 +10,7 @@ import Login from '../view/login'
 import CreateAccount from '../view/createAccount'
 import ForgotPassword from '../view/forgotPassword'
 import FeedView from '../view/feed'
+import CommentView from '../view/comment'
 import TankView from '../view/tank'
 import ConfigRTK from '../store/config'
 import theme from '../theme'
@@ -65,6 +66,13 @@ const Feed: React.FC = () => {
               tvParallaxProperties={undefined}
             />
           ),
+        }}
+      />
+      <FeedStack.Screen
+        name="Comment"
+        component={CommentView}
+        options={{
+          title: 'Comments',
         }}
       />
     </FeedStack.Navigator>

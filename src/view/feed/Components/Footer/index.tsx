@@ -134,7 +134,7 @@ const Footer: React.FC<FooterProps> = ({
           <IconButton
             icon="comment-outline"
             color={theme.colors.text}
-            onPress={() => navigation.navigate('Feed')}
+            onPress={() => navigation.navigate('Comment', { postId: feedId })}
             hasTVPreferredFocus={undefined}
             tvParallaxProperties={undefined}
           />

@@ -3,6 +3,7 @@ import { combineReducers } from 'redux'
 import user from './user'
 import config from './config'
 import feed from './feed'
+import comment from './comment'
 // import tanks from './tanks'
 // import plants from './plants'
 // import fertilizers from './fertilizers'
@@ -12,6 +13,7 @@ export const rootReducer = combineReducers({
   user: user.reducer,
   config: config.reducer,
   feed: feed.reducer,
+  comment: comment.reducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

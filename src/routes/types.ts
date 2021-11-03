@@ -16,15 +16,15 @@ export type ParamListAuthStack = {
 }
 export type ParamListFeedStack = {
   Feed: undefined
+  Comment: { postId: number }
 }
 export type ParamListTankStack = {
   Tank: undefined
 }
-
-// Root
+// Root ************************************************************************
 export type NavPropsAuth = NativeStackScreenProps<ParamListRootStack, 'Auth'>
 export type NavPropsTabs = NativeStackScreenProps<ParamListRootStack, 'Tabs'>
-// Auth
+// Auth ************************************************************************
 export type NavPropsLogin = NativeStackScreenProps<
   ParamListAuthStack & ParamListRootStack,
   'Login'
@@ -37,7 +37,7 @@ export type NavPropsForgotPassword = NativeStackScreenProps<
   ParamListAuthStack & ParamListRootStack,
   'ForgotPassword'
 >
-// Tabs
+// Tabs ************************************************************************
 export type NavPropsFeedTab = NativeStackScreenProps<
   ParamListTabStack,
   'FeedTab'
@@ -46,7 +46,11 @@ export type NavPropsTankTab = NativeStackScreenProps<
   ParamListTabStack,
   'TankTab'
 >
-// Feed Tab
+// Feed Tab ********************************************************************
 export type NavPropsFeed = NativeStackScreenProps<ParamListFeedStack, 'Feed'>
-// Tank Tab
+export type NavPropsComment = NativeStackScreenProps<
+  ParamListFeedStack,
+  'Comment'
+>
+// Tank Tab ********************************************************************
 export type NavPropsTank = NativeStackScreenProps<ParamListTankStack, 'Tank'>

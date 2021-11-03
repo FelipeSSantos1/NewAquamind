@@ -2,6 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 import moment from 'moment'
 
+import { baseImageUrl } from '../../../../services/constant'
 import defaultAvatar from '../../../../assets/Avatar.png'
 import { UserHeaderProps } from './types'
 import { RowView, Avatar, Text, Dimensions, Date } from './styles'
@@ -14,7 +15,9 @@ const UserHeader: React.FC<UserHeaderProps> = ({
 }) => {
   return (
     <RowView>
-      <Avatar source={url ? { uri: url } : defaultAvatar} />
+      <Avatar
+        source={url ? { uri: `${baseImageUrl}/${url}` } : defaultAvatar}
+      />
       <View>
         <Text>{userName}</Text>
         <Dimensions>{dimensions}</Dimensions>
