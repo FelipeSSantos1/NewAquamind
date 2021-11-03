@@ -1,6 +1,7 @@
 import React from 'react'
 import { Button, IconButton } from 'react-native-paper'
 import * as Haptics from 'expo-haptics'
+import produce from 'immer'
 import _ from 'lodash'
 
 import theme from '../../../../theme'
@@ -42,25 +43,34 @@ const Footer: React.FC<FooterProps> = ({
 
   const likePost = async () => {
     const postIndex = _.findIndex(feeds, { id: feedId })
-    feeds[postIndex].LikePost = [
-      {
-        postId: feedId,
-        profileId: user.profileId,
-      },
-    ]
-    feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost + 1
-    dispatch(FeedRTK.actions.setFeed([...feeds]))
+    const newFeed = produce(feeds, draft => {
+      draft[postIndex].LikePost = [
+        {
+          postId: feedId,
+          profileId: user.profileId,
+        },
+      ]
+      feeds[postIndex]._count.LikePost += 1
+    })
+    dispatch(FeedRTK.actions.setFeed(newFeed))
 
     const response = await API.likePost(feedId)
     if (!response) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+      const newFeedError = produce(feeds, draft => {
+        draft[postIndex].LikePost = []
+        feeds[postIndex]._count.LikePost -= 1
+      })
+      dispatch(FeedRTK.actions.setFeed(newFeedError))
       return
     }
     if ('statusCode' in response) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
-      feeds[postIndex].LikePost = []
-      feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost - 1
-      dispatch(FeedRTK.actions.setFeed([...feeds]))
+      const newFeedError = produce(feeds, draft => {
+        draft[postIndex].LikePost = []
+        feeds[postIndex]._count.LikePost -= 1
+      })
+      dispatch(FeedRTK.actions.setFeed(newFeedError))
 
       dispatch(
         ConfigRTK.actions.setAlert({
@@ -77,33 +87,40 @@ const Footer: React.FC<FooterProps> = ({
 
   const dislikePost = async () => {
     const postIndex = _.findIndex(feeds, { id: feedId })
-    feeds[postIndex].LikePost = []
-    feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost - 1
-    dispatch(FeedRTK.actions.setFeed([...feeds]))
+    const newFeed = produce(feeds, draft => {
+      draft[postIndex].LikePost = []
+      feeds[postIndex]._count.LikePost -= 1
+    })
+    dispatch(FeedRTK.actions.setFeed(newFeed))
 
     const response = await API.dislikePost(feedId)
     if (!response) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
-      feeds[postIndex].LikePost = [
-        {
-          postId: feedId,
-          profileId: user.profileId,
-        },
-      ]
-      feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost + 1
+      const newFeedError = produce(feeds, draft => {
+        draft[postIndex].LikePost = [
+          {
+            postId: feedId,
+            profileId: user.profileId,
+          },
+        ]
+        feeds[postIndex]._count.LikePost += 1
+      })
+      dispatch(FeedRTK.actions.setFeed(newFeedError))
       dispatch(FeedRTK.actions.setFeed([...feeds]))
       return
     }
     if ('statusCode' in response) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
-      feeds[postIndex].LikePost = [
-        {
-          postId: feedId,
-          profileId: user.profileId,
-        },
-      ]
-      feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost + 1
-      dispatch(FeedRTK.actions.setFeed([...feeds]))
+      const newFeedError = produce(feeds, draft => {
+        draft[postIndex].LikePost = [
+          {
+            postId: feedId,
+            profileId: user.profileId,
+          },
+        ]
+        feeds[postIndex]._count.LikePost += 1
+      })
+      dispatch(FeedRTK.actions.setFeed(newFeedError))
 
       dispatch(
         ConfigRTK.actions.setAlert({

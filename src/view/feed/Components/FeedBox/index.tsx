@@ -3,6 +3,7 @@ import { Image, StyleSheet, View } from 'react-native'
 import PagerView from 'react-native-pager-view'
 import { useDispatch, useSelector } from 'react-redux'
 import * as Haptics from 'expo-haptics'
+import produce from 'immer'
 import _ from 'lodash'
 
 import { baseImageUrl } from '../../../../services/constant'
@@ -62,29 +63,35 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed }) => {
       return
     }
 
-    feeds[postIndex].LikePost = [
-      {
-        postId: feedId,
-        profileId: user.profileId,
-      },
-    ]
-    feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost + 1
-    dispatch(FeedRTK.actions.setFeed([...feeds]))
+    const newFeed = produce(feeds, draft => {
+      draft[postIndex].LikePost = [
+        {
+          postId: feedId,
+          profileId: user.profileId,
+        },
+      ]
+      feeds[postIndex]._count.LikePost += 1
+    })
+    dispatch(FeedRTK.actions.setFeed(newFeed))
 
     const response = await API.likePost(feedId)
     if (!response) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
-      feeds[postIndex].LikePost = []
-      feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost - 1
-      dispatch(FeedRTK.actions.setFeed([...feeds]))
+      const newFeedError = produce(feeds, draft => {
+        draft[postIndex].LikePost = []
+        feeds[postIndex]._count.LikePost -= 1
+      })
+      dispatch(FeedRTK.actions.setFeed(newFeedError))
 
       return
     }
     if ('statusCode' in response) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
-      feeds[postIndex].LikePost = []
-      feeds[postIndex]._count.LikePost = feeds[postIndex]._count.LikePost - 1
-      dispatch(FeedRTK.actions.setFeed([...feeds]))
+      const newFeedError = produce(feeds, draft => {
+        draft[postIndex].LikePost = []
+        feeds[postIndex]._count.LikePost -= 1
+      })
+      dispatch(FeedRTK.actions.setFeed(newFeedError))
 
       dispatch(
         ConfigRTK.actions.setAlert({
