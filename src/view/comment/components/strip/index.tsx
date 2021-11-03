@@ -23,6 +23,9 @@ const Strip: React.FC<PropsType> = ({
   replyFunction,
   refreshing,
   sub,
+  renderDelete,
+  deleteRefreshing,
+  deleteFunction,
 }) => {
   const liked = item.LikeComment.length > 0
   return (
@@ -61,6 +64,20 @@ const Strip: React.FC<PropsType> = ({
           >
             Reply
           </PaperButton>
+          {renderDelete && (
+            <PaperButton
+              disabled={deleteRefreshing}
+              loading={deleteRefreshing}
+              mode="text"
+              compact
+              color={theme.colors.lightText}
+              labelStyle={LabelStyle.text}
+              uppercase={false}
+              onPress={deleteFunction}
+            >
+              Delete
+            </PaperButton>
+          )}
         </FooterRowView>
       </ContentView>
     </RowView>

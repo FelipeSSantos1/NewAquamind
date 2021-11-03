@@ -30,6 +30,7 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
   const [likeRefreshing, setLikeRefreshing] = useState(false)
   const [textComment, setTextComment] = useState('')
   const [loadingAddComment, setLoadingAddComment] = useState(false)
+  const [loadingDelete, setLoadingDelete] = useState(false)
   const [parentId, setParentId] = useState<number | undefined>(undefined)
   const inputTextRef = useRef<TextInput>(null)
 
@@ -137,6 +138,32 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
     inputTextRef.current?.focus()
   }
 
+  const deleteComment = async (id: number) => {
+    setLoadingDelete(true)
+    const response = await API.deleteComment(id)
+    if (!response) {
+      setLoadingDelete(false)
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+      return
+    }
+    if ('statusCode' in response) {
+      setLoadingDelete(false)
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+      dispatch(
+        ConfigRTK.actions.setAlert({
+          visible: true,
+          alertTitle: 'Oops!',
+          alertMessage: response.message,
+          okText: 'Ok',
+        })
+      )
+      return
+    }
+    await fetch()
+    setLoadingDelete(false)
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+  }
+
   const renderFeed = ({ item }: { item: CommentState }) => {
     const mainliked = item.LikeComment.length > 0
 
@@ -147,9 +174,15 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
           <Strip
             key={subComment.id}
             item={subComment}
+            deleteFunction={_.debounce(
+              () => deleteComment(subComment.id),
+              300,
+              { leading: true }
+            )}
             likeFunction={_.debounce(
               () => toggleLike(subComment.id, subLiked),
-              300
+              300,
+              { leading: true }
             )}
             replyFunction={_.debounce(
               () =>
@@ -160,7 +193,9 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
               300
             )}
             refreshing={likeRefreshing}
+            deleteRefreshing={loadingDelete}
             sub={true}
+            renderDelete={subComment.profileId === user.profileId}
           />
         )
       })
@@ -171,13 +206,20 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
         <Strip
           key={item.id}
           item={item}
-          likeFunction={_.debounce(() => toggleLike(item.id, mainliked), 300)}
+          deleteFunction={_.debounce(() => deleteComment(item.id), 300, {
+            leading: true,
+          })}
+          likeFunction={_.debounce(() => toggleLike(item.id, mainliked), 300, {
+            leading: true,
+          })}
           replyFunction={_.debounce(
             () => replyHandler(item.Profile.username, item.id),
             300
           )}
           refreshing={likeRefreshing}
+          deleteRefreshing={loadingDelete}
           sub={false}
+          renderDelete={item.profileId === user.profileId}
         />
         {subComments(item.Comment)}
       </>

@@ -17,3 +17,12 @@ export type AddCommentResponse = {
   postId: number
   profileId: number
 }
+export type DeleteCommentResponse = {
+  id: number
+  comment: number
+  createdAt: Date
+  updatedAt: Date
+  postId: number
+  profileId: number
+  parentId: number | null
+}

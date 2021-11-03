@@ -5,6 +5,7 @@ import {
   LikeCommentResponse,
   AddCommentResponse,
   AddCommentParam,
+  DeleteCommentResponse,
 } from './types'
 import { CommentState } from '../../store/comment/types'
 
@@ -57,6 +58,21 @@ export async function addComment(param: AddCommentParam) {
   const result = API.post<AddCommentResponse>('/comment', param)
     .then(response => {
       if (response && response.status === 201) {
+        return response.data
+      }
+    })
+    .catch((error: AxiosError) => {
+      if (error && error.response) {
+        return error.response.data as CommonAPIError
+      }
+    })
+
+  return result
+}
+export async function deleteComment(id: number) {
+  const result = API.delete<DeleteCommentResponse>(`/comment/${id}`)
+    .then(response => {
+      if (response && response.status === 200) {
         return response.data
       }
     })
