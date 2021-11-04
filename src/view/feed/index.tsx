@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { FlatList } from 'react-native'
 import { Button } from 'react-native-paper'
@@ -65,17 +65,14 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
     setRefreshing(false)
   }
 
-  const renderFeed = useCallback(
-    ({ item }: { item: Feed }) => (
-      <FeedBox
-        key={item.id}
-        feed={item}
-        navigation={navigation}
-        feeds={feeds}
-        user={user}
-      />
-    ),
-    [feeds, navigation, user]
+  const renderFeed = ({ item }: { item: Feed }) => (
+    <FeedBox
+      key={item.id}
+      feed={item}
+      navigation={navigation}
+      feeds={feeds}
+      user={user}
+    />
   )
 
   const pickImage = async () => {
