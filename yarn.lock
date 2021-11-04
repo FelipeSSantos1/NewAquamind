@@ -6873,6 +6873,11 @@ react-native-compressor@^1.0.0:
   resolved "https://registry.yarnpkg.com/react-native-compressor/-/react-native-compressor-1.0.0.tgz#9bce448a629073d37bd6e31ac234af7514423b51"
   integrity sha512-zYAEiZf/lEQkyOo7TCQ/efMtzVvTqZ3r1oGDg1zKJSu5YZEQ8e7A4MXJland8BgYN0r4II7Zzuy0DLNglHZ5+w==
 
+react-native-fast-image@^8.5.11:
+  version "8.5.11"
+  resolved "https://registry.yarnpkg.com/react-native-fast-image/-/react-native-fast-image-8.5.11.tgz#e3dc969d0e4e8df026646bf18194465aa55cbc2b"
+  integrity sha512-cNW4bIJg3nvKaheG8vGMfqCt5LMWX9MS5+wMudgKIHbGO51spRr4sgnlhVgwHLcZ5aeNOVJ8CPRxDIWKRq/0QA==
+
 react-native-flipper@^0.117.0:
   version "0.117.0"
   resolved "https://registry.yarnpkg.com/react-native-flipper/-/react-native-flipper-0.117.0.tgz#d5e1bf4f8403b674c1e39f240b13d1137a5e2018"

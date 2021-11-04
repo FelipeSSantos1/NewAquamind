@@ -52,6 +52,7 @@ const Footer: React.FC<FooterProps> = ({
       ]
       feeds[postIndex]._count.LikePost += 1
     })
+    dispatch(FeedRTK.actions.logout())
     dispatch(FeedRTK.actions.setFeed(newFeed))
 
     const response = await API.likePost(feedId)
@@ -61,6 +62,7 @@ const Footer: React.FC<FooterProps> = ({
         draft[postIndex].LikePost = []
         feeds[postIndex]._count.LikePost -= 1
       })
+      dispatch(FeedRTK.actions.logout())
       dispatch(FeedRTK.actions.setFeed(newFeedError))
       return
     }
@@ -70,6 +72,7 @@ const Footer: React.FC<FooterProps> = ({
         draft[postIndex].LikePost = []
         feeds[postIndex]._count.LikePost -= 1
       })
+      dispatch(FeedRTK.actions.logout())
       dispatch(FeedRTK.actions.setFeed(newFeedError))
 
       dispatch(
@@ -91,6 +94,7 @@ const Footer: React.FC<FooterProps> = ({
       draft[postIndex].LikePost = []
       feeds[postIndex]._count.LikePost -= 1
     })
+    dispatch(FeedRTK.actions.logout())
     dispatch(FeedRTK.actions.setFeed(newFeed))
 
     const response = await API.dislikePost(feedId)
@@ -105,8 +109,8 @@ const Footer: React.FC<FooterProps> = ({
         ]
         feeds[postIndex]._count.LikePost += 1
       })
+      dispatch(FeedRTK.actions.logout())
       dispatch(FeedRTK.actions.setFeed(newFeedError))
-      dispatch(FeedRTK.actions.setFeed([...feeds]))
       return
     }
     if ('statusCode' in response) {
@@ -120,6 +124,7 @@ const Footer: React.FC<FooterProps> = ({
         ]
         feeds[postIndex]._count.LikePost += 1
       })
+      dispatch(FeedRTK.actions.logout())
       dispatch(FeedRTK.actions.setFeed(newFeedError))
 
       dispatch(

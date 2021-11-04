@@ -1,6 +1,7 @@
 import styled from 'styled-components/native'
 import { StyleSheet } from 'react-native'
 import { BlurView } from 'expo-blur'
+import FastImage from 'react-native-fast-image'
 
 import theme from '../../../../theme'
 
@@ -19,7 +20,7 @@ export const BlurBackground = styled(BlurView)`
   justify-content: center;
   align-items: center;
 `
-export const PaperImage = styled.Image`
+export const PaperImage = styled(FastImage)`
   ${StyleSheet.absoluteFill}
   width: 100%;
   height: 100%;
