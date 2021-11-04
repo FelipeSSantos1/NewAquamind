@@ -4,6 +4,7 @@ import { FlatList } from 'react-native'
 import { Button } from 'react-native-paper'
 import * as ImagePicker from 'expo-image-picker'
 import _ from 'lodash'
+import FastImage from 'react-native-fast-image'
 
 import ConfigRTK from '../../store/config'
 import FeedRTK from '../../store/feed'
@@ -59,8 +60,10 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
 
   const resetData = async () => {
     setCursor(0)
-    dispatch(FeedRTK.actions.setFeed([]))
     setRefreshing(true)
+    await FastImage.clearDiskCache()
+    await FastImage.clearMemoryCache()
+    dispatch(FeedRTK.actions.logout())
     await fetchFeed()
     setRefreshing(false)
   }
