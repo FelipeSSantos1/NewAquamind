@@ -18,3 +18,18 @@ export async function getAllByUser() {
 
   return result
 }
+export async function getById(tankId: number) {
+  const result = API.get<TankState>(`/tank/${tankId}`)
+    .then(response => {
+      if (response && response.status === 200) {
+        return response.data
+      }
+    })
+    .catch((error: AxiosError) => {
+      if (error && error.response) {
+        return error.response.data as CommonAPIError
+      }
+    })
+
+  return result
+}

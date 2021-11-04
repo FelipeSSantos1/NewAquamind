@@ -24,6 +24,9 @@ export type ParamListFeedStack = {
       height: number
     }
   }
+  PostDetail: {
+    tankId: number
+  }
 }
 export type ParamListTankStack = {
   Tank: undefined
@@ -62,6 +65,10 @@ export type NavPropsCreatePost = NativeStackScreenProps<
 export type NavPropsComment = NativeStackScreenProps<
   ParamListFeedStack,
   'Comment'
+>
+export type NavPropsPostDetail = NativeStackScreenProps<
+  ParamListFeedStack,
+  'PostDetail'
 >
 // Tank Tab ********************************************************************
 export type NavPropsTank = NativeStackScreenProps<ParamListTankStack, 'Tank'>

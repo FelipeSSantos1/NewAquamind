@@ -13,6 +13,7 @@ import FeedView from '../view/feed'
 import CommentView from '../view/comment'
 import TankView from '../view/tank'
 import CreatePostView from '../view/createPost'
+import PostDetailView from '../view/postDetail'
 import ConfigRTK from '../store/config'
 import theme from '../theme'
 import {
@@ -81,6 +82,13 @@ const Feed: React.FC = () => {
         component={CreatePostView}
         options={{
           title: 'New Post',
+        }}
+      />
+      <FeedStack.Screen
+        name="PostDetail"
+        component={PostDetailView}
+        options={{
+          title: 'Post Detail',
         }}
       />
     </FeedStack.Navigator>
