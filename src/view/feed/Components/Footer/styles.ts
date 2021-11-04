@@ -13,3 +13,6 @@ export const Text = styled(PaperText)`
   font-family: ${theme.fonts.light.fontFamily};
   color: ${theme.colors.text};
 `
+export const TextUserName = styled(PaperText)`
+  font-family: ${theme.fonts.medium.fontFamily};
+`

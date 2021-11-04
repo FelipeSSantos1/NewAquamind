@@ -7,7 +7,7 @@ import _ from 'lodash'
 import theme from '../../../../theme'
 import { FooterProps } from './types'
 import * as API from '../../../../API/feed'
-import { RowView, Text } from './styles'
+import { RowView, Text, TextUserName } from './styles'
 import { useDispatch } from 'react-redux'
 import ConfigRTK from '../../../../store/config'
 import FeedRTK from '../../../../store/feed'
@@ -21,9 +21,10 @@ const Footer: React.FC<FooterProps> = ({
   feedId,
   feeds,
   user,
+  description,
+  username,
 }) => {
   const dispatch = useDispatch()
-
   let textLikes = 'no likes'
   if (likes > 1) {
     textLikes = `${likes} likes`
@@ -175,6 +176,12 @@ const Footer: React.FC<FooterProps> = ({
           </Button>
         )}
       </RowView>
+      {!!description && (
+        <Text>
+          <TextUserName>{username} </TextUserName>
+          {description}
+        </Text>
+      )}
       <Text>{textLikes}</Text>
       <Text>{textComments}</Text>
     </>

@@ -29,7 +29,7 @@ export type Feed = {
   description?: string
   tankId?: number
   Photos: Photo[]
-  Profile?: Profile
+  Profile: Profile
   Tank?: Tank
   LikePost: LikePost[]
   _count: Count

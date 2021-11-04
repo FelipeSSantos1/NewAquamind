@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { FlatList } from 'react-native'
 import { Button } from 'react-native-paper'
 import * as ImagePicker from 'expo-image-picker'
-import { Image } from 'react-native-compressor'
 import _ from 'lodash'
 
 import ConfigRTK from '../../store/config'
@@ -100,13 +99,13 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
     })
 
     if (!result.cancelled) {
-      // setPathUri(result.uri)
-      console.log(result.uri, result.width, result.height)
-      const compressed = await Image.compress(result.uri, {
-        compressionMethod: 'auto',
-        returnableOutputType: 'base64',
+      navigation.navigate('CreatePost', {
+        photo: {
+          uri: result.uri,
+          width: result.width,
+          height: result.height,
+        },
       })
-      console.log({ compressed })
     }
   }
 

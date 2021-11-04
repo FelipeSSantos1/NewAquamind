@@ -12,6 +12,7 @@ import ForgotPassword from '../view/forgotPassword'
 import FeedView from '../view/feed'
 import CommentView from '../view/comment'
 import TankView from '../view/tank'
+import CreatePostView from '../view/createPost'
 import ConfigRTK from '../store/config'
 import theme from '../theme'
 import {
@@ -73,6 +74,13 @@ const Feed: React.FC = () => {
         component={CommentView}
         options={{
           title: 'Comments',
+        }}
+      />
+      <FeedStack.Screen
+        name="CreatePost"
+        component={CreatePostView}
+        options={{
+          title: 'New Post',
         }}
       />
     </FeedStack.Navigator>

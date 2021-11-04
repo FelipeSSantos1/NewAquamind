@@ -10,8 +10,11 @@ const initialState: UserState = {
   role: 'USER',
   createdAt: '',
   updatedAt: '',
-  profileId: null,
-  profile: null,
+  profileId: 0,
+  Profile: {
+    id: 0,
+    username: '',
+  },
   accessToken: undefined,
   refreshToken: undefined,
 }

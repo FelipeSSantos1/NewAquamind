@@ -17,6 +17,13 @@ export type ParamListAuthStack = {
 export type ParamListFeedStack = {
   Feed: undefined
   Comment: { postId: number }
+  CreatePost: {
+    photo: {
+      uri: string
+      width: number
+      height: number
+    }
+  }
 }
 export type ParamListTankStack = {
   Tank: undefined
@@ -48,6 +55,10 @@ export type NavPropsTankTab = NativeStackScreenProps<
 >
 // Feed Tab ********************************************************************
 export type NavPropsFeed = NativeStackScreenProps<ParamListFeedStack, 'Feed'>
+export type NavPropsCreatePost = NativeStackScreenProps<
+  ParamListFeedStack,
+  'CreatePost'
+>
 export type NavPropsComment = NativeStackScreenProps<
   ParamListFeedStack,
   'Comment'

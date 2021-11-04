@@ -122,7 +122,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
   return (
     <>
       <UserHeader
-        userName={feed.Profile?.username || ''}
+        userName={feed.Profile.username}
         url={feed.Profile?.avatar || defaultAvatar}
         dimensions={dimentions()}
         date={feed.createdAt}
@@ -145,6 +145,8 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
         navigation={navigation}
         feeds={feeds}
         user={user}
+        description={feed.description}
+        username={feed.Profile.username}
       />
     </>
   )

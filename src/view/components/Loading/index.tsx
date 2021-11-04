@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { View } from 'react-native'
 
 import { RootState } from '../../../store/rootReducer'
-import { ConfigRTK } from '../../../store/config'
+import ConfigRTK from '../../../store/config'
 import { DialogContent, Spinner, Text, DialogView } from './styles'
 
 /**
@@ -20,7 +20,9 @@ const Loading: React.FC = () => {
     <Portal>
       <DialogView
         visible={config.loading.visible}
-        onDismiss={() => dispatch(ConfigRTK.actions.setLoading({ visible: false }))}
+        onDismiss={() =>
+          dispatch(ConfigRTK.actions.setLoading({ visible: false }))
+        }
       >
         <DialogContent>
           <View>

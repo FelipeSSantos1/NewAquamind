@@ -10,4 +10,6 @@ export type FooterProps = Pick<NavPropsFeed, 'navigation'> & {
   comments: number
   feeds: Feed[]
   user: UserState
+  description?: string
+  username: string
 }
