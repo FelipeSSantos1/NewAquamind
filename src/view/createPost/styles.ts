@@ -1,5 +1,5 @@
 import styled from 'styled-components/native'
-import { Dimensions } from 'react-native'
+import { Dimensions, KeyboardAvoidingView } from 'react-native'
 
 import { Colors, TextInput, Title, Button } from 'react-native-paper'
 import { Picker } from '@react-native-picker/picker'
@@ -30,5 +30,9 @@ export const StyledPicker = styled(Picker)`
   background-color: ${theme.colors.background};
 `
 export const SaveButon = styled(Button)`
-  margin: ${theme.sizes.margin}px ${theme.sizes.margin}px 0 0;
+  margin: ${theme.sizes.margin}px ${theme.sizes.margin}px 0
+    ${theme.sizes.margin}px;
+`
+export const PaperKeyboardAvoidingView = styled(KeyboardAvoidingView)`
+  flex: 1;
 `

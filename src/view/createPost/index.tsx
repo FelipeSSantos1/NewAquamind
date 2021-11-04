@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import { Platform } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import * as ImagePicker from 'expo-image-picker'
 import _ from 'lodash'
@@ -22,6 +23,7 @@ import {
   PaperPickerLabel,
   StyledPicker,
   SaveButon,
+  PaperKeyboardAvoidingView,
 } from './styles'
 
 const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
@@ -159,45 +161,52 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
   }
 
   return (
-    <Container>
-      <ImageScrollView horizontal>
-        {renderImages()}
-        <ImageBox onPress={pickImage} />
-      </ImageScrollView>
-      <Content>
-        <PaperTextInput
-          placeholder="Add a description..."
-          multiline={true}
-          numberOfLines={5}
-          mode="outlined"
-          value={textDescription}
-          onChangeText={setTextDescription}
-        />
-        {tank.length > 0 && (
-          <>
-            <PaperPickerLabel>Select a tank</PaperPickerLabel>
-            <StyledPicker
-              style={{ backgroundColor: theme.colors.background }}
-              selectedValue={selectedTank}
-              onValueChange={itemValue => setSelectedTank(itemValue as number)}
-            >
-              <StyledPicker.Item key={0} label="none" value={0} />
-              {_.map(tank, currentTank => (
-                <StyledPicker.Item
-                  key={currentTank.id}
-                  label={currentTank.name}
-                  value={currentTank.id}
-                />
-              ))}
-            </StyledPicker>
-          </>
-        )}
-        <SaveButon mode="contained" icon="publish" onPress={createPost}>
-          Publish it
-        </SaveButon>
-      </Content>
-      <Spinner />
-    </Container>
+    <PaperKeyboardAvoidingView
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 92 : 0}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+    >
+      <Container>
+        <ImageScrollView horizontal>
+          {renderImages()}
+          <ImageBox onPress={pickImage} />
+        </ImageScrollView>
+        <Content>
+          <PaperTextInput
+            placeholder="Add a description..."
+            multiline={true}
+            numberOfLines={5}
+            mode="outlined"
+            value={textDescription}
+            onChangeText={setTextDescription}
+          />
+          {tank.length > 0 && (
+            <>
+              <PaperPickerLabel>Select a tank</PaperPickerLabel>
+              <StyledPicker
+                style={{ backgroundColor: theme.colors.background }}
+                selectedValue={selectedTank}
+                onValueChange={itemValue =>
+                  setSelectedTank(itemValue as number)
+                }
+              >
+                <StyledPicker.Item key={0} label="none" value={0} />
+                {_.map(tank, currentTank => (
+                  <StyledPicker.Item
+                    key={currentTank.id}
+                    label={currentTank.name}
+                    value={currentTank.id}
+                  />
+                ))}
+              </StyledPicker>
+            </>
+          )}
+          <SaveButon mode="contained" icon="publish" onPress={createPost}>
+            Publish it
+          </SaveButon>
+        </Content>
+        <Spinner />
+      </Container>
+    </PaperKeyboardAvoidingView>
   )
 }
 
