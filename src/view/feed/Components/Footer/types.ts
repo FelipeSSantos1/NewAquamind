@@ -1,3 +1,5 @@
+import { UserState } from 'store/user/types'
+import { Feed } from '../../../../store/feed/types'
 import { NavPropsFeed } from '../../../../routes/types'
 
 export type FooterProps = Pick<NavPropsFeed, 'navigation'> & {
@@ -6,4 +8,6 @@ export type FooterProps = Pick<NavPropsFeed, 'navigation'> & {
   liked: boolean
   likes: number
   comments: number
+  feeds: Feed[]
+  user: UserState
 }

@@ -1,7 +1,7 @@
 import React from 'react'
-import { Image, StyleSheet, View } from 'react-native'
+import { Image, StyleSheet } from 'react-native'
 import PagerView from 'react-native-pager-view'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import * as Haptics from 'expo-haptics'
 import produce from 'immer'
 import _ from 'lodash'
@@ -16,18 +16,17 @@ import { FeedBoxProps } from './types'
 import ConfigRTK from '../../../../store/config'
 import FeedRTK from '../../../../store/feed'
 import * as API from '../../../../API/feed'
-import { RootState } from 'store/rootReducer'
+import { ContentView, PaperImage, BlurBackground } from './styles'
 
-const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed }) => {
+const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
   const dispatch = useDispatch()
-  const feeds = useSelector((state: RootState) => state.feed)
-  const user = useSelector((state: RootState) => state.user)
 
   const width = theme.sizes.width
   const maxHeightRatio =
     _.min(_.map(feed.Photos, photo => photo.width / photo.height)) || 1
   const viewWidth = theme.sizes.width
-  const viewHeight = width / maxHeightRatio
+  const heightRatio = width / maxHeightRatio
+  const viewHeight = heightRatio > viewWidth ? viewWidth : heightRatio
 
   const dimentions = () => {
     if (feed.Tank?.length && feed.Tank?.width && feed.Tank?.height) {
@@ -40,19 +39,26 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed }) => {
   const renderImages = () => {
     return _.map(feed.Photos, photo => {
       const imageHeight = width * (photo.height / photo.width)
+      const imageWidth = width * (photo.width / photo.height)
+      const landscape = photo.width > photo.height
       return (
-        <View key={photo.url}>
-          <Image
-            key={photo.id}
-            source={{
-              uri: `${baseImageUrl}/${photo.url}`,
-            }}
-            style={{
-              width: width,
-              height: imageHeight,
-            }}
+        <ContentView key={photo.id}>
+          <PaperImage
+            resizeMode="cover"
+            source={{ uri: `${baseImageUrl}/${photo.url}` }}
           />
-        </View>
+          <BlurBackground intensity={100}>
+            <Image
+              source={{
+                uri: `${baseImageUrl}/${photo.url}`,
+              }}
+              style={{
+                width: landscape ? width : imageWidth,
+                height: landscape ? imageHeight : width,
+              }}
+            />
+          </BlurBackground>
+        </ContentView>
       )
     })
   }
@@ -137,6 +143,8 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed }) => {
         tankId={feed.tankId}
         feedId={feed.id}
         navigation={navigation}
+        feeds={feeds}
+        user={user}
       />
     </>
   )

@@ -8,8 +8,7 @@ import theme from '../../../../theme'
 import { FooterProps } from './types'
 import * as API from '../../../../API/feed'
 import { RowView, Text } from './styles'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'store/rootReducer'
+import { useDispatch } from 'react-redux'
 import ConfigRTK from '../../../../store/config'
 import FeedRTK from '../../../../store/feed'
 
@@ -20,10 +19,10 @@ const Footer: React.FC<FooterProps> = ({
   tankId,
   navigation,
   feedId,
+  feeds,
+  user,
 }) => {
   const dispatch = useDispatch()
-  const feeds = useSelector((state: RootState) => state.feed)
-  const user = useSelector((state: RootState) => state.user)
 
   let textLikes = 'no likes'
   if (likes > 1) {

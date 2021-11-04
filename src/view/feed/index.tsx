@@ -2,6 +2,8 @@ import React, { useEffect, useCallback, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { FlatList } from 'react-native'
 import { Button } from 'react-native-paper'
+import * as ImagePicker from 'expo-image-picker'
+import { Image } from 'react-native-compressor'
 import _ from 'lodash'
 
 import ConfigRTK from '../../store/config'
@@ -11,10 +13,12 @@ import { RootState } from '../../store/rootReducer'
 import { getAllFeed } from '../../API/feed'
 import FeedBox from './components/feedBox'
 import { NavPropsFeed } from '../../routes/types'
+import { PaperFAB } from './styles'
 
 const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   const dispatch = useDispatch()
   const feeds = useSelector((state: RootState) => state.feed)
+  const user = useSelector((state: RootState) => state.user)
   const [refreshing, setRefreshing] = useState(false)
   const [bottomRefreshing, setBottomRefreshing] = useState(false)
   const [cursor, setCursor] = useState(0)
@@ -64,37 +68,77 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
 
   const renderFeed = useCallback(
     ({ item }: { item: Feed }) => (
-      <FeedBox key={item.id} feed={item} navigation={navigation} />
+      <FeedBox
+        key={item.id}
+        feed={item}
+        navigation={navigation}
+        feeds={feeds}
+        user={user}
+      />
     ),
-    [navigation]
+    [feeds, navigation, user]
   )
 
+  const pickImage = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync()
+    if (status !== 'granted') {
+      dispatch(
+        ConfigRTK.actions.setAlert({
+          visible: true,
+          alertTitle: 'Oops!',
+          alertMessage: 'We need media roll permissions to make this work!',
+          okText: 'Ok',
+        })
+      )
+      return
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      quality: 1,
+    })
+
+    if (!result.cancelled) {
+      // setPathUri(result.uri)
+      console.log(result.uri, result.width, result.height)
+      const compressed = await Image.compress(result.uri, {
+        compressionMethod: 'auto',
+        returnableOutputType: 'base64',
+      })
+      console.log({ compressed })
+    }
+  }
+
   return (
-    <FlatList
-      data={feeds}
-      renderItem={item => renderFeed(item)}
-      keyExtractor={item => item.id.toString()}
-      onRefresh={resetData}
-      refreshing={refreshing}
-      onEndReachedThreshold={0.5}
-      onEndReached={() => fetchFeed()}
-      ListFooterComponent={
-        <Button
-          mode="text"
-          compact
-          uppercase={false}
-          loading={bottomRefreshing}
-          disabled={bottomRefreshing}
-          onPress={_.debounce(async () => {
-            setBottomRefreshing(true)
-            await fetchFeed()
-            setBottomRefreshing(false)
-          }, 300)}
-        >
-          Load More
-        </Button>
-      }
-    />
+    <>
+      <FlatList
+        data={feeds}
+        renderItem={item => renderFeed(item)}
+        keyExtractor={item => item.id.toString()}
+        onRefresh={resetData}
+        refreshing={refreshing}
+        onEndReachedThreshold={0.5}
+        onEndReached={() => fetchFeed()}
+        ListFooterComponent={
+          <Button
+            mode="text"
+            compact
+            uppercase={false}
+            loading={bottomRefreshing}
+            disabled={bottomRefreshing}
+            onPress={_.debounce(async () => {
+              setBottomRefreshing(true)
+              await fetchFeed()
+              setBottomRefreshing(false)
+            }, 300)}
+          >
+            Load More
+          </Button>
+        }
+      />
+      <PaperFAB icon="plus" onPress={pickImage} small />
+    </>
   )
 }
 
