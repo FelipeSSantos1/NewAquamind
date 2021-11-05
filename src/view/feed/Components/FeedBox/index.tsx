@@ -67,6 +67,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
   const likePost = async (feedId: number) => {
     const postIndex = _.findIndex(feeds, { id: feedId })
     if (feeds[postIndex].LikePost.length) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
       return
     }
 

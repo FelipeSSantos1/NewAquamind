@@ -175,7 +175,7 @@ const Footer: React.FC<FooterProps> = ({
             color={theme.colors.text}
             compact
             uppercase={false}
-            onPress={() => navigation.navigate('PostDetail', { tankId })}
+            onPress={() => navigation.navigate('TankDetail', { tankId })}
           >
             tank spec
           </Button>

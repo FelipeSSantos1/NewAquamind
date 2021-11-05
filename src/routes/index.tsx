@@ -3,6 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useSelector, useDispatch } from 'react-redux'
+import * as Haptics from 'expo-haptics'
 import { IconButton } from 'react-native-paper'
 
 import { RootState } from '../store/rootReducer'
@@ -13,7 +14,7 @@ import FeedView from '../view/feed'
 import CommentView from '../view/comment'
 import TankView from '../view/tank'
 import CreatePostView from '../view/createPost'
-import PostDetailView from '../view/postDetail'
+import TankDetailView from '../view/tankDetail'
 import ConfigRTK from '../store/config'
 import theme from '../theme'
 import {
@@ -63,7 +64,12 @@ const Feed: React.FC = () => {
             <IconButton
               icon="menu"
               color={theme.colors.surface}
-              onPress={() => dispatch(ConfigRTK.actions.showDrawer(true))}
+              onPress={() => {
+                Haptics.notificationAsync(
+                  Haptics.NotificationFeedbackType.Success
+                )
+                dispatch(ConfigRTK.actions.showDrawer(true))
+              }}
               hasTVPreferredFocus={undefined}
               tvParallaxProperties={undefined}
             />
@@ -85,10 +91,10 @@ const Feed: React.FC = () => {
         }}
       />
       <FeedStack.Screen
-        name="PostDetail"
-        component={PostDetailView}
+        name="TankDetail"
+        component={TankDetailView}
         options={{
-          title: 'Post Detail',
+          title: 'Tank Detail',
         }}
       />
     </FeedStack.Navigator>
@@ -114,7 +120,12 @@ const Tank: React.FC = () => {
             <IconButton
               icon="menu"
               color={theme.colors.surface}
-              onPress={() => dispatch(ConfigRTK.actions.showDrawer(true))}
+              onPress={() => {
+                Haptics.notificationAsync(
+                  Haptics.NotificationFeedbackType.Success
+                )
+                dispatch(ConfigRTK.actions.showDrawer(true))
+              }}
               hasTVPreferredFocus={undefined}
               tvParallaxProperties={undefined}
             />

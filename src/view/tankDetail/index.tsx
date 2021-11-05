@@ -3,7 +3,7 @@ import { ScrollView } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { baseImageUrl } from '../../services/constant'
-import { NavPropsPostDetail } from '../../routes/types'
+import { NavPropsTankDetail } from '../../routes/types'
 import TankRTK from '../../store/tank'
 import * as tankAPI from '../../API/tank'
 import { RootState } from 'store/rootReducer'
@@ -11,7 +11,7 @@ import LoadComponent from '../components/fakeLoadingScreen'
 import { HeaderImage, DetailIcon, RowView } from './styles'
 import theme from '../../theme'
 
-const PostDetail: React.FC<NavPropsPostDetail> = ({ route }) => {
+const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
   const dispatch = useDispatch()
   const { tank } = useSelector((state: RootState) => state)
   useEffect(() => {
@@ -99,4 +99,4 @@ const PostDetail: React.FC<NavPropsPostDetail> = ({ route }) => {
   )
 }
 
-export default PostDetail
+export default TankDetail
