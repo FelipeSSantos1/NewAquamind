@@ -12,4 +12,5 @@ export type FooterProps = Pick<NavPropsFeed, 'navigation'> & {
   user: UserState
   description?: string
   username: string
+  profileId: number
 }

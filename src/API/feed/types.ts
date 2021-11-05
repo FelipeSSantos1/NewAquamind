@@ -35,3 +35,11 @@ export type LikePostResponse = {
   createdAt: Date
   updatedAt: Date
 }
+export type DeletePostResponse = {
+  id: number
+  description: string | null
+  createdAt: Date
+  updatedAt: Date
+  tankId: number | null
+  profileId: number | null
+}

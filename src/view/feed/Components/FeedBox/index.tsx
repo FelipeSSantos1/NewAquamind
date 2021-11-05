@@ -152,6 +152,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
         user={user}
         description={feed.description}
         username={feed.Profile.username}
+        profileId={feed.profileId}
       />
     </>
   )

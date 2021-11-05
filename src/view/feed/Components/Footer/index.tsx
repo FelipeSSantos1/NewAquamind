@@ -23,8 +23,10 @@ const Footer: React.FC<FooterProps> = ({
   user,
   description,
   username,
+  profileId,
 }) => {
   const dispatch = useDispatch()
+  const [deleting, setDeleting] = React.useState(false)
   let textLikes = 'no likes'
   if (likes > 1) {
     textLikes = `${likes} likes`
@@ -148,6 +150,49 @@ const Footer: React.FC<FooterProps> = ({
     }
   }
 
+  const handleDeletePost = () => {
+    dispatch(
+      ConfigRTK.actions.setAlert({
+        visible: true,
+        alertTitle: 'Delete Post',
+        alertMessage: 'Are you sure you want to delete this post?',
+        okText: 'Yes',
+        cancelText: 'No',
+        okPress: deletePost,
+      })
+    )
+  }
+
+  const deletePost = async () => {
+    setDeleting(true)
+    const postIndex = _.findIndex(feeds, { id: feedId })
+    const response = await API.deletePost(feedId)
+    setDeleting(false)
+    if (!response) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+      return
+    }
+    if ('statusCode' in response) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+
+      dispatch(
+        ConfigRTK.actions.setAlert({
+          visible: true,
+          alertTitle: 'Oops!',
+          alertMessage: response.message,
+          okText: 'Ok',
+        })
+      )
+      return
+    }
+
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+    const newFeedError = produce(feeds, draft => {
+      _.pullAt(draft, [postIndex])
+    })
+    dispatch(FeedRTK.actions.setFeed(newFeedError))
+  }
+
   return (
     <>
       <RowView>
@@ -168,18 +213,34 @@ const Footer: React.FC<FooterProps> = ({
             tvParallaxProperties={undefined}
           />
         </RowView>
-        {tankId && (
-          <Button
-            icon="fishbowl-outline"
-            mode="text"
-            color={theme.colors.text}
-            compact
-            uppercase={false}
-            onPress={() => navigation.navigate('TankDetail', { tankId })}
-          >
-            tank spec
-          </Button>
-        )}
+        <RowView>
+          {tankId && profileId !== user.profileId && (
+            <Button
+              icon="fishbowl-outline"
+              mode="text"
+              color={theme.colors.text}
+              compact
+              uppercase={false}
+              onPress={() => navigation.navigate('TankDetail', { tankId })}
+            >
+              tank spec
+            </Button>
+          )}
+          {profileId === user.profileId && (
+            <Button
+              icon="delete-circle"
+              mode="text"
+              color={theme.colors.text}
+              compact
+              uppercase={false}
+              loading={deleting}
+              disabled={deleting}
+              onPress={() => handleDeletePost()}
+            >
+              delete
+            </Button>
+          )}
+        </RowView>
       </RowView>
       {!!description && (
         <Text>
