@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
-import { ScrollView } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
+import moment from 'moment'
 
 import { baseImageUrl } from '../../services/constant'
 import { NavPropsTankDetail } from '../../routes/types'
@@ -8,8 +8,20 @@ import TankRTK from '../../store/tank'
 import * as tankAPI from '../../API/tank'
 import { RootState } from 'store/rootReducer'
 import LoadComponent from '../components/fakeLoadingScreen'
-import { HeaderImage, DetailIcon, RowView } from './styles'
+import ImageBox from './imageBox'
+import {
+  HeaderImage,
+  DetailIcon,
+  RowView,
+  PaperText,
+  PaperBoldText,
+  PaperTitle,
+  StyledScrollView,
+  PaperAssetsText,
+  PaperDivider,
+} from './styles'
 import theme from '../../theme'
+import _ from 'lodash'
 
 const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
   const dispatch = useDispatch()
@@ -32,8 +44,47 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
     return <LoadComponent />
   }
 
+  const renderPlantList = () => {
+    if (tank[0].TankPlant.length === 0) {
+      return null
+    }
+    return (
+      <>
+        <PaperDivider />
+        <PaperTitle>Plant List</PaperTitle>
+        {_.map(tank[0].TankPlant, (plant, index) => (
+          <RowView key={`plant${index}`}>
+            {!!plant.Plant.avatar && <ImageBox imageUrl={plant.Plant.avatar} />}
+            <PaperAssetsText>{plant.Plant.name}</PaperAssetsText>
+          </RowView>
+        ))}
+      </>
+    )
+  }
+  const renderFertilizerList = () => {
+    if (tank[0].TankFertilizer.length === 0) {
+      return null
+    }
+    return (
+      <>
+        <PaperDivider />
+        <PaperTitle>Fertilizer List</PaperTitle>
+        {_.map(tank[0].TankFertilizer, (fertilizer, index) => (
+          <RowView key={`plant${index}`}>
+            {!!fertilizer.Fertilizer.avatar && (
+              <ImageBox imageUrl={fertilizer.Fertilizer.avatar} />
+            )}
+            <PaperAssetsText>
+              {`${fertilizer.amount}${fertilizer.Fertilizer.unit} of ${fertilizer.Fertilizer.name}`}
+            </PaperAssetsText>
+          </RowView>
+        ))}
+      </>
+    )
+  }
+
   return (
-    <ScrollView>
+    <StyledScrollView>
       {tank[0].avatar ? (
         <HeaderImage
           source={{ uri: `${baseImageUrl}/${tank[0].avatar}` }}
@@ -44,6 +95,27 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
           source={require('../../assets/Avatar.png')}
           resizeMode="cover"
         />
+      )}
+      {!!tank[0].name && <PaperTitle>{tank[0].name}</PaperTitle>}
+      {!!tank[0].born && (
+        <PaperText>
+          {'Created on '}
+          <PaperBoldText>
+            {moment(tank[0].born).format('dddd, MMMM Do YYYY')}
+          </PaperBoldText>
+          {!!tank[0].location && (
+            <>
+              {' in '}
+              <PaperBoldText>{tank[0].location}</PaperBoldText>
+            </>
+          )}
+        </PaperText>
+      )}
+      {!!tank[0].location && (
+        <PaperText>
+          {'in '}
+          <PaperBoldText>{tank[0].location}</PaperBoldText>
+        </PaperText>
       )}
       <RowView>
         <DetailIcon
@@ -95,7 +167,27 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
             : 'none'}
         </DetailIcon>
       </RowView>
-    </ScrollView>
+      {!!tank[0].filter && (
+        <PaperText>
+          {'Filter '}
+          <PaperBoldText>{tank[0].filter}</PaperBoldText>
+        </PaperText>
+      )}
+      {!!tank[0].gravel && (
+        <PaperText>
+          {'Gravel '}
+          <PaperBoldText>{tank[0].gravel}</PaperBoldText>
+        </PaperText>
+      )}
+      {!!tank[0].light && (
+        <PaperText>
+          {'Light '}
+          <PaperBoldText>{tank[0].light}</PaperBoldText>
+        </PaperText>
+      )}
+      {renderPlantList()}
+      {renderFertilizerList()}
+    </StyledScrollView>
   )
 }
 
