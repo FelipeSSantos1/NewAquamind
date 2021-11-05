@@ -12,9 +12,10 @@ import CreateAccount from '../view/createAccount'
 import ForgotPassword from '../view/forgotPassword'
 import FeedView from '../view/feed'
 import CommentView from '../view/comment'
-import TankView from '../view/tank'
+import TankView from '../view/myTank'
 import CreatePostView from '../view/createPost'
 import TankDetailView from '../view/tankDetail'
+import AddEditTankView from '../view/addEditTank'
 import ConfigRTK from '../store/config'
 import theme from '../theme'
 import {
@@ -116,6 +117,7 @@ const Tank: React.FC = () => {
         name="Tank"
         component={TankView}
         options={{
+          title: 'My Tanks',
           headerRight: () => (
             <IconButton
               icon="menu"
@@ -130,6 +132,13 @@ const Tank: React.FC = () => {
               tvParallaxProperties={undefined}
             />
           ),
+        }}
+      />
+      <TankStack.Screen
+        name="AddEditTank"
+        component={AddEditTankView}
+        options={{
+          title: '',
         }}
       />
     </TankStack.Navigator>

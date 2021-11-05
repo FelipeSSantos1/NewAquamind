@@ -30,6 +30,9 @@ export type ParamListFeedStack = {
 }
 export type ParamListTankStack = {
   Tank: undefined
+  AddEditTank: {
+    tankId?: number
+  }
 }
 // Root ************************************************************************
 export type NavPropsAuth = NativeStackScreenProps<ParamListRootStack, 'Auth'>
@@ -72,3 +75,7 @@ export type NavPropsTankDetail = NativeStackScreenProps<
 >
 // Tank Tab ********************************************************************
 export type NavPropsTank = NativeStackScreenProps<ParamListTankStack, 'Tank'>
+export type NavPropsAddEditTank = NativeStackScreenProps<
+  ParamListTankStack,
+  'AddEditTank'
+>

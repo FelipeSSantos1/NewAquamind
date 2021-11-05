@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import { Provider as PaperProvider, configureFonts } from 'react-native-paper'
-import { StatusBar } from 'react-native'
+import { Platform, StatusBar, UIManager } from 'react-native'
 import {
   useFonts,
   Roboto_100Thin,
@@ -34,6 +34,14 @@ const myTheme = {
 }
 
 const App: React.FC = () => {
+  // it's for LayoutAnimation used on swipeList works
+  if (
+    Platform.OS === 'android' &&
+    UIManager.setLayoutAnimationEnabledExperimental
+  ) {
+    UIManager.setLayoutAnimationEnabledExperimental(true)
+  }
+
   const [isReady] = useFonts({
     Roboto_100Thin,
     Roboto_100Thin_Italic,
