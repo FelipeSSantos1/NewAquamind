@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
 import { LayoutAnimation } from 'react-native'
 import * as Haptics from 'expo-haptics'
+import { Divider } from 'react-native-paper'
 import {
   SwipeableFlatList,
   SwipeableQuickActionButton,
@@ -130,6 +131,7 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation }) => {
         <SwipeableFlatList
           refreshing={refreshing}
           onRefresh={() => reFetch()}
+          ItemSeparatorComponent={() => <Divider />}
           data={tank}
           renderItem={({ item }) => (
             <Strip
@@ -161,6 +163,7 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation }) => {
                     }}
                   />
                 }
+                style={{ backgroundColor: theme.colors.error }}
               />
               <SwipeableQuickActionButton
                 text={
@@ -173,6 +176,7 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation }) => {
                     }
                   />
                 }
+                style={{ backgroundColor: theme.colors.text }}
               />
             </SwipeableQuickActions>
           )}
