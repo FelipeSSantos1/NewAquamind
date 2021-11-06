@@ -3,7 +3,7 @@ import * as SecureStore from 'expo-secure-store'
 
 import Logout from '../store/logout'
 
-const baseURL = 'http://192.168.0.115:3000'
+const baseURL = __DEV__ ? 'http://localhost:3000' : 'https://aquamind.app/api'
 const api = axios.create({
   baseURL,
   headers: {
