@@ -6,6 +6,7 @@ import { fullImageUrl } from '../../services/helper'
 import ImageBox from './imageBox'
 import { NavPropsTankDetail } from 'routes/types'
 import { TankState } from 'store/tank/types'
+import LoadingScreen from '../components/fakeLoadingScreen'
 import {
   HeaderImage,
   DetailIcon,
@@ -81,20 +82,21 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
     )
   }
 
+  if (!tank) {
+    return <LoadingScreen />
+  }
+
   return (
     <StyledScrollView>
-      <HeaderImage
-        source={tank && fullImageUrl(tank.avatar)}
-        resizeMode="cover"
-      />
-      {tank && !!tank.name && <PaperTitle>{tank.name}</PaperTitle>}
-      {tank && !!tank.born && (
+      <HeaderImage source={fullImageUrl(tank.avatar)} resizeMode="cover" />
+      {!!tank.name && <PaperTitle>{tank.name}</PaperTitle>}
+      {!!tank.born && (
         <PaperText>
           {'Created on '}
           <PaperBoldText>
-            {tank && moment(tank.born).format('dddd, MMMM Do YYYY')}
+            {moment(tank.born).format('dddd, MMMM Do YYYY')}
           </PaperBoldText>
-          {tank && !!tank.location && (
+          {!!tank.location && (
             <>
               {' in '}
               <PaperBoldText>{tank.location}</PaperBoldText>
@@ -102,10 +104,10 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
           )}
         </PaperText>
       )}
-      {tank && !!tank.location && (
+      {!!tank.location && (
         <PaperText>
           {'in '}
-          <PaperBoldText>{tank && tank.location}</PaperBoldText>
+          <PaperBoldText>{tank.location}</PaperBoldText>
         </PaperText>
       )}
       <RowView>
@@ -117,7 +119,7 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
           color={theme.colors.text}
           compact
         >
-          {tank && tank.co2 ? `${tank.co2} bubbles/sec` : 'none'}
+          {tank.co2 ? `${tank.co2} bubbles/sec` : 'none'}
         </DetailIcon>
         <DetailIcon
           icon="ceiling-light"
@@ -127,7 +129,7 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
           color={theme.colors.text}
           compact
         >
-          {tank && tank.dayLight ? `${tank.dayLight} hours` : 'none'}
+          {tank.dayLight ? `${tank.dayLight} hours` : 'none'}
         </DetailIcon>
       </RowView>
       <RowView>
@@ -139,7 +141,7 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
           color={theme.colors.text}
           compact
         >
-          {tank && !!tank.width && !!tank.height && !!tank.length
+          {!!tank.width && !!tank.height && !!tank.length
             ? `${(tank.width * tank.height * tank.length) / 100} litres`
             : 'none'}
         </DetailIcon>
@@ -151,24 +153,24 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
           color={theme.colors.text}
           compact
         >
-          {tank && !!tank.width && !!tank.height && !!tank.length
+          {!!tank.width && !!tank.height && !!tank.length
             ? `${tank.length}x${tank.width}x${tank.height} cm`
             : 'none'}
         </DetailIcon>
       </RowView>
-      {tank && !!tank.filter && (
+      {!!tank.filter && (
         <PaperText>
           {'Filter '}
           <PaperBoldText>{tank.filter}</PaperBoldText>
         </PaperText>
       )}
-      {tank && !!tank.gravel && (
+      {!!tank.gravel && (
         <PaperText>
           {'Gravel '}
           <PaperBoldText>{tank.gravel}</PaperBoldText>
         </PaperText>
       )}
-      {tank && !!tank.light && (
+      {!!tank.light && (
         <PaperText>
           {'Light '}
           <PaperBoldText>{tank.light}</PaperBoldText>
