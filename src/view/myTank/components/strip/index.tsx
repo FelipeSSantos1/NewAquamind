@@ -3,8 +3,8 @@ import moment from 'moment'
 
 import { StripProps } from './types'
 import { fullImageUrl } from '../../../../services/helper'
+import { NavPropsTank } from 'routes/types'
 import {
-  RowView,
   TankView,
   TankHeaderView,
   TankHeaderThumb,
@@ -12,36 +12,47 @@ import {
   TankHeaderTitle,
   TankHeaderText,
   ChevronIcon,
+  MainView,
 } from './styles'
 
-const Strip: React.FC<StripProps> = ({
+const Strip: React.FC<NavPropsTank & StripProps> = ({
   imageURL,
   title,
   createdAt,
   dimensions,
+  tank,
+  navigation,
 }) => {
   return (
-    <RowView>
-      <TankView>
-        <TankHeaderView>
-          <TankHeaderThumb source={fullImageUrl(imageURL)} />
-          <TankHeaderDetailView>
-            {!!title && <TankHeaderTitle>{title}</TankHeaderTitle>}
-            {!!createdAt && (
-              <TankHeaderText>{moment(createdAt).fromNow()}</TankHeaderText>
-            )}
-            {!!dimensions && (
-              <TankHeaderText>{`${dimensions} cm`}</TankHeaderText>
-            )}
-          </TankHeaderDetailView>
-        </TankHeaderView>
-      </TankView>
-      <ChevronIcon
-        icon="chevron-right"
-        hasTVPreferredFocus={undefined}
-        tvParallaxProperties={undefined}
-      />
-    </RowView>
+    <MainView
+      onPress={() =>
+        navigation.navigate('TankDetail', { tank, tankId: tank.id })
+      }
+      hasTVPreferredFocus={undefined}
+      tvParallaxProperties={undefined}
+    >
+      <>
+        <TankView>
+          <TankHeaderView>
+            <TankHeaderThumb source={fullImageUrl(imageURL)} />
+            <TankHeaderDetailView>
+              {!!title && <TankHeaderTitle>{title}</TankHeaderTitle>}
+              {!!createdAt && (
+                <TankHeaderText>{moment(createdAt).fromNow()}</TankHeaderText>
+              )}
+              {!!dimensions && (
+                <TankHeaderText>{`${dimensions} cm`}</TankHeaderText>
+              )}
+            </TankHeaderDetailView>
+          </TankHeaderView>
+        </TankView>
+        <ChevronIcon
+          icon="chevron-right"
+          hasTVPreferredFocus={undefined}
+          tvParallaxProperties={undefined}
+        />
+      </>
+    </MainView>
   )
 }
 

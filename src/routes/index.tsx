@@ -141,6 +141,13 @@ const Tank: React.FC = () => {
           title: '',
         }}
       />
+      <FeedStack.Screen
+        name="TankDetail"
+        component={TankDetailView}
+        options={{
+          title: 'Tank Detail',
+        }}
+      />
     </TankStack.Navigator>
   )
 }

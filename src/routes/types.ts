@@ -1,6 +1,8 @@
 import { NavigatorScreenParams } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import { TankState } from '../store/tank/types'
+
 export type ParamListRootStack = {
   Auth?: NavigatorScreenParams<ParamListAuthStack>
   Tabs?: NavigatorScreenParams<ParamListTabStack>
@@ -25,6 +27,7 @@ export type ParamListFeedStack = {
     }
   }
   TankDetail: {
+    tank?: TankState
     tankId: number
   }
 }
@@ -32,6 +35,10 @@ export type ParamListTankStack = {
   Tank: undefined
   AddEditTank: {
     tankId?: number
+  }
+  TankDetail: {
+    tank?: TankState
+    tankId: number
   }
 }
 // Root ************************************************************************

@@ -10,6 +10,7 @@ import {
 } from 'react-native-swipe-list'
 
 import ActionButton from './components/actionButton'
+import Header from './components/header'
 import { DimentionsString } from './types'
 import Strip from './components/strip'
 import TankRTK from '../../store/tank'
@@ -17,17 +18,16 @@ import { fullImageUrl } from '../../services/helper'
 import * as API from '../../API/tank'
 import theme from '../../theme'
 import ConfigRTK from '../../store/config'
+import { NavPropsTank } from 'routes/types'
 import {
   HeaderView,
   Avatar,
-  AddNewButton,
   HeaderTitle,
   ContentView,
   Container,
 } from './styles'
-import { NavPropsTank } from 'routes/types'
 
-const MyTank: React.FC<NavPropsTank> = ({ navigation }) => {
+const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
   const { user, tank } = useSelector((state: RootState) => state)
   const [refreshing, setRefreshing] = React.useState(false)
   const [loadingDelete, setLoadingDelete] = React.useState(false)
@@ -112,17 +112,11 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation }) => {
         <Avatar source={fullImageUrl(user.Profile.avatar)} />
       </HeaderView>
       <ContentView>
-        <HeaderTitle>{`@${user.Profile.username}`}</HeaderTitle>
-        <AddNewButton
-          mode="text"
-          icon="plus"
-          onPress={() => navigation.navigate('AddEditTank', {})}
-        >
-          Add new
-        </AddNewButton>
+        <HeaderTitle>{user.Profile.username}</HeaderTitle>
         <SwipeableFlatList
           refreshing={refreshing}
           onRefresh={() => reFetch()}
+          ListHeaderComponent={<Header navigation={navigation} route={route} />}
           ItemSeparatorComponent={() => <Divider />}
           data={tank}
           renderItem={({ item }) => (
@@ -135,6 +129,9 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation }) => {
               })}
               title={item.name}
               imageURL={item.avatar}
+              tank={item}
+              navigation={navigation}
+              route={route}
             />
           )}
           keyExtractor={index => index.id.toString()}

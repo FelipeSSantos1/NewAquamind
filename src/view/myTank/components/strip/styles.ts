@@ -1,5 +1,5 @@
 import styled from 'styled-components/native'
-import { Text, IconButton } from 'react-native-paper'
+import { Text, IconButton, TouchableRipple } from 'react-native-paper'
 
 import theme from '../../../../theme'
 
@@ -7,12 +7,14 @@ export const TankView = styled.View`
   flex: 1;
   margin-left: ${theme.sizes.pagePadding}px;
 `
-export const RowView = styled.View`
+export const MainView = styled(TouchableRipple)`
   flex-direction: row;
   background-color: ${theme.colors.surface};
   padding: ${theme.sizes.margin / 2}px 0;
 `
-export const TankHeaderView = styled(RowView)`
+export const TankHeaderView = styled.View`
+  flex-direction: row;
+  padding: ${theme.sizes.margin / 2}px 0;
   flex-direction: row;
 `
 export const TankHeaderDetailView = styled.View`

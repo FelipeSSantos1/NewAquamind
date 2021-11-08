@@ -1,5 +1,5 @@
 import styled from 'styled-components/native'
-import { Title, Button } from 'react-native-paper'
+import { Title } from 'react-native-paper'
 import theme from '../../theme'
 
 export const HeaderView = styled.View`
@@ -14,9 +14,6 @@ export const Avatar = styled.Image`
   border-color: ${theme.colors.surface};
   align-self: center;
   background-color: ${theme.colors.primary};
-`
-export const AddNewButton = styled(Button)`
-  align-self: flex-end;
 `
 export const Container = styled.View`
   flex: 1;
