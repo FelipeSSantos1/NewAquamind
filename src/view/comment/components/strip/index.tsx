@@ -3,7 +3,7 @@ import { IconButton } from 'react-native-paper'
 import moment from 'moment'
 
 import theme from '../../../../theme'
-import { baseImageUrl } from '../../../../services/constant'
+import { fullImageUrl } from '../../../../services/helper'
 import { PropsType } from './types'
 import {
   Avatar,
@@ -30,10 +30,7 @@ const Strip: React.FC<PropsType> = ({
   const liked = item.LikeComment.length > 0
   return (
     <RowView sub={sub}>
-      <Avatar
-        source={{ uri: `${baseImageUrl}/${item.Profile.avatar}` }}
-        size={30}
-      />
+      <Avatar source={fullImageUrl(item.Profile.avatar)} size={30} />
       <ContentView>
         <RowView sub={false}>
           <TextMessage>

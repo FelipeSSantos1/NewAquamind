@@ -5,7 +5,7 @@ import { Divider, IconButton } from 'react-native-paper'
 import * as Haptics from 'expo-haptics'
 import _ from 'lodash'
 
-import { baseImageUrl } from '../../services/constant'
+import { fullImageUrl } from '../../services/helper'
 import ConfigRTK from '../../store/config'
 import CommentRTK from '../../store/comment'
 import * as API from '../../API/comment'
@@ -276,10 +276,7 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
           contentContainerStyle={ContentContainerStyle.flatlist}
         />
         <RowView>
-          <PaperAvatar
-            source={{ uri: `${baseImageUrl}/${user.Profile.avatar || ''}` }}
-            size={40}
-          />
+          <PaperAvatar source={fullImageUrl(user.Profile.avatar)} size={40} />
           <PaperTextInput
             ref={inputTextRef}
             placeholder="Add a comment..."

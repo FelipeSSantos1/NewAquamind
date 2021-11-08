@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import moment from 'moment'
 
-import { baseImageUrl } from '../../services/constant'
+import { fullImageUrl } from '../../services/helper'
 import { NavPropsTankDetail } from '../../routes/types'
 import TankRTK from '../../store/tank'
 import * as tankAPI from '../../API/tank'
@@ -86,10 +86,7 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
   return (
     <StyledScrollView>
       {tank[0].avatar ? (
-        <HeaderImage
-          source={{ uri: `${baseImageUrl}/${tank[0].avatar}` }}
-          resizeMode="cover"
-        />
+        <HeaderImage source={fullImageUrl(tank[0].avatar)} resizeMode="cover" />
       ) : (
         <HeaderImage
           source={require('../../assets/Avatar.png')}

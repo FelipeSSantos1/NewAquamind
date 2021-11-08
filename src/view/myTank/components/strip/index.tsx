@@ -1,9 +1,8 @@
 import React from 'react'
 import moment from 'moment'
 
-import { baseImageUrl } from '../../../../services/constant'
 import { StripProps } from './types'
-import AvatarImg from '../../../../assets/Avatar.png'
+import { fullImageUrl } from '../../../../services/helper'
 import {
   RowView,
   TankView,
@@ -25,11 +24,7 @@ const Strip: React.FC<StripProps> = ({
     <RowView>
       <TankView>
         <TankHeaderView>
-          <TankHeaderThumb
-            source={
-              imageURL ? { uri: `${baseImageUrl}/${imageURL}` } : AvatarImg
-            }
-          />
+          <TankHeaderThumb source={fullImageUrl(imageURL)} />
           <TankHeaderDetailView>
             {!!title && <TankHeaderTitle>{title}</TankHeaderTitle>}
             {!!createdAt && (

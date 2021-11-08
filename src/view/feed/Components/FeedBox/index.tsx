@@ -7,8 +7,7 @@ import * as Haptics from 'expo-haptics'
 import produce from 'immer'
 import _ from 'lodash'
 
-import { baseImageUrl } from '../../../../services/constant'
-import defaultAvatar from '../../../../assets/Avatar.png'
+import { fullImageUrl } from '../../../../services/helper'
 import theme from '../../../../theme'
 import UserHeader from '../userHeader'
 import Footer from '../footer'
@@ -44,15 +43,10 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
       const landscape = photo.width > photo.height
       return (
         <ContentView key={photo.id}>
-          <PaperImage
-            resizeMode="cover"
-            source={{ uri: `${baseImageUrl}/${photo.url}` }}
-          />
+          <PaperImage resizeMode="cover" source={fullImageUrl(photo.url)} />
           <BlurBackground intensity={100}>
             <Image
-              source={{
-                uri: `${baseImageUrl}/${photo.url}`,
-              }}
+              source={fullImageUrl(photo.url)}
               style={{
                 width: landscape ? width : imageWidth,
                 height: landscape ? imageHeight : width,
@@ -128,7 +122,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
     <>
       <UserHeader
         userName={feed.Profile.username}
-        url={feed.Profile?.avatar || defaultAvatar}
+        url={fullImageUrl(feed.Profile?.avatar)}
         dimensions={dimentions()}
         date={feed.createdAt}
         navigation={navigation}

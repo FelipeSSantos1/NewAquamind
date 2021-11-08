@@ -13,9 +13,8 @@ import ActionButton from './components/actionButton'
 import { DimentionsString } from './types'
 import Strip from './components/strip'
 import TankRTK from '../../store/tank'
-import { baseImageUrl } from '../../services/constant'
+import { fullImageUrl } from '../../services/helper'
 import * as API from '../../API/tank'
-import AvatarImg from '../../assets/Avatar.png'
 import theme from '../../theme'
 import ConfigRTK from '../../store/config'
 import {
@@ -110,13 +109,7 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation }) => {
   return (
     <Container>
       <HeaderView>
-        <Avatar
-          source={
-            user.Profile.avatar
-              ? { uri: `${baseImageUrl}/${user.Profile.avatar}` }
-              : AvatarImg
-          }
-        />
+        <Avatar source={fullImageUrl(user.Profile.avatar)} />
       </HeaderView>
       <ContentView>
         <HeaderTitle>{`@${user.Profile.username}`}</HeaderTitle>
