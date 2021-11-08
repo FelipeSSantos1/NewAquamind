@@ -122,7 +122,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
     <>
       <UserHeader
         userName={feed.Profile.username}
-        url={fullImageUrl(feed.Profile?.avatar)}
+        url={feed.Profile?.avatar}
         dimensions={dimentions()}
         date={feed.createdAt}
         navigation={navigation}
