@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
-import { LayoutAnimation } from 'react-native'
 import * as Haptics from 'expo-haptics'
 import { Divider } from 'react-native-paper'
 import {
@@ -156,9 +155,6 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation }) => {
                     icon="delete-outline"
                     label="Delete"
                     onPress={() => {
-                      LayoutAnimation.configureNext(
-                        LayoutAnimation.Presets.easeInEaseOut
-                      )
                       handleDeleteTank(item.id, item.name)
                     }}
                   />

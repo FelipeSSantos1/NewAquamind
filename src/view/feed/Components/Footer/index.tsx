@@ -1,5 +1,6 @@
 import React from 'react'
 import { Button, IconButton } from 'react-native-paper'
+import { Pressable } from 'react-native'
 import * as Haptics from 'expo-haptics'
 import produce from 'immer'
 import _ from 'lodash'
@@ -249,7 +250,11 @@ const Footer: React.FC<FooterProps> = ({
         </Text>
       )}
       <Text>{textLikes}</Text>
-      <Text>{textComments}</Text>
+      <Pressable
+        onPress={() => navigation.navigate('Comment', { postId: feedId })}
+      >
+        <Text>{textComments}</Text>
+      </Pressable>
     </>
   )
 }

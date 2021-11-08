@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import { Platform } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import * as ImagePicker from 'expo-image-picker'
+import { LayoutAnimation } from 'react-native'
 import _ from 'lodash'
 import { Image } from 'react-native-compressor'
 
@@ -36,6 +37,7 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
   useEffect(() => {
     const { photo } = route.params
     setImages([photo])
+    dispatch(TankRTK.actions.logout())
     const fetchTank = async () => {
       const response = await API.getAllByUser()
 
@@ -69,6 +71,7 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
     })
 
     if (!result.cancelled) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
       setImages([
         ...images,
         { uri: result.uri, height: result.height, width: result.width },
@@ -81,6 +84,7 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
       const newImages = _.filter(images, image => {
         return image.uri !== selectedImage
       })
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
       setImages(newImages)
     }
 

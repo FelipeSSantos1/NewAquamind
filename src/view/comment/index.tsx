@@ -59,6 +59,7 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
   }, [dispatch, postId])
 
   useEffect(() => {
+    dispatch(CommentRTK.actions.logout())
     fetch()
   }, [dispatch, fetch, postId])
 
