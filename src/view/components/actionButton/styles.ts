@@ -1,7 +1,7 @@
 import styled from 'styled-components/native'
 import { Text, IconButton, TouchableRipple } from 'react-native-paper'
 
-import theme from '../../../../theme'
+import theme from '../../../theme'
 import { DeleteProps } from './types'
 
 export const StyledActionButton = styled(TouchableRipple)<DeleteProps>`

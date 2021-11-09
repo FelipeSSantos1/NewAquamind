@@ -16,6 +16,8 @@ import TankView from '../view/myTank'
 import CreatePostView from '../view/createPost'
 import TankDetailView from '../view/tankDetail'
 import AddEditTankView from '../view/addEditTank'
+import AddFertilizerView from '../view/addFertilizer'
+// import AddPlantView from '../view/addPlant'
 import ConfigRTK from '../store/config'
 import theme from '../theme'
 import {
@@ -141,11 +143,19 @@ const Tank: React.FC = () => {
           title: '',
         }}
       />
-      <FeedStack.Screen
+      <TankStack.Screen
         name="TankDetail"
         component={TankDetailView}
         options={{
           title: 'Tank Detail',
+        }}
+      />
+      <TankStack.Screen
+        name="FertilizerList"
+        component={AddFertilizerView}
+        options={{
+          title: 'Add Fertilizer',
+          presentation: 'modal',
         }}
       />
     </TankStack.Navigator>

@@ -5,10 +5,8 @@ import config from './config'
 import feed from './feed'
 import comment from './comment'
 import tank from './tank'
-// import tanks from './tanks'
-// import plants from './plants'
-// import fertilizers from './fertilizers'
-// import feed from './feed'
+import fertilizer from './fertilizer'
+import plant from './plant'
 
 export const rootReducer = combineReducers({
   user: user.reducer,
@@ -16,6 +14,8 @@ export const rootReducer = combineReducers({
   feed: feed.reducer,
   comment: comment.reducer,
   tank: tank.reducer,
+  fertilizer: fertilizer.reducer,
+  plant: plant.reducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>

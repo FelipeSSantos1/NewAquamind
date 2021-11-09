@@ -1,6 +1,6 @@
 import React from 'react'
 
-import theme from '../../../../theme'
+import theme from '../../../theme'
 import { ActionButtonProps } from './types'
 import { StyledActionButton, Icon, ActionButtonText } from './styles'
 const ActionButton: React.FC<ActionButtonProps> = ({

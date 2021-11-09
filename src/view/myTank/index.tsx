@@ -9,7 +9,7 @@ import {
   SwipeableQuickActions,
 } from 'react-native-swipe-list'
 
-import ActionButton from './components/actionButton'
+import ActionButton from '../components/actionButton'
 import Header from './components/header'
 import { DimentionsString } from './types'
 import Strip from './components/strip'

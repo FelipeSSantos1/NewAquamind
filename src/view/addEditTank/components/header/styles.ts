@@ -8,6 +8,7 @@ export const HeaderView = styled(TouchableRipple)`
   background-color: ${theme.colors.primary};
   align-items: center;
   justify-content: center;
+  margin-top: ${theme.sizes.margin}px;
 `
 export const RowView = styled.View`
   flex-direction: row;

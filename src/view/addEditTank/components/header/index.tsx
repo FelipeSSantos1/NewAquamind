@@ -1,13 +1,13 @@
 import React from 'react'
 
-import { NavPropsTank } from 'routes/types'
+import { HeaderProps } from './types'
 import theme from '../../../../theme'
 import { RowView, HeaderView, PaperText, PaperIconButton } from './styles'
 
-const Header: React.FC<NavPropsTank> = ({ navigation }) => {
+const Header: React.FC<HeaderProps> = ({ title, onPress }) => {
   return (
     <HeaderView
-      onPress={() => navigation.navigate('AddEditTank', {})}
+      onPress={() => onPress()}
       underlayColor={theme.colors.text}
       hasTVPreferredFocus={undefined}
       tvParallaxProperties={undefined}
@@ -19,7 +19,7 @@ const Header: React.FC<NavPropsTank> = ({ navigation }) => {
           hasTVPreferredFocus={undefined}
           tvParallaxProperties={undefined}
         />
-        <PaperText>New Tank</PaperText>
+        <PaperText>{title}</PaperText>
       </RowView>
     </HeaderView>
   )

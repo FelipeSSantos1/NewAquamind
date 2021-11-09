@@ -1,6 +1,7 @@
 import { NavigatorScreenParams } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
+import { PlantListType } from '../view/addEditTank/types'
 import { TankState } from '../store/tank/types'
 
 export type ParamListRootStack = {
@@ -35,11 +36,19 @@ export type ParamListTankStack = {
   Tank: undefined
   AddEditTank: {
     tankId?: number
+    fertilizers?: {
+      id: number
+      name: string
+      dose: string
+    }
+    plants?: PlantListType[]
   }
   TankDetail: {
     tank?: TankState
     tankId: number
   }
+  FertilizerList: undefined
+  PlantList: undefined
 }
 // Root ************************************************************************
 export type NavPropsAuth = NativeStackScreenProps<ParamListRootStack, 'Auth'>
@@ -85,4 +94,12 @@ export type NavPropsTank = NativeStackScreenProps<ParamListTankStack, 'Tank'>
 export type NavPropsAddEditTank = NativeStackScreenProps<
   ParamListTankStack,
   'AddEditTank'
+>
+export type NavPropsFertilizerList = NativeStackScreenProps<
+  ParamListTankStack,
+  'FertilizerList'
+>
+export type NavPropsPlantList = NativeStackScreenProps<
+  ParamListTankStack,
+  'PlantList'
 >

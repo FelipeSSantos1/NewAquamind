@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react'
-import { Platform } from 'react-native'
+import { Platform, LayoutAnimation } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import * as ImagePicker from 'expo-image-picker'
-import { LayoutAnimation } from 'react-native'
 import _ from 'lodash'
 import { Image } from 'react-native-compressor'
 

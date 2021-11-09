@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux'
 import { Platform } from 'react-native'
 import * as Device from 'expo-device'
 import * as Network from 'expo-network'
+import { Formik, FormikHelpers } from 'formik'
 
 import { NavPropsForgotPassword } from '../../routes/types'
 import * as authAPI from '../../API/auth'
@@ -23,7 +24,6 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from './styles'
-import { Formik, FormikHelpers } from 'formik'
 
 const ForgotPassword: React.FC<NavPropsForgotPassword> = ({ navigation }) => {
   const dispatch = useDispatch()
