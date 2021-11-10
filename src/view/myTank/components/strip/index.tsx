@@ -1,5 +1,6 @@
 import React from 'react'
 import moment from 'moment'
+import { Divider } from 'react-native-paper'
 
 import { StripProps } from './types'
 import { fullImageUrl } from '../../../../services/helper'
@@ -115,6 +116,7 @@ const Strip: React.FC<NavPropsTank & StripProps> = ({
           </SpecButton>
         </FooterView>
       )}
+      <Divider />
     </Container>
   )
 }

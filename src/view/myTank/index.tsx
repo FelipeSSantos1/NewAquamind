@@ -116,32 +116,27 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
 
   const renderTanks = () => {
     return _.map(tank, (item, index) => (
-      <>
-        <Strip
-          key={`tank-${index}`}
-          createdAt={item.born || null}
-          dimensions={dimentions({
-            height: item.height,
-            length: item.length,
-            width: item.width,
-          })}
-          title={item.name}
-          imageURL={item.avatar}
-          tank={item}
-          navigation={navigation}
-          route={route}
-          onDelete={() => {
-            handleDeleteTank(item.id, item.name, index)
-          }}
-          onUpdate={() =>
-            navigation.navigate('AddEditTank', { tankId: item.id })
-          }
-          loadingDelete={loadingDelete}
-          actionActive={actionActive[index]}
-          setActionActive={() => togleActionActive(index, !actionActive[index])}
-        />
-        <Divider key={`divider-${index}`} />
-      </>
+      <Strip
+        key={`tank-${index}`}
+        createdAt={item.born || null}
+        dimensions={dimentions({
+          height: item.height,
+          length: item.length,
+          width: item.width,
+        })}
+        title={item.name}
+        imageURL={item.avatar}
+        tank={item}
+        navigation={navigation}
+        route={route}
+        onDelete={() => {
+          handleDeleteTank(item.id, item.name, index)
+        }}
+        onUpdate={() => navigation.navigate('AddEditTank', { tankId: item.id })}
+        loadingDelete={loadingDelete}
+        actionActive={actionActive[index]}
+        setActionActive={() => togleActionActive(index, !actionActive[index])}
+      />
     ))
   }
 
