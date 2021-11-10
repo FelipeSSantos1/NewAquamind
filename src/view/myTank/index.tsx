@@ -2,21 +2,15 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
 import * as Haptics from 'expo-haptics'
+import { ScrollView, RefreshControl, LayoutAnimation } from 'react-native'
 import { Divider } from 'react-native-paper'
-import {
-  SwipeableFlatList,
-  SwipeableQuickActionButton,
-  SwipeableQuickActions,
-} from 'react-native-swipe-list'
 
-import ActionButton from '../components/actionButton'
 import Header from './components/header'
 import { DimentionsString } from './types'
 import Strip from './components/strip'
 import TankRTK from '../../store/tank'
 import { fullImageUrl } from '../../services/helper'
 import * as API from '../../API/tank'
-import theme from '../../theme'
 import ConfigRTK from '../../store/config'
 import { NavPropsTank } from 'routes/types'
 import {
@@ -26,11 +20,13 @@ import {
   ContentView,
   Container,
 } from './styles'
+import _ from 'lodash'
 
 const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
   const { user, tank } = useSelector((state: RootState) => state)
   const [refreshing, setRefreshing] = React.useState(false)
   const [loadingDelete, setLoadingDelete] = React.useState(false)
+  const [actionActive, setActionActive] = React.useState<boolean[]>([])
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -106,6 +102,44 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
     }
   }
 
+  const togleActionActive = (index: number, value: boolean) => {
+    const newActionActive = [...actionActive]
+    newActionActive[index] = value
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    setActionActive(newActionActive)
+  }
+
+  const renderTanks = () => {
+    return _.map(tank, (item, index) => (
+      <>
+        <Strip
+          key={`tank-${index}`}
+          createdAt={item.born || null}
+          dimensions={dimentions({
+            height: item.height,
+            length: item.length,
+            width: item.width,
+          })}
+          title={item.name}
+          imageURL={item.avatar}
+          tank={item}
+          navigation={navigation}
+          route={route}
+          onDelete={() => {
+            handleDeleteTank(item.id, item.name)
+          }}
+          onUpdate={() =>
+            navigation.navigate('AddEditTank', { tankId: item.id })
+          }
+          loadingDelete={loadingDelete}
+          actionActive={actionActive[index]}
+          setActionActive={() => togleActionActive(index, !actionActive[index])}
+        />
+        <Divider key={`divider-${index}`} />
+      </>
+    ))
+  }
+
   return (
     <Container>
       <HeaderView>
@@ -113,60 +147,14 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
       </HeaderView>
       <ContentView>
         <HeaderTitle>{user.Profile.username}</HeaderTitle>
-        <SwipeableFlatList
-          refreshing={refreshing}
-          onRefresh={() => reFetch()}
-          ListHeaderComponent={<Header navigation={navigation} route={route} />}
-          ItemSeparatorComponent={() => <Divider />}
-          data={tank}
-          renderItem={({ item }) => (
-            <Strip
-              createdAt={item.born || null}
-              dimensions={dimentions({
-                height: item.height,
-                length: item.length,
-                width: item.width,
-              })}
-              title={item.name}
-              imageURL={item.avatar}
-              tank={item}
-              navigation={navigation}
-              route={route}
-            />
-          )}
-          keyExtractor={index => index.id.toString()}
-          renderRightActions={({ item }) => (
-            <SwipeableQuickActions>
-              <SwipeableQuickActionButton
-                text={
-                  <ActionButton
-                    bkgColor={theme.colors.error}
-                    disabled={loadingDelete}
-                    icon="delete-outline"
-                    label="Delete"
-                    onPress={() => {
-                      handleDeleteTank(item.id, item.name)
-                    }}
-                  />
-                }
-                style={{ backgroundColor: theme.colors.error }}
-              />
-              <SwipeableQuickActionButton
-                text={
-                  <ActionButton
-                    bkgColor={theme.colors.text}
-                    icon="square-edit-outline"
-                    label="Update"
-                    onPress={() =>
-                      navigation.navigate('AddEditTank', { tankId: item.id })
-                    }
-                  />
-                }
-                style={{ backgroundColor: theme.colors.text }}
-              />
-            </SwipeableQuickActions>
-          )}
-        />
+        <ScrollView
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={reFetch} />
+          }
+        >
+          <Header navigation={navigation} route={route} />
+          {renderTanks()}
+        </ScrollView>
       </ContentView>
     </Container>
   )

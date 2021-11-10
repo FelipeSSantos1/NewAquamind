@@ -6,4 +6,9 @@ export type StripProps = {
   dimensions: string
   imageURL?: string | null
   tank: TankState
+  onDelete: CallableFunction
+  onUpdate: CallableFunction
+  loadingDelete: boolean
+  actionActive: boolean
+  setActionActive: CallableFunction
 }

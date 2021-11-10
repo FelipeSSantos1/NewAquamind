@@ -28,21 +28,31 @@ const Footer: React.FC<FooterProps> = ({
 }) => {
   const dispatch = useDispatch()
   const [deleting, setDeleting] = React.useState(false)
-  let textLikes = 'no likes'
-  if (likes > 1) {
-    textLikes = `${likes} likes`
-  }
-  if (likes === 1) {
-    textLikes = `${likes} like`
-  }
+  const [textLikes, setTextLikes] = React.useState('no likes')
+  const [textComments, setTextComments] = React.useState('no comments')
 
-  let textComments = 'no comments'
-  if (comments > 1) {
-    textComments = `${comments} comments`
-  }
-  if (comments === 1) {
-    textComments = `${comments} comment`
-  }
+  React.useEffect(() => {
+    if (likes > 1) {
+      setTextLikes(`${likes} likes`)
+      return
+    }
+    if (likes === 1) {
+      setTextLikes(`${likes} like`)
+      return
+    }
+    setTextLikes('no likes')
+  }, [likes])
+  React.useEffect(() => {
+    if (comments > 1) {
+      setTextComments(`${comments} comments`)
+      return
+    }
+    if (comments === 1) {
+      setTextComments(`${comments} comment`)
+      return
+    }
+    setTextComments('no comments')
+  }, [comments])
 
   const likePost = async () => {
     const postIndex = _.findIndex(feeds, { id: feedId })
@@ -55,7 +65,6 @@ const Footer: React.FC<FooterProps> = ({
       ]
       feeds[postIndex]._count.LikePost += 1
     })
-    dispatch(FeedRTK.actions.logout())
     dispatch(FeedRTK.actions.setFeed(newFeed))
 
     const response = await API.likePost(feedId)
@@ -65,7 +74,6 @@ const Footer: React.FC<FooterProps> = ({
         draft[postIndex].LikePost = []
         feeds[postIndex]._count.LikePost -= 1
       })
-      dispatch(FeedRTK.actions.logout())
       dispatch(FeedRTK.actions.setFeed(newFeedError))
       return
     }
@@ -75,7 +83,6 @@ const Footer: React.FC<FooterProps> = ({
         draft[postIndex].LikePost = []
         feeds[postIndex]._count.LikePost -= 1
       })
-      dispatch(FeedRTK.actions.logout())
       dispatch(FeedRTK.actions.setFeed(newFeedError))
 
       dispatch(
@@ -97,7 +104,6 @@ const Footer: React.FC<FooterProps> = ({
       draft[postIndex].LikePost = []
       feeds[postIndex]._count.LikePost -= 1
     })
-    dispatch(FeedRTK.actions.logout())
     dispatch(FeedRTK.actions.setFeed(newFeed))
 
     const response = await API.dislikePost(feedId)
@@ -112,7 +118,6 @@ const Footer: React.FC<FooterProps> = ({
         ]
         feeds[postIndex]._count.LikePost += 1
       })
-      dispatch(FeedRTK.actions.logout())
       dispatch(FeedRTK.actions.setFeed(newFeedError))
       return
     }
@@ -127,7 +132,6 @@ const Footer: React.FC<FooterProps> = ({
         ]
         feeds[postIndex]._count.LikePost += 1
       })
-      dispatch(FeedRTK.actions.logout())
       dispatch(FeedRTK.actions.setFeed(newFeedError))
 
       dispatch(
@@ -217,7 +221,7 @@ const Footer: React.FC<FooterProps> = ({
         <RowView>
           {tankId && profileId !== user.profileId && (
             <Button
-              icon="fishbowl-outline"
+              icon="information-outline"
               mode="text"
               color={theme.colors.text}
               compact

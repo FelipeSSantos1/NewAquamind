@@ -74,7 +74,6 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
       ]
       feeds[postIndex]._count.LikePost += 1
     })
-    dispatch(FeedRTK.actions.logout())
     dispatch(FeedRTK.actions.setFeed(newFeed))
 
     const response = await API.likePost(feedId)
@@ -84,7 +83,6 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
         draft[postIndex].LikePost = []
         feeds[postIndex]._count.LikePost -= 1
       })
-      dispatch(FeedRTK.actions.logout())
       dispatch(FeedRTK.actions.setFeed(newFeedError))
 
       return
@@ -95,7 +93,6 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
         draft[postIndex].LikePost = []
         feeds[postIndex]._count.LikePost -= 1
       })
-      dispatch(FeedRTK.actions.logout())
       dispatch(FeedRTK.actions.setFeed(newFeedError))
 
       dispatch(
