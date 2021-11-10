@@ -52,7 +52,7 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
     dispatch(TankRTK.actions.setTank(response))
   }
 
-  const handleDeleteTank = (id: number, name: string) => {
+  const handleDeleteTank = (id: number, name: string, index: number) => {
     dispatch(
       ConfigRTK.actions.setAlert({
         visible: true,
@@ -60,12 +60,12 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
         alertMessage: `Are you sure you want to delete "${name}" tank?`,
         okText: 'Yes',
         cancelText: 'No',
-        okPress: () => deleteTank(id),
+        okPress: () => deleteTank(id, index),
       })
     )
   }
 
-  const deleteTank = async (id: number) => {
+  const deleteTank = async (id: number, index: number) => {
     setLoadingDelete(true)
     setRefreshing(true)
     const response = await API.deleteTank(id)
@@ -89,6 +89,7 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
       )
       return
     }
+    togleActionActive(index, false)
     await reFetch()
     setLoadingDelete(false)
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
@@ -126,7 +127,7 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
           navigation={navigation}
           route={route}
           onDelete={() => {
-            handleDeleteTank(item.id, item.name)
+            handleDeleteTank(item.id, item.name, index)
           }}
           onUpdate={() =>
             navigation.navigate('AddEditTank', { tankId: item.id })
