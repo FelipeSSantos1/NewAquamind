@@ -49,6 +49,7 @@ export const StripFlatList = styled.View`
   background-color: ${theme.colors.surface};
   border-bottom-color: ${theme.colors.disabled};
   border-bottom-width: ${StyleSheet.hairlineWidth}px;
+  min-height: 51px;
 `
 export const Icon = styled(IconButton)`
   margin-right: ${theme.sizes.margin}px;
