@@ -1,5 +1,6 @@
 import React from 'react'
 import { Paragraph } from 'react-native-paper'
+import { LayoutAnimation } from 'react-native'
 
 import { formValidation } from './types'
 import Input from '../../../components/input'
@@ -61,7 +62,15 @@ const SelectDose: React.FC<NavPropsFertilizerList & SelectDoseProps> = ({
             error={errors.dose ? errors.dose : undefined}
           />
           <ViewRow>
-            <Button color={theme.colors.error} onPress={() => onDismiss(false)}>
+            <Button
+              color={theme.colors.error}
+              onPress={() => {
+                LayoutAnimation.configureNext(
+                  LayoutAnimation.Presets.easeInEaseOut
+                )
+                onDismiss(false)
+              }}
+            >
               Cancel
             </Button>
             <Button onPress={handleSubmit} disabled={!isValid}>

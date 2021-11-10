@@ -106,7 +106,11 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
   const togleActionActive = (index: number, value: boolean) => {
     const newActionActive = [...actionActive]
     newActionActive[index] = value
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    LayoutAnimation.configureNext(
+      value
+        ? LayoutAnimation.Presets.spring
+        : LayoutAnimation.Presets.easeInEaseOut
+    )
     setActionActive(newActionActive)
   }
 

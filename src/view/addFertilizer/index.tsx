@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { TouchableRipple, Divider } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux'
-import { FlatList } from 'react-native'
+import { FlatList, LayoutAnimation } from 'react-native'
 import _ from 'lodash'
 
 import * as API from '../../API/fertilizer'
@@ -46,6 +46,7 @@ const AddFertilizer: React.FC<NavPropsFertilizerList> = ({
   const handleClick = ({ id, name }: handleClickProps) => {
     setFertilizerId(id)
     setFertilizerName(name)
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
     setSelectDoseAlert(true)
   }
 

@@ -70,7 +70,7 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
     })
 
     if (!result.cancelled) {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
       setImages([
         ...images,
         { uri: result.uri, height: result.height, width: result.width },
