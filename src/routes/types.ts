@@ -40,8 +40,13 @@ export type ParamListTankStack = {
       id: number
       name: string
       dose: string
+      avatar: string | null
     }
-    plants?: PlantListType[]
+    plants?: {
+      id: number
+      name: string
+      avatar: string | null
+    }
   }
   TankDetail: {
     tank?: TankState

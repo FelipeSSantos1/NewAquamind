@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
 import * as Haptics from 'expo-haptics'
 import { ScrollView, RefreshControl, LayoutAnimation } from 'react-native'
-import { Divider } from 'react-native-paper'
 
 import Header from './components/header'
 import { DimentionsString } from './types'

@@ -52,8 +52,10 @@ export type FertilizerListType = {
   id: number
   name: string
   dose: string
+  avatar: string | null
 }
 export type PlantListType = {
-  plantId: number
+  id: number
   name: string
+  avatar: string | null
 }

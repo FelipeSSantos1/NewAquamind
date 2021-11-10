@@ -9,9 +9,10 @@ import FertilizerRTK from '../../store/fertilizer'
 import { FertilizerState } from '../../store/fertilizer/types'
 import { NavPropsFertilizerList } from '../../routes/types'
 import { RootState } from '../../store/rootReducer'
-import theme from '../../theme'
 import SelectDose from './components/selectDose'
-import { MainView, Searchbar, Text, Icon, RowView } from './styles'
+import { MainView, Searchbar, Text, RowView, ThumbImage } from './styles'
+import { fullImageUrl } from '../../services/helper'
+import { handleClickProps } from './types'
 
 const AddFertilizer: React.FC<NavPropsFertilizerList> = ({
   route,
@@ -22,6 +23,7 @@ const AddFertilizer: React.FC<NavPropsFertilizerList> = ({
   const [selectDoseAlert, setSelectDoseAlert] = useState(false)
   const [fertilizerId, setFertilizerId] = useState(0)
   const [fertilizerName, setFertilizerName] = useState('')
+  const [fertilizerAvatar, setFertilizerAvatar] = useState<string | null>(null)
   const { fertilizer } = useSelector((state: RootState) => state)
 
   useEffect(() => {
@@ -39,30 +41,25 @@ const AddFertilizer: React.FC<NavPropsFertilizerList> = ({
     setSearch(text)
   }
 
-  type handleClickProps = {
-    id: number
-    name: string
-  }
-  const handleClick = ({ id, name }: handleClickProps) => {
+  const handleClick = ({ id, name, avatar }: handleClickProps) => {
     setFertilizerId(id)
     setFertilizerName(name)
+    setFertilizerAvatar(avatar)
+
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
     setSelectDoseAlert(true)
   }
 
   const renderList = (item: FertilizerState) => (
     <TouchableRipple
-      onPress={() => handleClick({ id: item.id, name: item.name })}
+      onPress={() =>
+        handleClick({ id: item.id, name: item.name, avatar: item.avatar })
+      }
       hasTVPreferredFocus={undefined}
       tvParallaxProperties={undefined}
     >
       <RowView>
-        <Icon
-          icon="water-outline"
-          color={theme.colors.primary}
-          hasTVPreferredFocus={undefined}
-          tvParallaxProperties={undefined}
-        />
+        <ThumbImage source={fullImageUrl(item.avatar)} resizeMode="contain" />
         <Text>{item.name}</Text>
       </RowView>
     </TouchableRipple>
@@ -76,6 +73,7 @@ const AddFertilizer: React.FC<NavPropsFertilizerList> = ({
         onDismiss={setSelectDoseAlert}
         fertilizerId={fertilizerId}
         fertilizerName={fertilizerName}
+        avatar={fertilizerAvatar}
         navigation={navigation}
         route={route}
       />

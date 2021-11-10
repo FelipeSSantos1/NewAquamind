@@ -1,2 +1,1 @@
-export const baseImageUrl =
-  'https://aquamindassets.fra1.cdn.digitaloceanspaces.com'
+export const baseImageUrl = 'https://assets.aquamind.app'

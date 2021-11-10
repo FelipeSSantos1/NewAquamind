@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { Platform, View, LayoutAnimation } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { Formik } from 'formik'
-import { TouchableRipple, Divider } from 'react-native-paper'
+import { TouchableRipple } from 'react-native-paper'
 import _ from 'lodash'
 
 import ConfigRTK from '../../store/config'
@@ -33,6 +33,7 @@ import {
   StripFlatList,
   Icon,
   RowViewSpaceBetween,
+  ThumbImageList,
 } from './styles'
 
 const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
@@ -66,6 +67,24 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
     }
   }, [navigation, route.params.tankId])
 
+  useEffect(() => {
+    if (route.params.plants) {
+      const plantToAdd = route.params.plants
+      if (plants.length > 0 && !!_.find(plants, { id: plantToAdd.id })) {
+        dispatch(
+          ConfigRTK.actions.setAlert({
+            visible: true,
+            alertTitle: 'Oops!',
+            alertMessage: `You already have ${plantToAdd.name} added to your tank`,
+            okText: 'Ok',
+          })
+        )
+        return
+      }
+      setPlants([...plants, route.params.plants])
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [route.params.plants])
   useEffect(() => {
     if (route.params.fertilizers) {
       const fertilizerToAdd = route.params.fertilizers
@@ -102,38 +121,52 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     setFertilizers(_.filter(fertilizers, item => item.id !== id))
   }
+  const removePlant = (id: number) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    setPlants(_.filter(plants, item => item.id !== id))
+  }
 
   const renderFertilizerList = () => {
     return _.map(fertilizers, (fertilizer, index) => (
       <StripFlatList key={`fert-${index}`}>
-        <>
-          <RowViewSpaceBetween>
-            <RowView>
-              <Icon
-                icon="water-outline"
-                color={theme.colors.primary}
-                hasTVPreferredFocus={undefined}
-                tvParallaxProperties={undefined}
-              />
-              <FlatListText>{fertilizer.name}</FlatListText>
-            </RowView>
-            <Icon
-              icon="delete-outline"
-              onPress={() => removeFertilizer(fertilizer.id)}
-              color={theme.colors.error}
-              hasTVPreferredFocus={undefined}
-              tvParallaxProperties={undefined}
+        <RowViewSpaceBetween>
+          <RowView>
+            <ThumbImageList
+              source={fullImageUrl(fertilizer.avatar)}
+              resizeMode="contain"
             />
-          </RowViewSpaceBetween>
-          <Divider />
-        </>
+            <FlatListText>{fertilizer.name}</FlatListText>
+          </RowView>
+          <Icon
+            icon="delete-outline"
+            onPress={() => removeFertilizer(fertilizer.id)}
+            color={theme.colors.error}
+            hasTVPreferredFocus={undefined}
+            tvParallaxProperties={undefined}
+          />
+        </RowViewSpaceBetween>
       </StripFlatList>
     ))
   }
   const renderPlantList = () => {
     return _.map(plants, (plant, index) => (
       <StripFlatList key={`fert-${index}`}>
-        <FlatListText>{plant.plantId}</FlatListText>
+        <RowViewSpaceBetween>
+          <RowView>
+            <ThumbImageList
+              source={fullImageUrl(plant.avatar)}
+              resizeMode="contain"
+            />
+            <FlatListText>{plant.name}</FlatListText>
+          </RowView>
+          <Icon
+            icon="delete-outline"
+            onPress={() => removePlant(plant.id)}
+            color={theme.colors.error}
+            hasTVPreferredFocus={undefined}
+            tvParallaxProperties={undefined}
+          />
+        </RowViewSpaceBetween>
       </StripFlatList>
     ))
   }
@@ -142,11 +175,11 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
     return <LoadingScreen />
   }
   return (
-    <PaperKeyboardAvoidingView
-      keyboardVerticalOffset={Platform.OS === 'ios' ? 92 : 0}
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
-      <Container>
+    <Container>
+      <PaperKeyboardAvoidingView
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 92 : 0}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
         <Formik
           initialValues={initialValues}
           onSubmit={values => upsertTank(values)}
@@ -321,8 +354,8 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
             </>
           )}
         </Formik>
-      </Container>
-    </PaperKeyboardAvoidingView>
+      </PaperKeyboardAvoidingView>
+    </Container>
   )
 }
 

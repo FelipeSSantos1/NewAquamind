@@ -16,6 +16,7 @@ const SelectDose: React.FC<NavPropsFertilizerList & SelectDoseProps> = ({
   fertilizerId,
   fertilizerName,
   onDismiss,
+  avatar,
 }) => {
   const save = async ({ dose }: FormData) => {
     onDismiss(false)
@@ -23,6 +24,7 @@ const SelectDose: React.FC<NavPropsFertilizerList & SelectDoseProps> = ({
       id: fertilizerId,
       name: fertilizerName,
       dose,
+      avatar,
     }
     navigation.navigate('AddEditTank', {
       fertilizers: {

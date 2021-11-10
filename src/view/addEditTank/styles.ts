@@ -1,5 +1,7 @@
 import styled from 'styled-components/native'
+import { StyleSheet } from 'react-native'
 import { Button, Text, IconButton } from 'react-native-paper'
+import FastImage from 'react-native-fast-image'
 
 import { SmallTextProps } from './types'
 import theme from '../../theme'
@@ -44,9 +46,9 @@ export const TankMeasurementImage = styled.Image`
   flex: 1;
 `
 export const StripFlatList = styled.View`
-  flex-direction: row;
   background-color: ${theme.colors.surface};
-  padding: ${theme.sizes.margin}px 0;
+  border-bottom-color: ${theme.colors.disabled};
+  border-bottom-width: ${StyleSheet.hairlineWidth}px;
 `
 export const Icon = styled(IconButton)`
   margin-right: ${theme.sizes.margin}px;
@@ -55,4 +57,11 @@ export const RowViewSpaceBetween = styled.View`
   flex: 1;
   flex-direction: row;
   justify-content: space-between;
+`
+export const ThumbImageList = styled(FastImage)`
+  width: ${50}px;
+  height: ${50}px;
+  border-radius: ${theme.roundness}px;
+  align-self: flex-start;
+  margin-right: ${theme.sizes.margin}px;
 `

@@ -1,5 +1,5 @@
 import styled from 'styled-components/native'
-import { Title, IconButton, TouchableRipple } from 'react-native-paper'
+import { IconButton, TouchableRipple, Text } from 'react-native-paper'
 
 import theme from '../../../../theme'
 
@@ -9,6 +9,7 @@ export const HeaderView = styled(TouchableRipple)`
   align-items: center;
   justify-content: center;
   margin-top: ${theme.sizes.margin}px;
+  max-height: 40px;
 `
 export const RowView = styled.View`
   flex-direction: row;
@@ -16,7 +17,6 @@ export const RowView = styled.View`
 `
 
 export const PaperIconButton = styled(IconButton)``
-export const PaperText = styled(Title)`
+export const PaperText = styled(Text)`
   color: ${theme.colors.surface};
-  font-weight: ${theme.fonts.light.fontWeight};
 `

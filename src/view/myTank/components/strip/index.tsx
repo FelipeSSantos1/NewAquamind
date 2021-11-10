@@ -111,7 +111,7 @@ const Strip: React.FC<NavPropsTank & StripProps> = ({
               hasTVPreferredFocus={undefined}
               tvParallaxProperties={undefined}
             >
-              Tank Spec
+              Spec
             </Icon>
           </SpecButton>
         </FooterView>

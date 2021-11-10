@@ -11,11 +11,7 @@ export type SelectDoseProps = {
   onDismiss: CallableFunction
   fertilizerId: number
   fertilizerName: string
-  // fertilizerData: {
-  //   id: number
-  //   name: string
-  //   dose: string
-  // }[]
+  avatar: string | null
 }
 export type FormData = {
   dose: string
