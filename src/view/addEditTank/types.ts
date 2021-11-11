@@ -22,7 +22,7 @@ export const formValidation = yup.object().shape({
     .required('required'),
   light: yup.string(),
   substrate: yup.string(),
-  co2: yup.string().matches(/^(\d{0,1}|(\d\.\d))$/, 'between 0 and 9.9'),
+  co2: yup.string().matches(/^(\d{0,1}|(\d\d))$/, 'between 0 and 99'),
   dayLight: yup.string().matches(/^(\d{0,1}|(\d\.\d))$/, 'between 0 and 9.9'),
   filter: yup.string(),
   description: yup.string(),
