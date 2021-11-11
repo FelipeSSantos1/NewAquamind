@@ -104,12 +104,6 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
           )}
         </PaperText>
       )}
-      {!!tank.location && (
-        <PaperText>
-          {'in '}
-          <PaperBoldText>{tank.location}</PaperBoldText>
-        </PaperText>
-      )}
       <RowView>
         <DetailIcon
           icon="molecule-co2"
@@ -164,10 +158,10 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
           <PaperBoldText>{tank.filter}</PaperBoldText>
         </PaperText>
       )}
-      {!!tank.gravel && (
+      {!!tank.substrate && (
         <PaperText>
-          {'Gravel '}
-          <PaperBoldText>{tank.gravel}</PaperBoldText>
+          {'substrate '}
+          <PaperBoldText>{tank.substrate}</PaperBoldText>
         </PaperText>
       )}
       {!!tank.light && (

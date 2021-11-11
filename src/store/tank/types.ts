@@ -28,7 +28,7 @@ export type Tank = {
   width: number
   height: number
   light: string | null
-  gravel: string | null
+  substrate: string | null
   co2: number | null
   dayLight: number | null
   filter: string | null

@@ -13,7 +13,6 @@ import ImageBox from './components/imageBox'
 import * as API from '../../API/tank'
 import * as FeedAPI from '../../API/feed'
 import theme from '../../theme'
-import Spinner from '../components/loading'
 import { ImageObject } from './types'
 import {
   Container,
@@ -207,7 +206,6 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
             Publish it
           </SaveButon>
         </Content>
-        <Spinner />
       </Container>
     </PaperKeyboardAvoidingView>
   )

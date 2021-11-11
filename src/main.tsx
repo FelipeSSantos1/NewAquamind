@@ -21,9 +21,9 @@ import {
 } from '@expo-google-fonts/roboto'
 import AppLoading from 'expo-app-loading'
 
+import Spinner from './view/components/loading'
 import Alert from './view/components/alert'
 import Drawer from './view/components/drawer'
-// import AppLoading from './view/components/fakeLoadingScreen'
 import { store, persistor } from './store'
 import theme from './theme'
 import Routes from './routes'
@@ -70,6 +70,7 @@ const App: React.FC = () => {
             <Routes />
             <Drawer />
             <Alert />
+            <Spinner />
           </PersistGate>
         </NavigationContainer>
       </PaperProvider>

@@ -25,7 +25,7 @@ export const RowView = styled.View`
 export const TankThumbImage = styled.Image`
   width: ${70}px;
   height: ${70}px;
-  border-radius: ${theme.roundness}px;
+  border-radius: 35px;
   align-self: flex-start;
   margin-right: ${theme.sizes.margin}px;
 `
@@ -53,6 +53,16 @@ export const StripFlatList = styled.View`
 `
 export const Icon = styled(IconButton)`
   margin-right: ${theme.sizes.margin}px;
+`
+export const CameraIcon = styled(IconButton)``
+export const CameraIconBkg = styled.View`
+  width: 70px;
+  height: 70px;
+  border-radius: 35px;
+  background-color: ${theme.colors.backdrop};
+  align-items: center;
+  justify-content: center;
+  position: absolute;
 `
 export const RowViewSpaceBetween = styled.View`
   flex: 1;

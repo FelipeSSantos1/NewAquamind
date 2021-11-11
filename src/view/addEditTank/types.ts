@@ -21,7 +21,7 @@ export const formValidation = yup.object().shape({
     .matches(/^([1-9]{1}\d{0,2})$/, 'between 1 and 999')
     .required('required'),
   light: yup.string(),
-  gravel: yup.string(),
+  substrate: yup.string(),
   co2: yup.string().matches(/^(\d{0,1}|(\d\.\d))$/, 'between 0 and 9.9'),
   dayLight: yup.string().matches(/^(\d{0,1}|(\d\.\d))$/, 'between 0 and 9.9'),
   filter: yup.string(),
@@ -37,13 +37,13 @@ export type FormData = {
   width: string
   height: string
   light: string
-  gravel: string
+  substrate: string
   co2: string
   dayLight: string
   filter: string
   description: string
   avatar: string
-  location: string
+  country: string
 }
 export type SmallTextProps = {
   marginRight?: boolean
