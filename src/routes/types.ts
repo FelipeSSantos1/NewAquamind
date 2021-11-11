@@ -1,7 +1,6 @@
 import { NavigatorScreenParams } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
-import { PlantListType } from '../view/addEditTank/types'
 import { TankState } from '../store/tank/types'
 
 export type ParamListRootStack = {
@@ -33,9 +32,11 @@ export type ParamListFeedStack = {
   }
 }
 export type ParamListTankStack = {
-  Tank: undefined
+  Tank: {
+    refresh: string
+  }
   AddEditTank: {
-    tankId?: number
+    tank?: TankState
     fertilizers?: {
       id: number
       name: string

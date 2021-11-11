@@ -64,3 +64,33 @@ export async function createTank(params: CreateParams) {
 
   return result
 }
+export async function updateTank(id: number, params: CreateParams) {
+  const result = API.patch<DeleteResponse>(`/tank/${id}`, params)
+    .then(response => {
+      if (response && response.status === 200) {
+        return response.data
+      }
+    })
+    .catch((error: AxiosError) => {
+      if (error && error.response) {
+        return error.response.data as CommonAPIError
+      }
+    })
+
+  return result
+}
+export async function updatePhoto(id: number, params: { avatar: string }) {
+  const result = API.patch<DeleteResponse>(`/tank/updatePhoto/${id}`, params)
+    .then(response => {
+      if (response && response.status === 200) {
+        return response.data
+      }
+    })
+    .catch((error: AxiosError) => {
+      if (error && error.response) {
+        return error.response.data as CommonAPIError
+      }
+    })
+
+  return result
+}

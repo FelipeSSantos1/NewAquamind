@@ -135,6 +135,7 @@ const Tank: React.FC = () => {
             />
           ),
         }}
+        initialParams={{ refresh: '' }}
       />
       <TankStack.Screen
         name="AddEditTank"

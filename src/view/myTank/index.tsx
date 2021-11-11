@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
 import * as Haptics from 'expo-haptics'
@@ -40,7 +40,8 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
     fetch()
   }, [dispatch])
 
-  const reFetch = async () => {
+  const reFetch = useCallback(async () => {
+    setActionActive([])
     setRefreshing(true)
     const response = await API.getAllByUser()
     setRefreshing(false)
@@ -49,7 +50,13 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
     }
 
     dispatch(TankRTK.actions.setTank(response))
-  }
+  }, [dispatch])
+
+  useEffect(() => {
+    if (route.params.refresh) {
+      reFetch()
+    }
+  }, [reFetch, route.params.refresh])
 
   const handleDeleteTank = (id: number, name: string, index: number) => {
     dispatch(
@@ -103,7 +110,7 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
   }
 
   const togleActionActive = (index: number, value: boolean) => {
-    const newActionActive = [...actionActive]
+    const newActionActive = []
     newActionActive[index] = value
     LayoutAnimation.configureNext(
       value
@@ -131,7 +138,7 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
         onDelete={() => {
           handleDeleteTank(item.id, item.name, index)
         }}
-        onUpdate={() => navigation.navigate('AddEditTank', { tankId: item.id })}
+        onUpdate={() => navigation.navigate('AddEditTank', { tank: item })}
         loadingDelete={loadingDelete}
         actionActive={actionActive[index]}
         setActionActive={() => togleActionActive(index, !actionActive[index])}

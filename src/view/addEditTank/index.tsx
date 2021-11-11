@@ -49,31 +49,65 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = React.useState(false)
   const [fertilizers, setFertilizers] = React.useState<FertilizerListType[]>([])
   const [plants, setPlants] = React.useState<PlantListType[]>([])
-  const [initialValues, setInitialValues] = React.useState<FormData>({
-    name: '',
-    description: '',
-    born: '',
-    height: '',
-    width: '',
-    length: '',
-    avatar: '',
-    co2: '',
-    dayLight: '',
-    filter: '',
-    substrate: '',
-    light: '',
-    country: '',
-  })
+  const tank = route.params.tank
+  const initialValues = tank
+    ? {
+        name: tank.name || '',
+        description: tank.description || '',
+        born: moment(tank.born).format('YYYY-MM-DD') || '',
+        height: tank.height ? tank.height.toString() : '',
+        width: tank.width ? tank.width.toString() : '',
+        length: tank.length ? tank.length.toString() : '',
+        avatar: tank.avatar ? tank.avatar.toString() : '',
+        co2: tank.co2 ? tank.co2.toString() : '',
+        dayLight: tank.dayLight ? tank.dayLight.toString() : '',
+        filter: tank.filter ? tank.filter.toString() : '',
+        substrate: tank.substrate ? tank.substrate.toString() : '',
+        light: tank.light ? tank.light.toString() : '',
+        country: tank.location ? tank.location.toString() : '',
+      }
+    : {
+        name: '',
+        description: '',
+        born: '',
+        height: '',
+        width: '',
+        length: '',
+        avatar: '',
+        co2: '',
+        dayLight: '',
+        filter: '',
+        substrate: '',
+        light: '',
+        country: '',
+      }
 
   useEffect(() => {
     navigation.setOptions({
-      title: route.params.tankId ? 'Update Tank' : 'New Tank',
+      title: route.params.tank ? 'Update Tank' : 'New Tank',
     })
-    if (route.params.tankId) {
-      // it's an update flow
-      // get tank from DB
+    if (route.params.tank) {
+      const pushFertilizers: FertilizerListType[] = []
+      _.forEach(route.params.tank.TankFertilizer, fertilizer => {
+        pushFertilizers.push({
+          id: fertilizer.Fertilizer.id,
+          name: fertilizer.Fertilizer.name,
+          dose: fertilizer.amount.toString(),
+          avatar: fertilizer.Fertilizer.avatar,
+        })
+      })
+      setFertilizers(pushFertilizers)
+      const pushPlants: PlantListType[] = []
+      _.forEach(route.params.tank.TankPlant, plant => {
+        pushPlants.push({
+          avatar: plant.Plant.avatar,
+          id: plant.Plant.id,
+          name: plant.Plant.name,
+        })
+      })
+      setPlants(pushPlants)
     }
-  }, [navigation, route.params.tankId])
+  }, [navigation, route.params.tank])
   useEffect(() => {
     if (route.params.plants) {
       const plantToAdd = route.params.plants
@@ -144,8 +178,10 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
       substrate: values.substrate,
       location: values.country,
       avatar: tankImage,
+      filter: values.filter,
     }
-    if (!route.params.tankId) {
+    if (!tank) {
+      // create tank
       const response = await API.createTank(validValues)
       if (!response) {
         dispatch(
@@ -188,13 +224,54 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
         })
       )
       setIsLoading(false)
-      navigation.goBack()
+      navigation.navigate('Tank', { refresh: moment().toString() })
+    } else {
+      // update tank
+      validValues.avatar = undefined
+      const response = await API.updateTank(tank.id, validValues)
+      if (!response) {
+        dispatch(
+          ConfigRTK.actions.setAlert({
+            visible: true,
+            alertTitle: 'Oops!',
+            alertMessage: 'Something went wrong, try again',
+            okText: 'Ok',
+          })
+        )
+        dispatch(
+          ConfigRTK.actions.setLoading({
+            visible: false,
+          })
+        )
+        setIsLoading(false)
+        return
+      }
+
+      if ('statusCode' in response) {
+        dispatch(
+          ConfigRTK.actions.setAlert({
+            visible: true,
+            alertTitle: 'Oops!',
+            alertMessage: response.message,
+            okText: 'Ok',
+          })
+        )
+        dispatch(
+          ConfigRTK.actions.setLoading({
+            visible: false,
+          })
+        )
+        setIsLoading(false)
+        return
+      }
+      dispatch(
+        ConfigRTK.actions.setLoading({
+          visible: false,
+        })
+      )
+      setIsLoading(false)
+      navigation.navigate('Tank', { refresh: moment().toString() })
     }
-    dispatch(
-      ConfigRTK.actions.setLoading({
-        visible: false,
-      })
-    )
   }
 
   const takePicture = async () => {
@@ -222,6 +299,53 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
         compressionMethod: 'auto',
         returnableOutputType: 'base64',
       })
+      if (tank) {
+        dispatch(
+          ConfigRTK.actions.setLoading({
+            visible: true,
+            loadingMessage: 'Uploading Photo...',
+          })
+        )
+        const response = await API.updatePhoto(tank.id, { avatar: compressed })
+        if (!response) {
+          dispatch(
+            ConfigRTK.actions.setAlert({
+              visible: true,
+              alertTitle: 'Oops!',
+              alertMessage: 'Something went wrong, try again',
+              okText: 'Ok',
+            })
+          )
+          dispatch(
+            ConfigRTK.actions.setLoading({
+              visible: false,
+            })
+          )
+          return
+        }
+
+        if ('statusCode' in response) {
+          dispatch(
+            ConfigRTK.actions.setAlert({
+              visible: true,
+              alertTitle: 'Oops!',
+              alertMessage: response.message,
+              okText: 'Ok',
+            })
+          )
+          dispatch(
+            ConfigRTK.actions.setLoading({
+              visible: false,
+            })
+          )
+          return
+        }
+        dispatch(
+          ConfigRTK.actions.setLoading({
+            visible: false,
+          })
+        )
+      }
       setTankImage(compressed)
     }
   }
@@ -300,7 +424,6 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
             errors,
             setFieldTouched,
             touched,
-            isValid,
             handleSubmit,
           }) => (
             <>
@@ -313,7 +436,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
                   <View>
                     <TankThumbImage
                       source={
-                        route.params.tankId
+                        route.params.tank && !tankImage
                           ? fullImageUrl(values.avatar)
                           : tankImage
                           ? { uri: `data:image/jpeg;base64,${tankImage}` }
@@ -485,7 +608,6 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
               <SubmitButton
                 onPress={handleSubmit}
                 mode="contained"
-                disabled={!isValid || isLoading}
                 loading={isLoading}
               >
                 Save
