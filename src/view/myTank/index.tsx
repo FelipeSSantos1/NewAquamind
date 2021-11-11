@@ -4,25 +4,19 @@ import { RootState } from 'store/rootReducer'
 import * as Haptics from 'expo-haptics'
 import { ScrollView, RefreshControl, LayoutAnimation } from 'react-native'
 
-import Header from './components/header'
+import BannerImg from '../../assets/banner.png'
+import EmptyScreen from '../components/emptyScreen'
 import { DimentionsString } from './types'
 import Strip from './components/strip'
 import TankRTK from '../../store/tank'
-import { fullImageUrl } from '../../services/helper'
 import * as API from '../../API/tank'
 import ConfigRTK from '../../store/config'
 import { NavPropsTank } from 'routes/types'
-import {
-  HeaderView,
-  Avatar,
-  HeaderTitle,
-  ContentView,
-  Container,
-} from './styles'
+import { Container, PaperFAB, BannerTop } from './styles'
 import _ from 'lodash'
 
 const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
-  const { user, tank } = useSelector((state: RootState) => state)
+  const { tank } = useSelector((state: RootState) => state)
   const [refreshing, setRefreshing] = React.useState(false)
   const [loadingDelete, setLoadingDelete] = React.useState(false)
   const [actionActive, setActionActive] = React.useState<boolean[]>([])
@@ -148,20 +142,29 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
 
   return (
     <Container>
-      <HeaderView>
-        <Avatar source={fullImageUrl(user.Profile.avatar)} />
-      </HeaderView>
-      <ContentView>
-        <HeaderTitle>{user.Profile.username}</HeaderTitle>
-        <ScrollView
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={reFetch} />
-          }
-        >
-          <Header navigation={navigation} route={route} />
-          {renderTanks()}
-        </ScrollView>
-      </ContentView>
+      {!tank.length ? (
+        <EmptyScreen
+          onPress={() => navigation.navigate('AddEditTank', {})}
+          icon="plus-circle-outline"
+          text="Add your first tank"
+        />
+      ) : (
+        <>
+          <BannerTop source={BannerImg} resizeMode="cover" />
+          <ScrollView
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={reFetch} />
+            }
+          >
+            {renderTanks()}
+          </ScrollView>
+          <PaperFAB
+            icon="plus"
+            onPress={() => navigation.navigate('AddEditTank', {})}
+            small
+          />
+        </>
+      )}
     </Container>
   )
 }
