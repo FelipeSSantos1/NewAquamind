@@ -51,11 +51,11 @@ const Auth: React.FC = () => (
 )
 const General = () => [
   <GeneralStack.Screen
+    key="GeneralProfile"
     name="Profile"
     component={ProfileView}
     options={{
       title: 'Profile',
-      presentation: 'modal',
     }}
   />,
 ]

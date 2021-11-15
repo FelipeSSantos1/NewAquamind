@@ -6,18 +6,32 @@ export type Profile = {
   bio?: string
   avatar?: string
 }
-
-export type UserState = {
+type ProfileCountOutputType = {
+  Following: number
+  Followers: number
+  Tanks: number
+  LikePost: number
+  Comment: number
+  LikeComment: number
+  Posts: number
+}
+export type User = {
   id: string
   email: string
-  password: string
   active: boolean
   emailVerified: boolean
   role: 'USER' | 'ADMIN'
   createdAt: string
   updatedAt: string
   profileId: number
+}
+
+export type UserState = User & {
   Profile: Profile
-  accessToken?: string
-  refreshToken?: string
+  _count?: ProfileCountOutputType
+}
+
+export type SetProfile = Profile & {
+  User: User
+  _count: ProfileCountOutputType
 }

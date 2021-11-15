@@ -35,7 +35,7 @@ const BottomDrawer: React.FC = () => {
     (state: RootState) => state.config.drawerVisible
   )
 
-  const hide = async (toScreen?: string) => {
+  const hide = async (callback?: CallableFunction) => {
     if (portalDrawer.current?.fadeOut) {
       portalDrawer.current.fadeOut(300)
     }
@@ -43,8 +43,8 @@ const BottomDrawer: React.FC = () => {
       await contentDrawer.current.fadeOutDownBig(300)
     }
     dispatch(ConfigRTK.actions.showDrawer(false))
-    if (toScreen) {
-      navigation.navigate(toScreen)
+    if (callback) {
+      callback()
     }
   }
 
@@ -65,12 +65,12 @@ const BottomDrawer: React.FC = () => {
                 <Drawer.Item
                   label="Profile"
                   icon="account"
-                  onPress={() => hide('Profile')}
+                  onPress={() => hide(() => navigation.navigate('Profile'))}
                 />
                 <Drawer.Item
                   label="Send us a message"
                   icon="message-text-outline"
-                  onPress={() => hide('contactUs')}
+                  onPress={() => console.log('contactUs')}
                 />
                 <Drawer.Item
                   label="Credits"

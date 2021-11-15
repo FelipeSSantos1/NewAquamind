@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { UserState } from './types'
+import { UserState, SetProfile } from './types'
 
 const initialState: UserState = {
   id: '',
   email: '',
-  password: '',
   active: false,
   emailVerified: false,
   role: 'USER',
@@ -15,8 +14,7 @@ const initialState: UserState = {
     id: 0,
     username: '',
   },
-  accessToken: undefined,
-  refreshToken: undefined,
+  _count: undefined,
 }
 
 export default createSlice({
@@ -25,11 +23,9 @@ export default createSlice({
   reducers: {
     logout: () => initialState,
     setUser: (state, action: PayloadAction<UserState>) => action.payload,
-    setEmail: (state, action: PayloadAction<string>) => {
-      return { ...state, email: action.payload }
-    },
-    setName: (state, action: PayloadAction<string>) => {
-      return { ...state, name: action.payload }
+    setProfile: (state, action: PayloadAction<SetProfile>) => {
+      const { User, _count, ...rest } = action.payload
+      return { ...User, _count, Profile: rest }
     },
   },
 })
