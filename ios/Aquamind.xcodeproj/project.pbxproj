@@ -14,6 +14,7 @@
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		6172F2D35A4C3AA820D92908 /* libPods-Aquamind.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6423831EA8574132BED9D8CC /* libPods-Aquamind.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
+		8FC18E7C27430788006A8AFC /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8FC18E7B27430788006A8AFC /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +28,8 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Aquamind/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8BCADE7E28674EF99F90AB14 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = Aquamind/SplashScreen.storyboard; sourceTree = "<group>"; };
 		8E8F52C73CB84A6D91CB9F2A /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-Aquamind/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		8F3AC8E8274301DF00AAAF18 /* Aquamind.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = Aquamind.entitlements; path = Aquamind/Aquamind.entitlements; sourceTree = "<group>"; };
+		8FC18E7B27430788006A8AFC /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		C0A881CF5CF3F2B244570E2A /* Pods-Aquamind.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aquamind.debug.xcconfig"; path = "Target Support Files/Pods-Aquamind/Pods-Aquamind.debug.xcconfig"; sourceTree = "<group>"; };
 		D00AAFFCFCFDA5787532823F /* Pods-Aquamind.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Aquamind.release.xcconfig"; path = "Target Support Files/Pods-Aquamind/Pods-Aquamind.release.xcconfig"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
@@ -47,6 +50,8 @@
 		13B07FAE1A68108700A75B9A /* Aquamind */ = {
 			isa = PBXGroup;
 			children = (
+				8FC18E7B27430788006A8AFC /* GoogleService-Info.plist */,
+				8F3AC8E8274301DF00AAAF18 /* Aquamind.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -184,6 +189,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
+				8FC18E7C27430788006A8AFC /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				1393161718A9460A8B2A7AEF /* SplashScreen.storyboard in Resources */,
 			);
@@ -304,6 +310,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Aquamind/Aquamind.entitlements;
 				CURRENT_PROJECT_VERSION = 47;
 				DEVELOPMENT_TEAM = 266U6N9K96;
 				ENABLE_BITCODE = NO;
@@ -333,6 +340,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Aquamind/Aquamind.entitlements;
 				CURRENT_PROJECT_VERSION = 47;
 				DEVELOPMENT_TEAM = 266U6N9K96;
 				INFOPLIST_FILE = Aquamind/Info.plist;

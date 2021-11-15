@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "741222496791",
+    "firebase_url": "https://aquamindcare.firebaseio.com",
+    "project_id": "aquamindcare",
+    "storage_bucket": "aquamindcare.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:741222496791:android:5bde3748f56cbb167efa52",
+        "android_client_info": {
+          "package_name": "app.aquamind"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "741222496791-rjkb7283nukbs62spptvlv3js01u52tu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjHphFaNddf1bGmVarZ3x6BWpLV5JPEgA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "741222496791-rjkb7283nukbs62spptvlv3js01u52tu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "741222496791-0uub4obh519r58kjqnlireq72mbb09nu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "app.aquamind",
+                "app_store_id": "1524044472"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>741222496791-0uub4obh519r58kjqnlireq72mbb09nu.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.741222496791-0uub4obh519r58kjqnlireq72mbb09nu</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBsGYOxP1A4K4xFd9YpP6DSOPUICMnDk6M</string>
+	<key>GCM_SENDER_ID</key>
+	<string>741222496791</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>app.aquamind</string>
+	<key>PROJECT_ID</key>
+	<string>aquamindcare</string>
+	<key>STORAGE_BUCKET</key>
+	<string>aquamindcare.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:741222496791:ios:664fa88a229d47247efa52</string>
+	<key>DATABASE_URL</key>
+	<string>https://aquamindcare.firebaseio.com</string>
+</dict>
+</plist>
