@@ -18,6 +18,7 @@ import TankDetailView from '../view/tankDetail'
 import AddEditTankView from '../view/addEditTank'
 import AddFertilizerView from '../view/addFertilizer'
 import AddPlantView from '../view/addPlant'
+import ProfileView from '../view/profile'
 import ConfigRTK from '../store/config'
 import theme from '../theme'
 import {
@@ -26,12 +27,14 @@ import {
   ParamListAuthStack,
   ParamListFeedStack,
   ParamListTankStack,
+  ParamListGeneralStack,
 } from './types'
 
 const RootStack = createNativeStackNavigator<ParamListRootStack>()
 const AuthStack = createNativeStackNavigator<ParamListAuthStack>()
 const FeedStack = createNativeStackNavigator<ParamListFeedStack>()
 const TankStack = createNativeStackNavigator<ParamListTankStack>()
+const GeneralStack = createNativeStackNavigator<ParamListGeneralStack>()
 const Tab = createBottomTabNavigator<ParamListTabStack>()
 
 const Auth: React.FC = () => (
@@ -46,6 +49,16 @@ const Auth: React.FC = () => (
     <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} />
   </AuthStack.Navigator>
 )
+const General = () => [
+  <GeneralStack.Screen
+    name="Profile"
+    component={ProfileView}
+    options={{
+      title: 'Profile',
+      presentation: 'modal',
+    }}
+  />,
+]
 const Feed: React.FC = () => {
   const dispatch = useDispatch()
 
@@ -100,6 +113,7 @@ const Feed: React.FC = () => {
           title: 'Tank Detail',
         }}
       />
+      {General()}
     </FeedStack.Navigator>
   )
 }
@@ -167,6 +181,7 @@ const Tank: React.FC = () => {
           presentation: 'modal',
         }}
       />
+      {General()}
     </TankStack.Navigator>
   )
 }

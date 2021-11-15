@@ -3,6 +3,12 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { TankState } from '../store/tank/types'
 
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends ParamListTankStack, ParamListFeedStack {}
+  }
+}
+
 export type ParamListRootStack = {
   Auth?: NavigatorScreenParams<ParamListAuthStack>
   Tabs?: NavigatorScreenParams<ParamListTabStack>
@@ -11,12 +17,15 @@ export type ParamListTabStack = {
   FeedTab?: NavigatorScreenParams<ParamListFeedStack>
   TankTab?: NavigatorScreenParams<ParamListTankStack>
 }
+export type ParamListGeneralStack = {
+  Profile: undefined
+}
 export type ParamListAuthStack = {
   Login: undefined
   CreateAccount: undefined
   ForgotPassword: undefined
 }
-export type ParamListFeedStack = {
+export type ParamListFeedStack = ParamListGeneralStack & {
   Feed: undefined
   Comment: { postId: number }
   CreatePost: {
@@ -31,7 +40,7 @@ export type ParamListFeedStack = {
     tankId: number
   }
 }
-export type ParamListTankStack = {
+export type ParamListTankStack = ParamListGeneralStack & {
   Tank: {
     refresh: string
   }
@@ -108,4 +117,9 @@ export type NavPropsFertilizerList = NativeStackScreenProps<
 export type NavPropsPlantList = NativeStackScreenProps<
   ParamListTankStack,
   'PlantList'
+>
+// General *********************************************************************
+export type NavPropsProfile = NativeStackScreenProps<
+  ParamListGeneralStack,
+  'Profile'
 >

@@ -65,7 +65,7 @@ const BottomDrawer: React.FC = () => {
                 <Drawer.Item
                   label="Profile"
                   icon="account"
-                  onPress={() => hide('profile')}
+                  onPress={() => hide('Profile')}
                 />
                 <Drawer.Item
                   label="Send us a message"
