@@ -8,3 +8,6 @@ export type FormData = {
   email: string
   password: string
 }
+export type Subscription = {
+  remove: () => void
+}

@@ -1,4 +1,15 @@
 {
   "name": "Aquamind",
-  "displayName": "Aquamind"
+  "displayName": "Aquamind",
+  "expo": {
+    "name": "Aquamind",
+    "slug": "aquamind",
+    "jsEngine": "hermes",
+    "android": {
+      "package": "app.aquamind"
+    },
+    "ios": {
+      "bundleIdentifier": "app.aquamind"
+    }
+  },
 }

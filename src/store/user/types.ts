@@ -24,6 +24,7 @@ export type User = {
   createdAt: string
   updatedAt: string
   profileId: number
+  pnToken: string
 }
 
 export type UserState = User & {

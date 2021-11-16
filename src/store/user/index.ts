@@ -9,6 +9,7 @@ const initialState: UserState = {
   role: 'USER',
   createdAt: '',
   updatedAt: '',
+  pnToken: '',
   profileId: 0,
   Profile: {
     id: 0,
@@ -26,6 +27,9 @@ export default createSlice({
     setProfile: (state, action: PayloadAction<SetProfile>) => {
       const { User, _count, ...rest } = action.payload
       return { ...User, _count, Profile: rest }
+    },
+    setToken: (state, action: PayloadAction<string>) => {
+      return { ...state, pnToken: action.payload }
     },
   },
 })
