@@ -10,6 +10,7 @@
     "podUpdate": "npx pod-install --repo-update",
     "images": "npx expo-optimize",
     "build:ios": "expo build:ios",
+    "testflight": "eas submit --platform ios --asc-app-id 1524044472",
     "build:android": "expo build:android",
     "clean": "cd android && ./gradlew cleanBuildCache && ./gradlew clean",
     "reset": "yarn clean && rm -f ./yarn.lock && rm -rf ./node_modules && rm -f ./ios/Podfile.lock.lock && rm -rf ./ios/Pods && yarn install && yarn pod",

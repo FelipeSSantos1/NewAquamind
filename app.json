@@ -9,7 +9,8 @@
       "package": "app.aquamind"
     },
     "ios": {
-      "bundleIdentifier": "app.aquamind"
+      "bundleIdentifier": "app.aquamind",
+      "buildNumber": "49",
     }
   },
 }
