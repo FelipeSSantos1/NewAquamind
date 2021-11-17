@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Alert, FlatList, Platform } from 'react-native'
 import { Button } from 'react-native-paper'
@@ -16,14 +16,13 @@ import { RootState } from '../../store/rootReducer'
 import { getAllFeed } from '../../API/feed'
 import * as UserAPI from '../../API/user'
 import { NavPropsFeed } from '../../routes/types'
-import { Subscription } from './types'
 import FeedBox from './components/feedBox'
 import { PaperFAB } from './styles'
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
-    shouldPlaySound: false,
+    shouldPlaySound: true,
     shouldSetBadge: false,
   }),
 })
@@ -38,9 +37,6 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
 
   // Notification things ******************************************************
   const [ready, setReady] = useState(false)
-  const [notification, setNotification] = useState<Notifications.Notification>()
-  const notificationListener = useRef<Subscription>()
-  const responseListener = useRef<Subscription>()
 
   async function registerForPushNotificationsAsync() {
     let token
@@ -57,8 +53,6 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
         return
       }
       token = (await Notifications.getExpoPushTokenAsync()).data
-    } else {
-      Alert.alert('Must use physical device for Push Notifications')
     }
 
     if (Platform.OS === 'android') {
@@ -84,26 +78,6 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
           }
         }
       })
-      notificationListener.current =
-        Notifications.addNotificationReceivedListener(_notification => {
-          setNotification(_notification)
-        })
-
-      responseListener.current =
-        Notifications.addNotificationResponseReceivedListener(response => {
-          // console.log(response)
-        })
-
-      return () => {
-        if (notificationListener.current) {
-          Notifications.removeNotificationSubscription(
-            notificationListener.current
-          )
-        }
-        if (responseListener.current) {
-          Notifications.removeNotificationSubscription(responseListener.current)
-        }
-      }
     }
   }, [dispatch, ready, user.pnToken])
 

@@ -1,9 +1,10 @@
 import React from 'react'
-import { NavigationContainer } from '@react-navigation/native'
+import { Linking, Platform, StatusBar, UIManager } from 'react-native'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
+import * as Notifications from 'expo-notifications'
+import { NavigationContainer } from '@react-navigation/native'
 import { Provider as PaperProvider, configureFonts } from 'react-native-paper'
-import { Platform, StatusBar, UIManager } from 'react-native'
 import {
   useFonts,
   Roboto_100Thin,
@@ -33,6 +34,14 @@ const myTheme = {
   fonts: configureFonts({ default: { ...theme.fonts } }),
 }
 
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: true,
+    shouldSetBadge: false,
+  }),
+})
+
 const App: React.FC = () => {
   // it's for LayoutAnimation used on swipeList works
   if (
@@ -40,6 +49,49 @@ const App: React.FC = () => {
     UIManager.setLayoutAnimationEnabledExperimental
   ) {
     UIManager.setLayoutAnimationEnabledExperimental(true)
+  }
+
+  // React navigation notification handler
+  const linking = {
+    prefixes: ['aquamindapp://'],
+    // Custom function to get the URL which was used to open the app
+    async getInitialURL() {
+      // First, you may want to do the default deep link handling
+      // Check if app was opened from a deep link
+      const defaultUrl = await Linking.getInitialURL()
+      if (defaultUrl != null) {
+        return defaultUrl
+      }
+      // Handle URL from expo push notifications
+      const response = await Notifications.getLastNotificationResponseAsync()
+      const url = response?.notification.request.content.data.url
+      return url
+    },
+    // Custom function to subscribe to incoming links
+    subscribe(listener: any) {
+      // First, you may want to do the default deep link handling
+      const onReceiveURL = ({ url }: { url: string }) => listener(url)
+      // Listen to incoming links from deep linking
+      const myListener = Linking.addEventListener('url', onReceiveURL)
+      // Listen to expo push notifications
+      const subscription =
+        Notifications.addNotificationResponseReceivedListener(response => {
+          const url = response.notification.request.content.data.url
+          // Any custom logic to see whether the URL needs to be handled
+          //...
+          // Let React Navigation handle the URL
+          listener(url)
+        })
+      return () => {
+        // Clean up the event listeners
+        if (myListener) {
+          myListener.remove()
+        }
+        if (subscription) {
+          subscription.remove()
+        }
+      }
+    },
   }
 
   const [isReady] = useFonts({
@@ -64,7 +116,27 @@ const App: React.FC = () => {
   return (
     <Provider store={store}>
       <PaperProvider theme={myTheme}>
-        <NavigationContainer>
+        <NavigationContainer
+          linking={{
+            ...linking,
+            config: {
+              screens: {
+                Tabs: {
+                  screens: {
+                    FeedTab: {
+                      screens: {
+                        Comment: {
+                          path: 'likePostComment/:postId',
+                          exact: true,
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          }}
+        >
           <PersistGate loading={<AppLoading />} persistor={persistor}>
             <StatusBar barStyle="light-content" />
             <Routes />

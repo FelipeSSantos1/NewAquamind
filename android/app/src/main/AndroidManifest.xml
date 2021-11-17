@@ -20,13 +20,18 @@
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
       </intent-filter>
+      <intent-filter>
+        <action android:name="android.intent.action.VIEW"/>
+        <category android:name="android.intent.category.DEFAULT"/>
+        <category android:name="android.intent.category.BROWSABLE"/>
+        <data android:scheme="aquamindapp"/>
+      </intent-filter>
     </activity>
 
     <!-- added becouse of expo-image-picker -->
     <activity
       android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
-      android:theme="@style/Base.Theme.AppCompat">
-    </activity>
-
+      android:theme="@style/Base.Theme.AppCompat"
+    />
   </application>
 </manifest>

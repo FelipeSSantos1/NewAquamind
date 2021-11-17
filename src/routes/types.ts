@@ -1,21 +1,14 @@
-import { NavigatorScreenParams } from '@react-navigation/native'
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { TankState } from '../store/tank/types'
 
-declare global {
-  namespace ReactNavigation {
-    interface RootParamList extends ParamListTankStack, ParamListFeedStack {}
-  }
-}
-
 export type ParamListRootStack = {
-  Auth?: NavigatorScreenParams<ParamListAuthStack>
-  Tabs?: NavigatorScreenParams<ParamListTabStack>
+  Auth: ParamListAuthStack
+  Tabs: ParamListTabStack
 }
 export type ParamListTabStack = {
-  FeedTab?: NavigatorScreenParams<ParamListFeedStack>
-  TankTab?: NavigatorScreenParams<ParamListTankStack>
+  FeedTab: ParamListFeedStack
+  TankTab: ParamListTankStack
 }
 export type ParamListGeneralStack = {
   Profile: undefined
@@ -123,3 +116,10 @@ export type NavPropsProfile = NativeStackScreenProps<
   ParamListGeneralStack,
   'Profile'
 >
+
+// Global **********************************************************************
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends ParamListRootStack {}
+  }
+}
