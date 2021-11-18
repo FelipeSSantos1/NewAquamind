@@ -10,6 +10,7 @@
     "podUpdate": "npx pod-install --repo-update",
     "images": "npx expo-optimize",
     "build:ios": "expo build:ios",
+    "openDeepLink": "npx uri-scheme open aquamindapp://likePostComment/3 --ios",
     "testflight": "eas submit --platform ios --asc-app-id 1524044472",
     "build:android": "expo build:android",
     "clean": "cd android && ./gradlew cleanBuildCache && ./gradlew clean",

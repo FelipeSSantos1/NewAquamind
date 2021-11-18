@@ -14,6 +14,7 @@ type MyTheme = typeof DefaultTheme & {
   colors: {
     green: string
     lightText: string
+    accentBackground: string
   }
   fonts: {
     sizes: {
@@ -67,18 +68,19 @@ const theme: MyTheme = {
   },
   colors: {
     primary: '#086BDB',
-    green: '#068532',
-    accent: '#3308DD',
-    background: Colors.indigo50,
+    green: '#245F5C',
+    accent: '#8250DD',
+    background: '#F7F9FF',
     surface: Colors.white,
-    error: '#DD3308',
-    text: '#37474F',
+    error: '#CF2B53',
+    text: '#434655',
     lightText: '#59696F',
     onSurface: Colors.black,
-    disabled: 'rgba(0, 0, 0, 0.26)',
-    placeholder: 'rgba(0, 0, 0, 0.54)',
+    disabled: '#A8AABC',
+    placeholder: '#9799AB',
     backdrop: 'rgba(0, 0, 0, 0.50)',
-    notification: '#7A08DD',
+    notification: '#002583',
+    accentBackground: '#EEE8A9',
   },
   sizes: {
     margin: 10,

@@ -7,6 +7,7 @@ import {
   CreatePostParams,
   CreatePostResponse,
   DeletePostResponse,
+  GetPostByIdResponse,
 } from './types'
 import { Feed } from '../../store/feed/types'
 
@@ -72,6 +73,21 @@ export async function createPost(params: CreatePostParams) {
 }
 export async function deletePost(postId: number) {
   const result = API.delete<DeletePostResponse>(`/post/${postId}`)
+    .then(response => {
+      if (response && response.status === 200) {
+        return response.data
+      }
+    })
+    .catch((error: AxiosError) => {
+      if (error && error.response) {
+        return error.response.data as CommonAPIError
+      }
+    })
+
+  return result
+}
+export async function getById(postId: number) {
+  const result = API.get<GetPostByIdResponse>(`/post/${postId}`)
     .then(response => {
       if (response && response.status === 200) {
         return response.data

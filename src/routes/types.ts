@@ -12,6 +12,10 @@ export type ParamListTabStack = {
 }
 export type ParamListGeneralStack = {
   Profile: undefined
+  PostDetail: {
+    postId?: number
+    commentId?: number
+  }
 }
 export type ParamListAuthStack = {
   Login: undefined
@@ -115,6 +119,10 @@ export type NavPropsPlantList = NativeStackScreenProps<
 export type NavPropsProfile = NativeStackScreenProps<
   ParamListGeneralStack,
   'Profile'
+>
+export type NavPropsPostDetail = NativeStackScreenProps<
+  ParamListGeneralStack,
+  'PostDetail'
 >
 
 // Global **********************************************************************

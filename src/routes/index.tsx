@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import * as Haptics from 'expo-haptics'
 import { IconButton } from 'react-native-paper'
 
+import PostDetail from '../view/postDetail'
 import { RootState } from '../store/rootReducer'
 import Login from '../view/login'
 import CreateAccount from '../view/createAccount'
@@ -56,6 +57,14 @@ const General = () => [
     component={ProfileView}
     options={{
       title: 'Profile',
+    }}
+  />,
+  <GeneralStack.Screen
+    key="GeneralPostDetail"
+    name="PostDetail"
+    component={PostDetail}
+    options={{
+      title: 'Post Detail',
     }}
   />,
 ]

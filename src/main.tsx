@@ -125,8 +125,12 @@ const App: React.FC = () => {
                   screens: {
                     FeedTab: {
                       screens: {
-                        Comment: {
-                          path: 'likePostComment/:postId',
+                        PostDetail: {
+                          path: 'likePostComment/:postId/:commentId?',
+                          parse: {
+                            postId: Number,
+                            commentId: Number,
+                          },
                           exact: true,
                         },
                       },

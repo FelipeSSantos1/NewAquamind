@@ -1,3 +1,6 @@
+import { CommentState } from '../../store/comment/types'
+import { Feed } from '../../store/feed/types'
+
 export type GetAllFeedParams = {
   take: number
   cursor: number
@@ -42,4 +45,7 @@ export type DeletePostResponse = {
   updatedAt: Date
   tankId: number | null
   profileId: number | null
+}
+export type GetPostByIdResponse = Feed & {
+  Comment?: CommentState[]
 }
