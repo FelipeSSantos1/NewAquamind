@@ -1,11 +1,6 @@
 import React, { useRef } from 'react'
-import {
-  View,
-  TouchableWithoutFeedback,
-  ScrollView,
-  SafeAreaView,
-} from 'react-native'
-import { useNavigation, NavigationProp } from '@react-navigation/native'
+import { View, ScrollView, SafeAreaView } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 import { Portal, Drawer } from 'react-native-paper'
 import * as Animatable from 'react-native-animatable'
 import { useSelector, useDispatch } from 'react-redux'
@@ -13,7 +8,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { RootState } from '../../../store/rootReducer'
 import ConfigRTK from '../../../store/config'
 import Logout from '../../../store/logout'
-import { RootStackParamList } from 'routes/types'
 import {
   MainView,
   DialogContent,
@@ -21,17 +15,12 @@ import {
   CloseButtonAnimation,
   CloseButton,
   CloseButtonText,
+  TouchableWithoutFeedback,
 } from './styles'
 
 const BottomDrawer: React.FC = () => {
   const dispatch = useDispatch()
-  const navigation =
-    useNavigation<
-      NavigationProp<
-        RootStackParamList['Tabs']['FeedTab'] &
-          RootStackParamList['Tabs']['TankTab']
-      >
-    >()
+  const navigation = useNavigation()
   const contentDrawer = useRef<Animatable.View & View>(null)
   const portalDrawer = useRef<Animatable.View & View>(null)
   const drawerVisible = useSelector(
@@ -55,7 +44,7 @@ const BottomDrawer: React.FC = () => {
     <Portal>
       {drawerVisible && (
         <MainView ref={portalDrawer} animation="fadeIn" duration={300}>
-          <TouchableWithoutFeedback onPress={() => hide()} style={{ flex: 1 }}>
+          <TouchableWithoutFeedback onPress={() => hide()}>
             <EmptyView />
           </TouchableWithoutFeedback>
           <SafeAreaView>

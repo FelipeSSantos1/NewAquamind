@@ -38,3 +38,6 @@ export const CloseButtonText = styled(Text)`
   margin: ${theme.sizes.margin}px;
   align-self: center;
 `
+export const TouchableWithoutFeedback = styled.TouchableWithoutFeedback`
+  flex: 1;
+`

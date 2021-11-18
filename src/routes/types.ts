@@ -1,133 +1,168 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
+import {
+  NavigatorScreenParams,
+  CompositeScreenProps,
+} from '@react-navigation/native'
 
 import { TankState } from '../store/tank/types'
 
-export type RootStackParamList = {
-  Auth: {
-    Login: undefined
-    CreateAccount: undefined
-    ForgotPassword: undefined
-  }
-  Tabs: {
-    FeedTab: {
-      Feed: undefined
-      Comment: { postId: number }
-      CreatePost: {
-        photo: {
-          uri: string
-          width: number
-          height: number
-        }
-      }
-      TankDetail: {
-        tank?: TankState
-        tankId: number
-      }
-      Profile: undefined
-      PostDetail: {
-        postId?: number
-        commentId?: number
-      }
-    }
-    TankTab: {
-      Tank: {
-        refresh: string
-      }
-      AddEditTank: {
-        tank?: TankState
-        fertilizers?: {
-          id: number
-          name: string
-          dose: string
-          avatar: string | null
-        }
-        plants?: {
-          id: number
-          name: string
-          avatar: string | null
-        }
-      }
-      TankDetail: {
-        tank?: TankState
-        tankId: number
-      }
-      FertilizerList: undefined
-      PlantList: undefined
-      Profile: undefined
-      PostDetail: {
-        postId?: number
-        commentId?: number
-      }
-    }
+type RootStackParamList = ParamListMainStack &
+  ParamListAuthStack &
+  ParamListFeedStack &
+  ParamListTankStack &
+  ParamListTabStack
+
+export type ParamListMainStack = {
+  Auth: NavigatorScreenParams<ParamListAuthStack>
+  Tabs: NavigatorScreenParams<ParamListTabStack>
+}
+export type ParamListTabStack = {
+  FeedTab: NavigatorScreenParams<ParamListFeedStack>
+  TankTab: NavigatorScreenParams<ParamListTankStack>
+}
+export type ParamListGeneralStack = {
+  Profile: undefined
+  PostDetail: {
+    postId?: number
+    commentId?: number
   }
 }
-
+export type ParamListAuthStack = {
+  Login: undefined
+  CreateAccount: undefined
+  ForgotPassword: undefined
+}
+export type ParamListFeedStack = ParamListGeneralStack & {
+  Feed: undefined
+  Comment: { postId: number }
+  CreatePost: {
+    photo: {
+      uri: string
+      width: number
+      height: number
+    }
+  }
+  TankDetail: {
+    tank?: TankState
+    tankId: number
+  }
+}
+export type ParamListTankStack = ParamListGeneralStack & {
+  Tank: {
+    refresh: string
+  }
+  AddEditTank: {
+    tank?: TankState
+    fertilizers?: {
+      id: number
+      name: string
+      dose: string
+      avatar: string | null
+    }
+    plants?: {
+      id: number
+      name: string
+      avatar: string | null
+    }
+  }
+  TankDetail: {
+    tank?: TankState
+    tankId: number
+  }
+  FertilizerList: undefined
+  PlantList: undefined
+}
 // Root ************************************************************************
-export type NavPropsAuth = NativeStackScreenProps<RootStackParamList, 'Auth'>
-export type NavPropsTabs = NativeStackScreenProps<RootStackParamList, 'Tabs'>
+export type NavPropsAuth = NativeStackScreenProps<ParamListMainStack, 'Auth'>
+export type NavPropsTabs = NativeStackScreenProps<ParamListMainStack, 'Tabs'>
 // Auth ************************************************************************
-export type NavPropsLogin = NativeStackScreenProps<
-  RootStackParamList['Auth'],
-  'Login'
+export type NavPropsLogin = CompositeScreenProps<
+  NativeStackScreenProps<ParamListAuthStack, 'Login'>,
+  NativeStackScreenProps<ParamListMainStack>
 >
-export type NavPropsCreateAccount = NativeStackScreenProps<
-  RootStackParamList['Auth'],
-  'CreateAccount'
+export type NavPropsCreateAccount = CompositeScreenProps<
+  NativeStackScreenProps<ParamListAuthStack, 'CreateAccount'>,
+  NativeStackScreenProps<ParamListMainStack>
 >
-export type NavPropsForgotPassword = NativeStackScreenProps<
-  RootStackParamList['Auth'],
-  'ForgotPassword'
+export type NavPropsForgotPassword = CompositeScreenProps<
+  NativeStackScreenProps<ParamListAuthStack, 'ForgotPassword'>,
+  NativeStackScreenProps<ParamListMainStack>
 >
 // Tabs ************************************************************************
-export type NavPropsFeedTab = NativeStackScreenProps<
-  RootStackParamList['Tabs'],
-  'FeedTab'
+export type NavPropsFeedTab = CompositeScreenProps<
+  BottomTabScreenProps<ParamListTabStack, 'FeedTab'>,
+  NativeStackScreenProps<ParamListMainStack>
 >
-export type NavPropsTankTab = NativeStackScreenProps<
-  RootStackParamList['Tabs'],
-  'TankTab'
+export type NavPropsTankTab = CompositeScreenProps<
+  BottomTabScreenProps<ParamListTabStack, 'TankTab'>,
+  NativeStackScreenProps<ParamListMainStack>
 >
 // Feed Tab ********************************************************************
-export type NavPropsFeed = NativeStackScreenProps<
-  RootStackParamList['Tabs']['FeedTab'],
-  'Feed'
+export type NavPropsFeed = CompositeScreenProps<
+  NativeStackScreenProps<ParamListFeedStack, 'Feed'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<ParamListTabStack, 'FeedTab'>,
+    NativeStackScreenProps<ParamListMainStack>
+  >
 >
-export type NavPropsCreatePost = NativeStackScreenProps<
-  RootStackParamList['Tabs']['FeedTab'],
-  'CreatePost'
+export type NavPropsCreatePost = CompositeScreenProps<
+  NativeStackScreenProps<ParamListFeedStack, 'CreatePost'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<ParamListTabStack, 'FeedTab'>,
+    NativeStackScreenProps<ParamListMainStack>
+  >
 >
-export type NavPropsComment = NativeStackScreenProps<
-  RootStackParamList['Tabs']['FeedTab'],
-  'Comment'
+export type NavPropsComment = CompositeScreenProps<
+  NativeStackScreenProps<ParamListFeedStack, 'Comment'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<ParamListTabStack, 'FeedTab'>,
+    NativeStackScreenProps<ParamListMainStack>
+  >
 >
-export type NavPropsTankDetail = NativeStackScreenProps<
-  RootStackParamList['Tabs']['FeedTab'],
-  'TankDetail'
+export type NavPropsTankDetail = CompositeScreenProps<
+  NativeStackScreenProps<ParamListFeedStack, 'TankDetail'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<ParamListTabStack, 'FeedTab'>,
+    NativeStackScreenProps<ParamListMainStack>
+  >
 >
 // Tank Tab ********************************************************************
-export type NavPropsTank = NativeStackScreenProps<
-  RootStackParamList['Tabs']['TankTab'],
-  'Tank'
+export type NavPropsTank = CompositeScreenProps<
+  NativeStackScreenProps<ParamListTankStack, 'Tank'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<ParamListTabStack, 'TankTab'>,
+    NativeStackScreenProps<ParamListMainStack>
+  >
 >
-export type NavPropsAddEditTank = NativeStackScreenProps<
-  RootStackParamList['Tabs']['TankTab'],
-  'AddEditTank'
+export type NavPropsAddEditTank = CompositeScreenProps<
+  NativeStackScreenProps<ParamListTankStack, 'AddEditTank'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<ParamListTabStack, 'TankTab'>,
+    NativeStackScreenProps<ParamListMainStack>
+  >
 >
-export type NavPropsFertilizerList = NativeStackScreenProps<
-  RootStackParamList['Tabs']['TankTab'],
-  'FertilizerList'
+export type NavPropsFertilizerList = CompositeScreenProps<
+  NativeStackScreenProps<ParamListTankStack, 'FertilizerList'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<ParamListTabStack, 'TankTab'>,
+    NativeStackScreenProps<ParamListMainStack>
+  >
 >
-export type NavPropsPlantList = NativeStackScreenProps<
-  RootStackParamList['Tabs']['TankTab'],
-  'PlantList'
+export type NavPropsPlantList = CompositeScreenProps<
+  NativeStackScreenProps<ParamListTankStack, 'PlantList'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<ParamListTabStack, 'TankTab'>,
+    NativeStackScreenProps<ParamListMainStack>
+  >
 >
 // General *********************************************************************
 export type NavPropsProfile = NativeStackScreenProps<
-  RootStackParamList['Tabs']['TankTab'] | RootStackParamList['Tabs']['FeedTab'],
+  ParamListGeneralStack,
   'Profile'
 >
 export type NavPropsPostDetail = NativeStackScreenProps<
-  RootStackParamList['Tabs']['TankTab'] | RootStackParamList['Tabs']['FeedTab'],
+  ParamListGeneralStack,
   'PostDetail'
 >
 
