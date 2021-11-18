@@ -1,3 +1,4 @@
+import { UserState } from '../../store/user/types'
 export type AuthParams = {
   email: string
   password: string
@@ -25,4 +26,8 @@ export type CreateAccountResponse = {
 }
 export type ForgotPasswordResponse = {
   emailSent: boolean
+}
+export type LoginResponse = UserState & {
+  accessToken?: string
+  refreshToken?: string
 }

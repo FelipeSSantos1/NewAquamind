@@ -167,8 +167,8 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
       keyboardVerticalOffset={Platform.OS === 'ios' ? 92 : 0}
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <Container>
-        <ImageScrollView horizontal>
+      <Container showsVerticalScrollIndicator={false}>
+        <ImageScrollView horizontal showsHorizontalScrollIndicator={false}>
           {renderImages()}
           <ImageBox onPress={pickImage} />
         </ImageScrollView>

@@ -2,132 +2,138 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack'
 
 import { TankState } from '../store/tank/types'
 
-export type ParamListRootStack = {
-  Auth: ParamListAuthStack
-  Tabs: ParamListTabStack
-}
-export type ParamListTabStack = {
-  FeedTab: ParamListFeedStack
-  TankTab: ParamListTankStack
-}
-export type ParamListGeneralStack = {
-  Profile: undefined
-  PostDetail: {
-    postId?: number
-    commentId?: number
+export type RootStackParamList = {
+  Auth: {
+    Login: undefined
+    CreateAccount: undefined
+    ForgotPassword: undefined
   }
-}
-export type ParamListAuthStack = {
-  Login: undefined
-  CreateAccount: undefined
-  ForgotPassword: undefined
-}
-export type ParamListFeedStack = ParamListGeneralStack & {
-  Feed: undefined
-  Comment: { postId: number }
-  CreatePost: {
-    photo: {
-      uri: string
-      width: number
-      height: number
+  Tabs: {
+    FeedTab: {
+      Feed: undefined
+      Comment: { postId: number }
+      CreatePost: {
+        photo: {
+          uri: string
+          width: number
+          height: number
+        }
+      }
+      TankDetail: {
+        tank?: TankState
+        tankId: number
+      }
+      Profile: undefined
+      PostDetail: {
+        postId?: number
+        commentId?: number
+      }
+    }
+    TankTab: {
+      Tank: {
+        refresh: string
+      }
+      AddEditTank: {
+        tank?: TankState
+        fertilizers?: {
+          id: number
+          name: string
+          dose: string
+          avatar: string | null
+        }
+        plants?: {
+          id: number
+          name: string
+          avatar: string | null
+        }
+      }
+      TankDetail: {
+        tank?: TankState
+        tankId: number
+      }
+      FertilizerList: undefined
+      PlantList: undefined
+      Profile: undefined
+      PostDetail: {
+        postId?: number
+        commentId?: number
+      }
     }
   }
-  TankDetail: {
-    tank?: TankState
-    tankId: number
-  }
 }
-export type ParamListTankStack = ParamListGeneralStack & {
-  Tank: {
-    refresh: string
-  }
-  AddEditTank: {
-    tank?: TankState
-    fertilizers?: {
-      id: number
-      name: string
-      dose: string
-      avatar: string | null
-    }
-    plants?: {
-      id: number
-      name: string
-      avatar: string | null
-    }
-  }
-  TankDetail: {
-    tank?: TankState
-    tankId: number
-  }
-  FertilizerList: undefined
-  PlantList: undefined
-}
+
 // Root ************************************************************************
-export type NavPropsAuth = NativeStackScreenProps<ParamListRootStack, 'Auth'>
-export type NavPropsTabs = NativeStackScreenProps<ParamListRootStack, 'Tabs'>
+export type NavPropsAuth = NativeStackScreenProps<RootStackParamList, 'Auth'>
+export type NavPropsTabs = NativeStackScreenProps<RootStackParamList, 'Tabs'>
 // Auth ************************************************************************
 export type NavPropsLogin = NativeStackScreenProps<
-  ParamListAuthStack & ParamListRootStack,
+  RootStackParamList['Auth'],
   'Login'
 >
 export type NavPropsCreateAccount = NativeStackScreenProps<
-  ParamListAuthStack & ParamListRootStack,
+  RootStackParamList['Auth'],
   'CreateAccount'
 >
 export type NavPropsForgotPassword = NativeStackScreenProps<
-  ParamListAuthStack & ParamListRootStack,
+  RootStackParamList['Auth'],
   'ForgotPassword'
 >
 // Tabs ************************************************************************
 export type NavPropsFeedTab = NativeStackScreenProps<
-  ParamListTabStack,
+  RootStackParamList['Tabs'],
   'FeedTab'
 >
 export type NavPropsTankTab = NativeStackScreenProps<
-  ParamListTabStack,
+  RootStackParamList['Tabs'],
   'TankTab'
 >
 // Feed Tab ********************************************************************
-export type NavPropsFeed = NativeStackScreenProps<ParamListFeedStack, 'Feed'>
+export type NavPropsFeed = NativeStackScreenProps<
+  RootStackParamList['Tabs']['FeedTab'],
+  'Feed'
+>
 export type NavPropsCreatePost = NativeStackScreenProps<
-  ParamListFeedStack,
+  RootStackParamList['Tabs']['FeedTab'],
   'CreatePost'
 >
 export type NavPropsComment = NativeStackScreenProps<
-  ParamListFeedStack,
+  RootStackParamList['Tabs']['FeedTab'],
   'Comment'
 >
 export type NavPropsTankDetail = NativeStackScreenProps<
-  ParamListFeedStack,
+  RootStackParamList['Tabs']['FeedTab'],
   'TankDetail'
 >
 // Tank Tab ********************************************************************
-export type NavPropsTank = NativeStackScreenProps<ParamListTankStack, 'Tank'>
+export type NavPropsTank = NativeStackScreenProps<
+  RootStackParamList['Tabs']['TankTab'],
+  'Tank'
+>
 export type NavPropsAddEditTank = NativeStackScreenProps<
-  ParamListTankStack,
+  RootStackParamList['Tabs']['TankTab'],
   'AddEditTank'
 >
 export type NavPropsFertilizerList = NativeStackScreenProps<
-  ParamListTankStack,
+  RootStackParamList['Tabs']['TankTab'],
   'FertilizerList'
 >
 export type NavPropsPlantList = NativeStackScreenProps<
-  ParamListTankStack,
+  RootStackParamList['Tabs']['TankTab'],
   'PlantList'
 >
 // General *********************************************************************
 export type NavPropsProfile = NativeStackScreenProps<
-  ParamListGeneralStack,
+  RootStackParamList['Tabs']['TankTab'] | RootStackParamList['Tabs']['FeedTab'],
   'Profile'
 >
 export type NavPropsPostDetail = NativeStackScreenProps<
-  ParamListGeneralStack,
+  RootStackParamList['Tabs']['TankTab'] | RootStackParamList['Tabs']['FeedTab'],
   'PostDetail'
 >
 
 // Global **********************************************************************
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends ParamListRootStack {}
+    interface RootParamList extends RootStackParamList {}
   }
 }

@@ -87,7 +87,7 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
   }
 
   return (
-    <StyledScrollView>
+    <StyledScrollView showsVerticalScrollIndicator={false}>
       <HeaderImage source={fullImageUrl(tank.avatar)} resizeMode="cover" />
       {!!tank.name && <PaperTitle>{tank.name}</PaperTitle>}
       {!!tank.born && (

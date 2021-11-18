@@ -9,10 +9,10 @@ import {
 } from './types'
 import { AxiosError } from 'axios'
 
-import { UserState } from '../../store/user/types'
+import { LoginResponse } from './types'
 
 export async function login(params: AuthParams) {
-  const result = API.post<UserState>('/auth/login', params)
+  const result = API.post<LoginResponse>('/auth/login', params)
     .then(response => {
       if (response && response.status === 200) {
         return response.data

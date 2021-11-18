@@ -152,6 +152,7 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
         <>
           <BannerTop source={BannerImg} resizeMode="cover" />
           <ScrollView
+            showsVerticalScrollIndicator={false}
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={reFetch} />
             }

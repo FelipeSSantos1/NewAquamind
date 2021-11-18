@@ -188,6 +188,7 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   return (
     <>
       <FlatList
+        showsVerticalScrollIndicator={false}
         data={feeds}
         renderItem={item => renderFeed(item)}
         keyExtractor={item => item.id.toString()}

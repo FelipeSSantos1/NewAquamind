@@ -5,18 +5,15 @@ import {
   ScrollView,
   SafeAreaView,
 } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, NavigationProp } from '@react-navigation/native'
 import { Portal, Drawer } from 'react-native-paper'
 import * as Animatable from 'react-native-animatable'
 import { useSelector, useDispatch } from 'react-redux'
 
 import { RootState } from '../../../store/rootReducer'
-// import UserRTK from '../../../store/user'
-// import TanksRTK from '../../../store/tanks'
-// import PlantsRTK from '../../../store/plants'
-// import FertilizersRTK from '../../../store/fertilizers'
 import ConfigRTK from '../../../store/config'
 import Logout from '../../../store/logout'
+import { RootStackParamList } from 'routes/types'
 import {
   MainView,
   DialogContent,
@@ -28,7 +25,13 @@ import {
 
 const BottomDrawer: React.FC = () => {
   const dispatch = useDispatch()
-  const navigation = useNavigation()
+  const navigation =
+    useNavigation<
+      NavigationProp<
+        RootStackParamList['Tabs']['FeedTab'] &
+          RootStackParamList['Tabs']['TankTab']
+      >
+    >()
   const contentDrawer = useRef<Animatable.View & View>(null)
   const portalDrawer = useRef<Animatable.View & View>(null)
   const drawerVisible = useSelector(
@@ -61,7 +64,7 @@ const BottomDrawer: React.FC = () => {
               animation="fadeInUpBig"
               duration={300}
             >
-              <ScrollView>
+              <ScrollView showsVerticalScrollIndicator={false}>
                 <Drawer.Item
                   label="Profile"
                   icon="account"

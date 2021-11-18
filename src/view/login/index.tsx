@@ -80,7 +80,7 @@ const Login: React.FC<NavPropsLogin> = ({ navigation }) => {
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
     >
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <ImageHeader source={headerImage} resizeMode="cover" />
         <Container>
           <AppNameView>

@@ -22,21 +22,18 @@ import AddPlantView from '../view/addPlant'
 import ProfileView from '../view/profile'
 import ConfigRTK from '../store/config'
 import theme from '../theme'
-import {
-  ParamListRootStack,
-  ParamListTabStack,
-  ParamListAuthStack,
-  ParamListFeedStack,
-  ParamListTankStack,
-  ParamListGeneralStack,
-} from './types'
+import { RootStackParamList } from './types'
 
-const RootStack = createNativeStackNavigator<ParamListRootStack>()
-const AuthStack = createNativeStackNavigator<ParamListAuthStack>()
-const FeedStack = createNativeStackNavigator<ParamListFeedStack>()
-const TankStack = createNativeStackNavigator<ParamListTankStack>()
-const GeneralStack = createNativeStackNavigator<ParamListGeneralStack>()
-const Tab = createBottomTabNavigator<ParamListTabStack>()
+const RootStack = createNativeStackNavigator<RootStackParamList>()
+const AuthStack = createNativeStackNavigator<RootStackParamList['Auth']>()
+const FeedStack =
+  createNativeStackNavigator<RootStackParamList['Tabs']['FeedTab']>()
+const TankStack =
+  createNativeStackNavigator<RootStackParamList['Tabs']['TankTab']>()
+const GeneralStack = createNativeStackNavigator<
+  RootStackParamList['Tabs']['TankTab'] | RootStackParamList['Tabs']['FeedTab']
+>()
+const Tab = createBottomTabNavigator<RootStackParamList['Tabs']>()
 
 const Auth: React.FC = () => (
   <AuthStack.Navigator
