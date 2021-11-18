@@ -79,7 +79,7 @@
     "react-native-flipper": "^0.117.0",
     "react-test-renderer": "17.0.2",
     "redux-flipper": "^2.0.1",
-    "typescript": "^3.8.3"
+    "typescript": "^4.5.2"
   },
   "resolutions": {
     "@types/react": "^17"
