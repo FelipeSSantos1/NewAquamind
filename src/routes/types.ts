@@ -27,6 +27,7 @@ export type ParamListGeneralStack = {
     postId?: number
     commentId?: number
   }
+  ContactUs: undefined
 }
 export type ParamListAuthStack = {
   Login: undefined
@@ -164,6 +165,10 @@ export type NavPropsProfile = NativeStackScreenProps<
 export type NavPropsPostDetail = NativeStackScreenProps<
   ParamListGeneralStack,
   'PostDetail'
+>
+export type NavPropsContactUs = NativeStackScreenProps<
+  ParamListGeneralStack,
+  'ContactUs'
 >
 
 // Global **********************************************************************

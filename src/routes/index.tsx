@@ -14,6 +14,7 @@ import ForgotPassword from '../view/forgotPassword'
 import FeedView from '../view/feed'
 import CommentView from '../view/comment'
 import TankView from '../view/myTank'
+import ContactUsView from '../view/contactUs'
 import CreatePostView from '../view/createPost'
 import TankDetailView from '../view/tankDetail'
 import AddEditTankView from '../view/addEditTank'
@@ -65,6 +66,14 @@ const General = () => [
     component={PostDetail}
     options={{
       title: 'Post Detail',
+    }}
+  />,
+  <GeneralStack.Screen
+    key="GeneralContactUs"
+    name="ContactUs"
+    component={ContactUsView}
+    options={{
+      title: 'Contact Us',
     }}
   />,
 ]
