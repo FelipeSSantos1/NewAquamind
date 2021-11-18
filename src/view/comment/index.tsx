@@ -5,10 +5,16 @@ import { Divider, IconButton } from 'react-native-paper'
 import * as Haptics from 'expo-haptics'
 import _ from 'lodash'
 
-import { fullImageUrl } from '../../services/helper'
+import {
+  fullImageUrl,
+  likeCommentNotificationBody,
+  likeCommentNotificationTitle,
+  deepLinkURL,
+} from '../../services/helper'
 import ConfigRTK from '../../store/config'
 import CommentRTK from '../../store/comment'
 import * as API from '../../API/comment'
+import * as NotificationAPI from '../../API/notification'
 import { NavPropsComment } from '../../routes/types'
 import { RootState } from 'store/rootReducer'
 import { CommentState, SubComment } from '../../store/comment/types'
@@ -105,6 +111,16 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
     await fetch()
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
     setLikeRefreshing(false)
+    NotificationAPI.sendOne({
+      to: response.profileId,
+      title: likeCommentNotificationTitle,
+      postId: postId,
+      commentId: response.commentId,
+      body: likeCommentNotificationBody(user.Profile.username),
+      data: {
+        url: `${deepLinkURL}likePostComment/${postId}/${response.commentId}`,
+      },
+    })
   }
 
   const dislikeComment = async (id: number) => {

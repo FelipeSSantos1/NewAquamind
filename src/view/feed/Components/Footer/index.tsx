@@ -6,8 +6,14 @@ import produce from 'immer'
 import _ from 'lodash'
 
 import theme from '../../../../theme'
+import {
+  likePostNotificationBody,
+  likePostNotificationTitle,
+  deepLinkURL,
+} from '../../../../services/helper'
 import { FooterProps } from './types'
 import * as API from '../../../../API/feed'
+import * as NotificationAPI from '../../../../API/notification'
 import { RowView, Text, TextUserName } from './styles'
 import { useDispatch } from 'react-redux'
 import ConfigRTK from '../../../../store/config'
@@ -41,7 +47,7 @@ const Footer: React.FC<FooterProps> = ({
       return
     }
     setTextLikes('no likes')
-  }, [likes])
+  }, [likes, liked])
   React.useEffect(() => {
     if (comments > 1) {
       setTextComments(`${comments} comments`)
@@ -96,6 +102,16 @@ const Footer: React.FC<FooterProps> = ({
       return
     }
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+
+    NotificationAPI.sendOne({
+      to: feeds[postIndex].Profile.id,
+      title: likePostNotificationTitle,
+      postId: feeds[postIndex].id,
+      body: likePostNotificationBody(user.Profile.username),
+      data: {
+        url: `${deepLinkURL}likePostComment/${feeds[postIndex].id}`,
+      },
+    })
   }
 
   const dislikePost = async () => {
@@ -232,18 +248,14 @@ const Footer: React.FC<FooterProps> = ({
             </Button>
           )}
           {profileId === user.profileId && (
-            <Button
+            <IconButton
               icon="delete-circle"
-              mode="text"
               color={theme.colors.text}
-              compact
-              uppercase={false}
-              loading={deleting}
               disabled={deleting}
               onPress={() => handleDeletePost()}
-            >
-              delete
-            </Button>
+              hasTVPreferredFocus={undefined}
+              tvParallaxProperties={undefined}
+            />
           )}
         </RowView>
       </RowView>

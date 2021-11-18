@@ -7,7 +7,12 @@ import * as Haptics from 'expo-haptics'
 import produce from 'immer'
 import _ from 'lodash'
 
-import { fullImageUrl } from '../../../../services/helper'
+import {
+  fullImageUrl,
+  likePostNotificationBody,
+  likePostNotificationTitle,
+  deepLinkURL,
+} from '../../../../services/helper'
 import theme from '../../../../theme'
 import UserHeader from '../userHeader'
 import Footer from '../footer'
@@ -16,6 +21,7 @@ import { FeedBoxProps } from './types'
 import ConfigRTK from '../../../../store/config'
 import FeedRTK from '../../../../store/feed'
 import * as API from '../../../../API/feed'
+import * as NotificationAPI from '../../../../API/notification'
 import { ContentView, PaperImage, BlurBackground } from './styles'
 
 const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
@@ -106,6 +112,16 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
       return
     }
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+
+    NotificationAPI.sendOne({
+      to: feeds[postIndex].Profile.id,
+      title: likePostNotificationTitle,
+      postId: feeds[postIndex].id,
+      body: likePostNotificationBody(user.Profile.username),
+      data: {
+        url: `${deepLinkURL}likePostComment/${feeds[postIndex].id}`,
+      },
+    })
   }
 
   const styles = StyleSheet.create({
