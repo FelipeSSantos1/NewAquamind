@@ -47,6 +47,15 @@ const Profile: React.FC<NavPropsProfile> = ({}) => {
     const fetch = async () => {
       const response = await API.getProfile()
       if (!response || 'statusCode' in response) {
+        dispatch(
+          ConfigRTK.actions.setAlert({
+            visible: true,
+            alertTitle: 'Oops!',
+            alertMessage:
+              'Something went wrong, check your internet connection and try it again',
+            okText: 'Ok',
+          })
+        )
         return
       }
       dispatch(UserRTK.actions.setProfile(response))
