@@ -33,6 +33,12 @@ export type ParamListAuthStack = {
   Login: undefined
   CreateAccount: undefined
   ForgotPassword: undefined
+  ValidateEmail: {
+    token: string
+  }
+  ResetPassword: {
+    token: string
+  }
 }
 export type ParamListFeedStack = ParamListGeneralStack & {
   Feed: undefined
@@ -92,6 +98,14 @@ export type NavPropsCreateAccount = CompositeScreenProps<
 >
 export type NavPropsForgotPassword = CompositeScreenProps<
   NativeStackScreenProps<ParamListAuthStack, 'ForgotPassword'>,
+  NativeStackScreenProps<ParamListMainStack>
+>
+export type NavPropsValidateEmail = CompositeScreenProps<
+  NativeStackScreenProps<ParamListAuthStack, 'ValidateEmail'>,
+  NativeStackScreenProps<ParamListMainStack>
+>
+export type NavPropsResetPassword = CompositeScreenProps<
+  NativeStackScreenProps<ParamListAuthStack, 'ResetPassword'>,
   NativeStackScreenProps<ParamListMainStack>
 >
 // Tabs ************************************************************************

@@ -18,6 +18,8 @@ import ContactUsView from '../view/contactUs'
 import CreatePostView from '../view/createPost'
 import TankDetailView from '../view/tankDetail'
 import AddEditTankView from '../view/addEditTank'
+import ValidateEmailView from '../view/validateEmail'
+import ResetPasswordView from '../view/resetPassword'
 import AddFertilizerView from '../view/addFertilizer'
 import AddPlantView from '../view/addPlant'
 import ProfileView from '../view/profile'
@@ -49,6 +51,8 @@ const Auth: React.FC = () => (
     <AuthStack.Screen name="Login" component={Login} />
     <AuthStack.Screen name="CreateAccount" component={CreateAccount} />
     <AuthStack.Screen name="ForgotPassword" component={ForgotPassword} />
+    <AuthStack.Screen name="ValidateEmail" component={ValidateEmailView} />
+    <AuthStack.Screen name="ResetPassword" component={ResetPasswordView} />
   </AuthStack.Navigator>
 )
 const General = () => [

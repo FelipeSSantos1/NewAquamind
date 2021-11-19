@@ -4,3 +4,7 @@ export type updateProfileParams = {
   country?: string
   bio?: string
 }
+export type resetPasswordParams = {
+  token: string
+  password: string
+}

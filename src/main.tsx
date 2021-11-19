@@ -137,6 +137,18 @@ const App: React.FC = () => {
                     },
                   },
                 },
+                Auth: {
+                  screens: {
+                    ValidateEmail: {
+                      path: 'validateEmail/:token',
+                      exact: true,
+                    },
+                    ResetPassword: {
+                      path: 'resetPassword/:token',
+                      exact: true,
+                    },
+                  },
+                },
               },
             },
           }}

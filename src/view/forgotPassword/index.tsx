@@ -133,7 +133,7 @@ const ForgotPassword: React.FC<NavPropsForgotPassword> = ({ navigation }) => {
             )}
           </Formik>
           <RowView>
-            <SecondaryButton onPress={() => navigation.goBack()}>
+            <SecondaryButton onPress={() => navigation.navigate('Login')}>
               Go to Login
             </SecondaryButton>
           </RowView>
