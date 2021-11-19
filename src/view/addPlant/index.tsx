@@ -13,7 +13,7 @@ import { fullImageUrl } from '../../services/helper'
 import { SaveProps } from './types'
 import { MainView, Searchbar, Text, RowView, ThumbImage } from './styles'
 
-const AddPlant: React.FC<NavPropsPlantList> = ({ navigation }) => {
+const AddPlant: React.FC<NavPropsPlantList> = ({ navigation, route }) => {
   const dispatch = useDispatch()
   const [search, setSearch] = useState('')
   const { plant } = useSelector((state: RootState) => state)
@@ -43,6 +43,7 @@ const AddPlant: React.FC<NavPropsPlantList> = ({ navigation }) => {
       plants: {
         ...plantData,
       },
+      tank: route.params.tank,
     })
   }
 

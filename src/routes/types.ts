@@ -71,8 +71,12 @@ export type ParamListTankStack = ParamListGeneralStack & {
     tank?: TankState
     tankId: number
   }
-  FertilizerList: undefined
-  PlantList: undefined
+  FertilizerList: {
+    tank?: TankState
+  }
+  PlantList: {
+    tank?: TankState
+  }
 }
 // Root ************************************************************************
 export type NavPropsAuth = NativeStackScreenProps<ParamListMainStack, 'Auth'>

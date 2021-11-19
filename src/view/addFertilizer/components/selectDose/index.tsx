@@ -17,6 +17,7 @@ const SelectDose: React.FC<NavPropsFertilizerList & SelectDoseProps> = ({
   fertilizerName,
   onDismiss,
   avatar,
+  route,
 }) => {
   const save = async ({ dose }: FormData) => {
     onDismiss(false)
@@ -30,6 +31,7 @@ const SelectDose: React.FC<NavPropsFertilizerList & SelectDoseProps> = ({
       fertilizers: {
         ...fertilizerDoseData,
       },
+      tank: route.params.tank,
     })
   }
 

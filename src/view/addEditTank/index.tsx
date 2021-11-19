@@ -179,6 +179,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
       location: values.country,
       avatar: tankImage,
       filter: values.filter,
+      dayLight: Number(values.dayLight),
     }
     if (!tank) {
       // create tank
@@ -597,12 +598,18 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
               />
               <Header
                 title="Add a Fertilizer"
-                onPress={() => navigation.navigate('FertilizerList')}
+                onPress={() =>
+                  navigation.navigate('FertilizerList', {
+                    tank: route.params.tank,
+                  })
+                }
               />
               {renderFertilizerList()}
               <Header
                 title="Add a Plant"
-                onPress={() => navigation.navigate('PlantList')}
+                onPress={() =>
+                  navigation.navigate('PlantList', { tank: route.params.tank })
+                }
               />
               {renderPlantList()}
               <SubmitButton
