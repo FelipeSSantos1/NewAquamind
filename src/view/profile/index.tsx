@@ -135,7 +135,20 @@ const Profile: React.FC<NavPropsProfile> = ({}) => {
   const updateProfile = async (values: FormData) => {
     setLoading(true)
     const response = await API.updateProfile(values)
-    if (!response || 'statusCode' in response) {
+    if (!response) {
+      setLoading(false)
+      return
+    }
+    if ('statusCode' in response) {
+      dispatch(
+        ConfigRTK.actions.setAlert({
+          visible: true,
+          alertTitle: 'Oops!',
+          alertMessage: response.message,
+          okText: 'Ok',
+        })
+      )
+      setLoading(false)
       return
     }
     dispatch(UserRTK.actions.setProfile(response))
