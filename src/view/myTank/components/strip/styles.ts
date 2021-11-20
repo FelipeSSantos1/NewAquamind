@@ -1,5 +1,6 @@
 import styled from 'styled-components/native'
 import { Text, Button, TouchableRipple } from 'react-native-paper'
+import FastImage from 'react-native-fast-image'
 
 import theme from '../../../../theme'
 
@@ -59,7 +60,7 @@ export const TankHeaderText = styled(Text)`
   color: ${theme.colors.text};
   font-weight: ${theme.fonts.light.fontWeight};
 `
-export const TankHeaderThumb = styled.Image`
+export const TankHeaderThumb = styled(FastImage)`
   width: ${50}px;
   height: ${50}px;
   border-radius: ${theme.roundness}px;

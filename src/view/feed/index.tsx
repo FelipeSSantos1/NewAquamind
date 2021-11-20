@@ -137,8 +137,6 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   const resetData = async () => {
     setCursor(0)
     setRefreshing(true)
-    await FastImage.clearDiskCache()
-    await FastImage.clearMemoryCache()
     dispatch(FeedRTK.actions.logout())
     await fetchFeed()
     setRefreshing(false)
