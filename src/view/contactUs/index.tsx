@@ -13,6 +13,7 @@ import {
   SendButton,
   ScrollView,
   PaperKeyboardAvoidingView,
+  PaperText,
 } from './styles'
 
 const ContactUs: React.FC<NavPropsContactUs> = () => {
@@ -58,6 +59,10 @@ const ContactUs: React.FC<NavPropsContactUs> = () => {
     >
       <ScrollView>
         <FormView>
+          <PaperText>
+            We are look forward to hearing from you. Please fill out the form
+            below with any suggestion, question, or concern.
+          </PaperText>
           <Formik
             initialValues={{
               subject: '',

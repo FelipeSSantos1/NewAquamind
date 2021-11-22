@@ -1,5 +1,5 @@
 import styled from 'styled-components/native'
-import { Button } from 'react-native-paper'
+import { Button, Subheading } from 'react-native-paper'
 
 import theme from '../../theme'
 
@@ -15,4 +15,7 @@ export const SendButton = styled(Button)`
 `
 export const PaperKeyboardAvoidingView = styled.KeyboardAvoidingView`
   flex: 1;
+`
+export const PaperText = styled(Subheading)`
+  margin-bottom: ${theme.sizes.margin}px;
 `
