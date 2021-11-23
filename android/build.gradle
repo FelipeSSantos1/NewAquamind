@@ -11,6 +11,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        jcenter() // <- to fix build error https://github.com/expo/expo/issues/14391
     }
     dependencies {
         classpath("com.android.tools.build:gradle:4.2.2")
@@ -24,6 +25,7 @@ allprojects {
     repositories {
         mavenCentral()
         mavenLocal()
+        jcenter() // <- to fix build error https://github.com/expo/expo/issues/14391
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
             url("$rootDir/../node_modules/react-native/android")
