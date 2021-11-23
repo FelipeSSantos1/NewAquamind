@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import moment from 'moment'
+import _ from 'lodash'
 
 import * as tankAPI from '../../API/tank'
 import { fullImageUrl } from '../../services/helper'
@@ -19,7 +20,6 @@ import {
   PaperDivider,
 } from './styles'
 import theme from '../../theme'
-import _ from 'lodash'
 
 const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
   const [tank, setTank] = React.useState<TankState | undefined>(undefined)
@@ -136,7 +136,9 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
           compact
         >
           {!!tank.width && !!tank.height && !!tank.length
-            ? `${(tank.width * tank.height * tank.length) / 100} litres`
+            ? `${_.toInteger(
+                (tank.width * tank.height * tank.length) / 1000
+              )} litres`
             : 'none'}
         </DetailIcon>
         <DetailIcon

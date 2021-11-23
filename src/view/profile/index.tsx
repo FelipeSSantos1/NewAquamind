@@ -31,7 +31,7 @@ import {
   PaperButton,
 } from './styles'
 
-const Profile: React.FC<NavPropsProfile> = ({}) => {
+const Profile: React.FC<NavPropsProfile> = () => {
   const dispatch = useDispatch()
   const [ready, setReady] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
@@ -143,6 +143,7 @@ const Profile: React.FC<NavPropsProfile> = ({}) => {
 
   const updateProfile = async (values: FormData) => {
     setLoading(true)
+    values.username = _.replace(_.deburr(values.username), /[^a-z0-9_-]/g, '')
     const response = await API.updateProfile(values)
     if (!response) {
       setLoading(false)
@@ -223,7 +224,11 @@ const Profile: React.FC<NavPropsProfile> = ({}) => {
               />
               <Input
                 label="Username"
-                onChangeText={handleChange('username')}
+                onChangeText={text =>
+                  handleChange('username')(
+                    _.replace(_.deburr(text), /[^a-z0-9_-]/g, '')
+                  )
+                }
                 onBlur={() => setFieldTouched('username')}
                 value={values.username}
                 error={

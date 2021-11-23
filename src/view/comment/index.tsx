@@ -9,6 +9,7 @@ import {
   fullImageUrl,
   likeCommentNotificationBody,
   likeCommentNotificationTitle,
+  replyCommentNotificationBody,
   deepLinkURL,
 } from '../../services/helper'
 import ConfigRTK from '../../store/config'
@@ -268,12 +269,27 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
       )
       return
     }
-    await fetch()
+    fetch()
     setTextComment('')
     setParentId(undefined)
     setLoadingAddComment(false)
     inputTextRef.current?.blur()
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+    if (parentId) {
+      const parentComment = _.find(comment, { id: parentId })
+      if (parentComment) {
+        NotificationAPI.sendOne({
+          to: parentComment?.Profile.id,
+          title: likeCommentNotificationTitle,
+          postId: postId,
+          commentId: response.id,
+          body: replyCommentNotificationBody(user.Profile.username),
+          data: {
+            url: `${deepLinkURL}likePostComment/${postId}/${response.id}`,
+          },
+        })
+      }
+    }
   }
 
   return (

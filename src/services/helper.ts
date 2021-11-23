@@ -8,6 +8,9 @@ export const likeCommentNotificationTitle = 'Comment Liked'
 export const likeCommentNotificationBody = (name: string) => {
   return `${name} liked your comment`
 }
+export const replyCommentNotificationBody = (name: string) => {
+  return `${name} replied your comment`
+}
 export const likePostNotificationTitle = 'Post Liked'
 export const likePostNotificationBody = (name: string) => {
   return `${name} liked your post`
