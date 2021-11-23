@@ -25,3 +25,22 @@ export const PaperImage = styled(FastImage)`
   width: 100%;
   height: 100%;
 `
+export const styles = StyleSheet.create({
+  dotsContainer: {
+    flex: 1,
+    justifyContent: 'space-evenly',
+  },
+  dotContainer: {
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  containerStyle: {
+    top: 5,
+  },
+  dot: {
+    width: 5,
+    height: 5,
+    borderRadius: 2.5,
+    margin: 2.5,
+  },
+})

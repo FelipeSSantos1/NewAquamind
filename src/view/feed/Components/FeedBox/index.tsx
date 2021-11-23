@@ -1,7 +1,9 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Animated, View } from 'react-native'
 import Image from 'react-native-fast-image'
-import PagerView from 'react-native-pager-view'
+import PagerView, {
+  PagerViewOnPageScrollEventData,
+} from 'react-native-pager-view'
 import { useDispatch } from 'react-redux'
 import * as Haptics from 'expo-haptics'
 import produce from 'immer'
@@ -22,10 +24,14 @@ import ConfigRTK from '../../../../store/config'
 import FeedRTK from '../../../../store/feed'
 import * as API from '../../../../API/feed'
 import * as NotificationAPI from '../../../../API/notification'
-import { ContentView, PaperImage, BlurBackground } from './styles'
+import { ScalingDot } from 'react-native-animated-pagination-dots'
+import { ContentView, PaperImage, BlurBackground, styles } from './styles'
+
+const AnimatedPagerView = Animated.createAnimatedComponent(PagerView)
 
 const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
   const dispatch = useDispatch()
+  const ref = React.useRef<PagerView>(null)
 
   const width = theme.sizes.width
   const maxHeightRatio =
@@ -33,6 +39,36 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
   const viewWidth = theme.sizes.width
   const heightRatio = width / maxHeightRatio
   const viewHeight = heightRatio > viewWidth ? viewWidth : heightRatio
+
+  const scrollOffsetAnimatedValue = React.useRef(new Animated.Value(0)).current
+  const positionAnimatedValue = React.useRef(new Animated.Value(0)).current
+  const inputRange = [0, feed.Photos.length]
+  const scrollX = Animated.add(
+    scrollOffsetAnimatedValue,
+    positionAnimatedValue
+  ).interpolate({
+    inputRange,
+    outputRange: [0, feed.Photos.length * width],
+  })
+
+  const onPageScroll = React.useMemo(
+    () =>
+      Animated.event<PagerViewOnPageScrollEventData>(
+        [
+          {
+            nativeEvent: {
+              offset: scrollOffsetAnimatedValue,
+              position: positionAnimatedValue,
+            },
+          },
+        ],
+        {
+          useNativeDriver: false,
+        }
+      ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
 
   const dimentions = () => {
     if (feed.Tank?.length && feed.Tank?.width && feed.Tank?.height) {
@@ -124,13 +160,12 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
     })
   }
 
-  const styles = StyleSheet.create({
-    pagerView: {
+  const stylesPagerView = StyleSheet.create({
+    PagerView: {
       width: viewWidth,
       height: viewHeight,
     },
   })
-
   return (
     <>
       <UserHeader
@@ -144,9 +179,29 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
       <DoubleTap
         onPress={_.debounce(() => likePost(feed.id), 500, { leading: true })}
       >
-        <PagerView style={styles.pagerView} initialPage={0} showPageIndicator>
+        <AnimatedPagerView
+          initialPage={0}
+          ref={ref}
+          style={stylesPagerView.PagerView}
+          onPageScroll={onPageScroll}
+        >
           {renderImages()}
-        </PagerView>
+        </AnimatedPagerView>
+        {feed.Photos.length > 1 && (
+          <View style={styles.dotsContainer}>
+            <View style={styles.dotContainer}>
+              <ScalingDot
+                data={feed.Photos}
+                //@ts-ignore
+                scrollX={scrollX}
+                containerStyle={styles.containerStyle}
+                inActiveDotColor={theme.colors.text}
+                activeDotColor={theme.colors.text}
+                dotStyle={styles.dot}
+              />
+            </View>
+          </View>
+        )}
       </DoubleTap>
       <Footer
         liked={!!feed.LikePost.length}
