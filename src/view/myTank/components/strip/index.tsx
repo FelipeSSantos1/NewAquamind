@@ -37,11 +37,7 @@ const Strip: React.FC<NavPropsTank & StripProps> = ({
 }) => {
   return (
     <Container>
-      <MainView
-        onPress={() => setActionActive()}
-        hasTVPreferredFocus={undefined}
-        tvParallaxProperties={undefined}
-      >
+      <MainView onPress={() => setActionActive()}>
         <TankView>
           <TankHeaderView>
             <TankHeaderThumb source={fullImageUrl(imageURL)} />
@@ -62,8 +58,6 @@ const Strip: React.FC<NavPropsTank & StripProps> = ({
           <DeleteButton
             onPress={() => onDelete()}
             disabled={loadingDelete}
-            hasTVPreferredFocus={undefined}
-            tvParallaxProperties={undefined}
             rippleColor={theme.colors.onSurface}
           >
             <Icon
@@ -72,8 +66,6 @@ const Strip: React.FC<NavPropsTank & StripProps> = ({
               labelStyle={{ fontSize: theme.fonts.sizes.xxsmall }}
               icon="delete-outline"
               loading={loadingDelete}
-              hasTVPreferredFocus={undefined}
-              tvParallaxProperties={undefined}
             >
               Delete
             </Icon>
@@ -81,16 +73,12 @@ const Strip: React.FC<NavPropsTank & StripProps> = ({
           <UpdateButton
             onPress={() => onUpdate()}
             rippleColor={theme.colors.onSurface}
-            hasTVPreferredFocus={undefined}
-            tvParallaxProperties={undefined}
           >
             <Icon
               compact
               uppercase={false}
               labelStyle={{ fontSize: theme.fonts.sizes.xxsmall }}
               icon="square-edit-outline"
-              hasTVPreferredFocus={undefined}
-              tvParallaxProperties={undefined}
             >
               Update
             </Icon>
@@ -100,16 +88,12 @@ const Strip: React.FC<NavPropsTank & StripProps> = ({
               navigation.navigate('TankDetail', { tank, tankId: tank.id })
             }
             rippleColor={theme.colors.onSurface}
-            hasTVPreferredFocus={undefined}
-            tvParallaxProperties={undefined}
           >
             <Icon
               compact
               uppercase={false}
               labelStyle={{ fontSize: theme.fonts.sizes.xxsmall }}
               icon="information-outline"
-              hasTVPreferredFocus={undefined}
-              tvParallaxProperties={undefined}
             >
               Spec
             </Icon>

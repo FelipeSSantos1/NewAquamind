@@ -108,8 +108,6 @@ const Feed: React.FC = () => {
                 )
                 dispatch(ConfigRTK.actions.showDrawer(true))
               }}
-              hasTVPreferredFocus={undefined}
-              tvParallaxProperties={undefined}
             />
           ),
         }}
@@ -166,8 +164,6 @@ const Tank: React.FC = () => {
                 )
                 dispatch(ConfigRTK.actions.showDrawer(true))
               }}
-              hasTVPreferredFocus={undefined}
-              tvParallaxProperties={undefined}
             />
           ),
         }}

@@ -116,12 +116,14 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
     const compressedImages: ImageObject[] = []
     for (const image of images) {
       const compressed = await Image.compress(image.uri, {
-        compressionMethod: 'auto',
         returnableOutputType: 'base64',
+        compressionMethod: Platform.OS === 'ios' ? 'auto' : 'manual',
+        maxHeight: 1280,
+        maxWidth: 1280,
       })
 
       compressedImages.push({
-        image: compressed,
+        image: _.replace(compressed, /\s/g, ''),
         height: image.height,
         width: image.width,
       })
@@ -180,6 +182,7 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
             mode="outlined"
             value={textDescription}
             onChangeText={setTextDescription}
+            autoComplete
           />
           {tank.length > 0 && (
             <>

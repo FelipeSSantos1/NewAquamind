@@ -8,19 +8,9 @@ const FakeLoadingScreen: React.FC<EmptyScreenProps> = ({
   onPress,
   icon,
 }) => (
-  <MainView
-    onPress={() => onPress() || null}
-    hasTVPreferredFocus={undefined}
-    tvParallaxProperties={undefined}
-  >
+  <MainView onPress={() => onPress() || null}>
     <>
-      {icon && (
-        <PaperIconButton
-          hasTVPreferredFocus={undefined}
-          tvParallaxProperties={undefined}
-          icon={icon}
-        />
-      )}
+      {icon && <PaperIconButton icon={icon} />}
       {text && <PaperText>{text}</PaperText>}
     </>
   </MainView>

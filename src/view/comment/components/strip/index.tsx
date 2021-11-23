@@ -44,8 +44,6 @@ const Strip: React.FC<PropsType> = ({
             disabled={refreshing}
             animated={true}
             size={15}
-            hasTVPreferredFocus={undefined}
-            tvParallaxProperties={undefined}
           />
         </RowView>
         <FooterRowView sub={false}>

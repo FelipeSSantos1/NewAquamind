@@ -176,11 +176,7 @@ const Profile: React.FC<NavPropsProfile> = () => {
     >
       <MainView>
         <HeaderRowView>
-          <TouchableRipple
-            onPress={() => takePicture()}
-            hasTVPreferredFocus={undefined}
-            tvParallaxProperties={undefined}
-          >
+          <TouchableRipple onPress={() => takePicture()}>
             <HeaderView>
               <Avatar source={fullImageUrl(user.Profile.avatar)} />
               <CameraIconBkg>
@@ -188,8 +184,6 @@ const Profile: React.FC<NavPropsProfile> = () => {
                   icon="plus-box-multiple"
                   color={theme.colors.surface}
                   onPress={() => takePicture()}
-                  hasTVPreferredFocus={undefined}
-                  tvParallaxProperties={undefined}
                 />
               </CameraIconBkg>
             </HeaderView>

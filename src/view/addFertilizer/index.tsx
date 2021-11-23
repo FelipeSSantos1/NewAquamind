@@ -55,8 +55,6 @@ const AddFertilizer: React.FC<NavPropsFertilizerList> = ({
       onPress={() =>
         handleClick({ id: item.id, name: item.name, avatar: item.avatar })
       }
-      hasTVPreferredFocus={undefined}
-      tvParallaxProperties={undefined}
     >
       <RowView>
         <ThumbImage source={fullImageUrl(item.avatar)} resizeMode="contain" />

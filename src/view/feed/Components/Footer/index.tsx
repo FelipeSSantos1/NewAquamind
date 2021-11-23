@@ -223,15 +223,11 @@ const Footer: React.FC<FooterProps> = ({
             color={liked ? theme.colors.error : theme.colors.text}
             onPress={_.debounce(toggleLike, 300, { trailing: true })}
             animated={true}
-            hasTVPreferredFocus={undefined}
-            tvParallaxProperties={undefined}
           />
           <IconButton
             icon="comment-outline"
             color={theme.colors.text}
             onPress={() => navigation.navigate('Comment', { postId: feedId })}
-            hasTVPreferredFocus={undefined}
-            tvParallaxProperties={undefined}
           />
         </RowView>
         <RowView>
@@ -253,8 +249,6 @@ const Footer: React.FC<FooterProps> = ({
               color={theme.colors.text}
               disabled={deleting}
               onPress={() => handleDeletePost()}
-              hasTVPreferredFocus={undefined}
-              tvParallaxProperties={undefined}
             />
           )}
         </RowView>

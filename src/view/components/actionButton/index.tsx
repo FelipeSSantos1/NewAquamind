@@ -16,15 +16,9 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       onPress={() => onPress()}
       bkgColor={bkgColor}
       rippleColor={theme.colors.onSurface}
-      hasTVPreferredFocus={undefined}
-      tvParallaxProperties={undefined}
     >
       <>
-        <Icon
-          icon={icon}
-          hasTVPreferredFocus={undefined}
-          tvParallaxProperties={undefined}
-        />
+        <Icon icon={icon} />
         <ActionButtonText>{label}</ActionButtonText>
       </>
     </StyledActionButton>

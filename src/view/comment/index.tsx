@@ -317,14 +317,13 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
             mode="outlined"
             value={textComment}
             onChangeText={setTextComment}
+            autoComplete
           />
           <IconButton
             icon="arrow-up-circle"
             color={theme.colors.primary}
             onPress={_.debounce(() => addComment(), 300)}
             disabled={!textComment || loadingAddComment}
-            hasTVPreferredFocus={undefined}
-            tvParallaxProperties={undefined}
           />
         </RowView>
       </Container>

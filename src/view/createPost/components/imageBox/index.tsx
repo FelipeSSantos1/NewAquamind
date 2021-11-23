@@ -16,8 +16,6 @@ const imageBox: React.FC<ImageBoxProps> = ({ imageUrl, onPress }) => {
       <PaperTouchableRipple
         onPress={onPress}
         rippleColor={theme.colors.onSurface}
-        hasTVPreferredFocus={undefined}
-        tvParallaxProperties={undefined}
       >
         {imageUrl ? (
           <>
@@ -26,8 +24,6 @@ const imageBox: React.FC<ImageBoxProps> = ({ imageUrl, onPress }) => {
               icon="delete-circle"
               size={30}
               color={theme.colors.surface}
-              hasTVPreferredFocus={undefined}
-              tvParallaxProperties={undefined}
             />
           </>
         ) : (
@@ -35,8 +31,6 @@ const imageBox: React.FC<ImageBoxProps> = ({ imageUrl, onPress }) => {
             icon="plus-circle-outline"
             size={30}
             color={theme.colors.surface}
-            hasTVPreferredFocus={undefined}
-            tvParallaxProperties={undefined}
           />
         )}
       </PaperTouchableRipple>

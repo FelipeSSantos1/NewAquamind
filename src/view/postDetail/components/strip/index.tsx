@@ -30,8 +30,6 @@ const Strip: React.FC<StripProps> = ({ item, sub, highlight }) => {
             icon={liked ? 'heart' : 'heart-outline'}
             color={liked ? theme.colors.error : theme.colors.text}
             size={15}
-            hasTVPreferredFocus={undefined}
-            tvParallaxProperties={undefined}
           />
         </RowView>
         <FooterRowView sub={false}>

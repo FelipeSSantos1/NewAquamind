@@ -375,8 +375,6 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
             icon="delete-outline"
             onPress={() => removeFertilizer(fertilizer.id)}
             color={theme.colors.error}
-            hasTVPreferredFocus={undefined}
-            tvParallaxProperties={undefined}
           />
         </RowViewSpaceBetween>
       </StripFlatList>
@@ -397,8 +395,6 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
             icon="delete-outline"
             onPress={() => removePlant(plant.id)}
             color={theme.colors.error}
-            hasTVPreferredFocus={undefined}
-            tvParallaxProperties={undefined}
           />
         </RowViewSpaceBetween>
       </StripFlatList>
@@ -429,11 +425,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
           }) => (
             <>
               <RowView>
-                <TouchableRipple
-                  onPress={() => takePicture()}
-                  hasTVPreferredFocus={undefined}
-                  tvParallaxProperties={undefined}
-                >
+                <TouchableRipple onPress={() => takePicture()}>
                   <View>
                     <TankThumbImage
                       source={
@@ -449,8 +441,6 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
                         icon="plus-box-multiple"
                         color={theme.colors.surface}
                         onPress={() => takePicture()}
-                        hasTVPreferredFocus={undefined}
-                        tvParallaxProperties={undefined}
                       />
                     </CameraIconBkg>
                   </View>

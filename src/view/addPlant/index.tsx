@@ -52,8 +52,6 @@ const AddPlant: React.FC<NavPropsPlantList> = ({ navigation, route }) => {
       onPress={() =>
         save({ id: item.id, name: item.name, avatar: item.avatar })
       }
-      hasTVPreferredFocus={undefined}
-      tvParallaxProperties={undefined}
     >
       <RowView>
         <ThumbImage source={fullImageUrl(item.avatar)} resizeMode="contain" />
@@ -64,7 +62,11 @@ const AddPlant: React.FC<NavPropsPlantList> = ({ navigation, route }) => {
 
   return (
     <MainView>
-      <Searchbar value={search} onChangeText={text => changeSearchText(text)} />
+      <Searchbar
+        value={search}
+        onChangeText={text => changeSearchText(text)}
+        autoComplete
+      />
       <FlatList
         data={_.filter(plant, item => {
           if (_.toUpper(item.name).search(_.toUpper(search)) !== -1) {

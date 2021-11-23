@@ -107,8 +107,6 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
       <RowView>
         <DetailIcon
           icon="molecule-co2"
-          hasTVPreferredFocus={undefined}
-          tvParallaxProperties={undefined}
           uppercase={false}
           color={theme.colors.text}
           compact
@@ -117,8 +115,6 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
         </DetailIcon>
         <DetailIcon
           icon="ceiling-light"
-          hasTVPreferredFocus={undefined}
-          tvParallaxProperties={undefined}
           uppercase={false}
           color={theme.colors.text}
           compact
@@ -129,8 +125,6 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
       <RowView>
         <DetailIcon
           icon="water"
-          hasTVPreferredFocus={undefined}
-          tvParallaxProperties={undefined}
           uppercase={false}
           color={theme.colors.text}
           compact
@@ -143,8 +137,6 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
         </DetailIcon>
         <DetailIcon
           icon="ruler-square"
-          hasTVPreferredFocus={undefined}
-          tvParallaxProperties={undefined}
           uppercase={false}
           color={theme.colors.text}
           compact

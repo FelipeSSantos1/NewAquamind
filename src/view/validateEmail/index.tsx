@@ -79,12 +79,7 @@ const ValidateEmail: React.FC<NavPropsValidateEmail> = ({
       )}
       {verified && (
         <ReadyView>
-          <PaperIconButton
-            hasTVPreferredFocus={undefined}
-            tvParallaxProperties={undefined}
-            animated
-            icon="check-decagram"
-          />
+          <PaperIconButton animated icon="check-decagram" />
           <PaperTitle>You are ready to go!</PaperTitle>
         </ReadyView>
       )}

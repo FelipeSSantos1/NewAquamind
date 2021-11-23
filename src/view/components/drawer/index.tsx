@@ -77,11 +77,7 @@ const BottomDrawer: React.FC = () => {
               </ScrollView>
             </DialogContent>
             <CloseButtonAnimation animation="fadeIn" duration={200} delay={200}>
-              <CloseButton
-                onPress={() => hide()}
-                hasTVPreferredFocus={undefined}
-                tvParallaxProperties={undefined}
-              >
+              <CloseButton onPress={() => hide()}>
                 <CloseButtonText>Cancel</CloseButtonText>
               </CloseButton>
             </CloseButtonAnimation>
