@@ -4,7 +4,6 @@ import { Alert, FlatList, Platform } from 'react-native'
 import { Button } from 'react-native-paper'
 import * as ImagePicker from 'expo-image-picker'
 import _ from 'lodash'
-import FastImage from 'react-native-fast-image'
 import * as Notifications from 'expo-notifications'
 import Constants from 'expo-constants'
 

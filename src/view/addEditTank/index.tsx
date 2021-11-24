@@ -297,8 +297,10 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
 
     if (!result.cancelled) {
       const compressed = await Image.compress(result.uri, {
-        compressionMethod: 'auto',
         returnableOutputType: 'base64',
+        compressionMethod: Platform.OS === 'ios' ? 'auto' : 'manual',
+        maxHeight: 1280,
+        maxWidth: 1280,
       })
       if (tank) {
         dispatch(

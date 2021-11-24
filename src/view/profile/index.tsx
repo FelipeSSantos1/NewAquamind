@@ -99,8 +99,10 @@ const Profile: React.FC<NavPropsProfile> = () => {
       )
 
       const compressed = await Image.compress(result.uri, {
-        compressionMethod: 'auto',
         returnableOutputType: 'base64',
+        compressionMethod: Platform.OS === 'ios' ? 'auto' : 'manual',
+        maxHeight: 1280,
+        maxWidth: 1280,
       })
 
       const response = await API.updatePhoto({ avatar: compressed })
