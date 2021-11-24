@@ -1,5 +1,5 @@
 import React from 'react'
-import { Linking, Platform, StatusBar, UIManager } from 'react-native'
+import { Linking, Platform, StatusBar, UIManager, LogBox } from 'react-native'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import * as Notifications from 'expo-notifications'
@@ -34,15 +34,9 @@ const myTheme = {
   fonts: configureFonts({ default: { ...theme.fonts } }),
 }
 
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: true,
-    shouldSetBadge: false,
-  }),
-})
-
 const App: React.FC = () => {
+  LogBox.ignoreLogs(['new NativeEventEmitter'])
+
   // it's for LayoutAnimation used on swipeList works
   if (
     Platform.OS === 'android' &&

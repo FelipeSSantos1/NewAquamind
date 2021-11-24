@@ -6,10 +6,10 @@ import * as ImagePicker from 'expo-image-picker'
 import _ from 'lodash'
 import * as Notifications from 'expo-notifications'
 import Constants from 'expo-constants'
+import * as SecureStore from 'expo-secure-store'
 
 import ConfigRTK from '../../store/config'
 import FeedRTK from '../../store/feed'
-import UserRTK from '../../store/user'
 import { Feed } from '../../store/feed/types'
 import { RootState } from '../../store/rootReducer'
 import { getAllFeed } from '../../API/feed'
@@ -39,7 +39,7 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
 
   async function registerForPushNotificationsAsync() {
     let token
-    if (Constants.isDevice) {
+    if (Constants.isDevice || Platform.OS === 'android') {
       const { status: existingStatus } =
         await Notifications.getPermissionsAsync()
       let finalStatus = existingStatus
@@ -52,14 +52,13 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
         return
       }
       token = (await Notifications.getExpoPushTokenAsync()).data
-    }
-
-    if (Platform.OS === 'android') {
-      Notifications.setNotificationChannelAsync('default', {
-        name: 'default',
-        importance: Notifications.AndroidImportance.MAX,
-        vibrationPattern: [0, 250, 250, 250],
-      })
+      if (Platform.OS === 'android') {
+        Notifications.setNotificationChannelAsync('default', {
+          name: 'default',
+          importance: Notifications.AndroidImportance.MAX,
+          vibrationPattern: [0, 250, 250, 250],
+        })
+      }
     }
 
     return token
@@ -69,33 +68,41 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
     if (ready) {
       registerForPushNotificationsAsync().then(async token => {
         if (_.trim(token)) {
-          if (_.trim(token) !== user.pnToken) {
+          const pnToken = await SecureStore.getItemAsync('pnToken')
+          if (!pnToken || _.trim(token) !== pnToken) {
             const response = await UserAPI.updatePNToken(_.trim(token))
             if (response && !('statusCode' in response)) {
-              dispatch(UserRTK.actions.setToken(response.pnToken))
+              if (token) {
+                await SecureStore.setItemAsync('pnToken', _.trim(token))
+              }
             }
           }
         }
       })
     }
-  }, [dispatch, ready, user.pnToken])
+  }, [dispatch, ready])
 
   useEffect(() => {
-    if (_.trim(user.pnToken)) {
-      setReady(true)
-      return
+    const showAlert = async () => {
+      const pnToken = await SecureStore.getItemAsync('pnToken')
+
+      if (_.trim(pnToken || undefined)) {
+        setReady(true)
+        return
+      }
+      dispatch(
+        ConfigRTK.actions.setAlert({
+          alertTitle: 'Notifications',
+          alertMessage:
+            'Enable notifications to get notified when someone likes your photos',
+          visible: true,
+          okPress: () => setReady(true),
+          okText: 'OK',
+        })
+      )
     }
-    dispatch(
-      ConfigRTK.actions.setAlert({
-        alertTitle: 'Notifications',
-        alertMessage:
-          'Enable notifications to get notified when someone likes your photos',
-        visible: true,
-        okPress: () => setReady(true),
-        okText: 'OK',
-      })
-    )
-  }, [dispatch, user.pnToken])
+    showAlert()
+  }, [dispatch])
   // End Notification things **************************************************
 
   const fetchFeed = async () => {
