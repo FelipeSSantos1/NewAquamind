@@ -28,7 +28,7 @@ PODS:
     - ExpoModulesCore
   - Expo (43.0.3):
     - ExpoModulesCore
-  - ExpoModulesCore (0.4.6):
+  - ExpoModulesCore (0.4.8):
     - React-Core
   - EXSecureStore (11.0.3):
     - ExpoModulesCore
@@ -421,12 +421,12 @@ PODS:
   - React-jsinspector (0.66.1)
   - React-logger (0.66.1):
     - glog
-  - react-native-compressor (1.0.0):
+  - react-native-compressor (1.0.3):
     - NextLevelSessionExporter
     - React-Core
   - react-native-flipper (0.117.0):
     - React-Core
-  - react-native-pager-view (5.4.6):
+  - react-native-pager-view (5.4.9):
     - React-Core
   - react-native-safe-area-context (3.3.2):
     - React-Core
@@ -497,7 +497,7 @@ PODS:
     - React-perflogger (= 0.66.1)
   - RNCAsyncStorage (1.15.11):
     - React-Core
-  - RNCPicker (2.1.0):
+  - RNCPicker (2.2.1):
     - React-Core
   - RNFastImage (8.5.11):
     - React-Core
@@ -775,7 +775,7 @@ SPEC CHECKSUMS:
   EXNetwork: f287400b8244611ffa5588603a01bdd601e5ce1c
   EXNotifications: 4a2beb5a2a7292ba64165413811b7c495bcb1297
   Expo: 5316c3ecdc34eb0cad340d01dc8beec97c7e879e
-  ExpoModulesCore: eea3472f70e921feb4dd24387662cbe0b67c9f8d
+  ExpoModulesCore: a9a9bf32b2da35cd9b7299c80790c03a91ac7d15
   EXSecureStore: 919bf7c28472862020d2cd7b59b69aae160b5d40
   EXSplashScreen: 57f329dbf25c5c12800feed79068a056453dc772
   FBLazyVector: 500821d196c3d1bd10e7e828bc93ce075234080f
@@ -819,9 +819,9 @@ SPEC CHECKSUMS:
   React-jsiexecutor: db2f6e22a534d466fc0e34e622df47d9d20bab2f
   React-jsinspector: 8c0517dee5e8c70cd6c3066f20213ff7ce54f176
   React-logger: bfddd3418dc1d45b77b822958f3e31422e2c179b
-  react-native-compressor: 77fbc8db25af51fafccec85f44584dd98770ccc1
+  react-native-compressor: fd8cc4b27fcd00e5e784b4d8d00583075326811f
   react-native-flipper: cd9eabd8917104c1bbdca2621717cdca3b2addef
-  react-native-pager-view: b90963d848e777def6714ab7fd40d02fa797e930
+  react-native-pager-view: 3ee7d4c7697fb3ef788346e834a60cca97ed8540
   react-native-safe-area-context: 584dc04881deb49474363f3be89e4ca0e854c057
   React-perflogger: fcac6090a80e3d967791b4c7f1b1a017f9d4a398
   React-RCTActionSheet: caf5913d9f9e605f5467206cf9d1caa6d47d7ad6
@@ -836,7 +836,7 @@ SPEC CHECKSUMS:
   React-runtimeexecutor: 33a949a51bec5f8a3c9e8d8092deb259600d761e
   ReactCommon: 620442811dc6f707b4bf5e3b27d4f19c12d5a821
   RNCAsyncStorage: eb05c0284dd6b50b32f92fad55e2a41e03358c43
-  RNCPicker: f7a40b21b915b7a187624d52f52b7bc2f73ea413
+  RNCPicker: cb57c823d5ce8d2d0b5dfb45ad97b737260dc59e
   RNFastImage: 1f2cab428712a4baaf78d6169eaec7f622556dd7
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
   RNScreens: 4d79118be80f79fa1f4aa131909a1d6e86280af3
