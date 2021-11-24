@@ -41,6 +41,9 @@ export const SmallText = styled(Text)<SmallTextProps>`
   margin-left: ${theme.sizes.margin / 2}px;
   margin-right: ${props => (props.marginRight ? theme.sizes.margin : 0)}px;
 `
+export const ErrorText = styled(SmallText)`
+  color: ${theme.colors.error};
+`
 export const TankMeasurementImage = styled.Image`
   align-self: center;
   flex: 1;

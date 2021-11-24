@@ -2,10 +2,11 @@ import React, { useEffect } from 'react'
 import { Platform, View, LayoutAnimation } from 'react-native'
 import { useDispatch } from 'react-redux'
 import { Formik } from 'formik'
-import { TouchableRipple } from 'react-native-paper'
+import { TouchableRipple, Text } from 'react-native-paper'
 import * as ImagePicker from 'expo-image-picker'
 import { Image } from 'react-native-compressor'
 import moment from 'moment'
+import DateTimePicker from '@react-native-community/datetimepicker'
 import _ from 'lodash'
 
 import { CreateParams } from '../../API/tank/types'
@@ -41,12 +42,14 @@ import {
   ThumbImageList,
   CameraIcon,
   CameraIconBkg,
+  ErrorText,
 } from './styles'
 
 const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
   const dispatch = useDispatch()
   const [tankImage, setTankImage] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
+  const [showDatePicker, setShowDatePicker] = React.useState(false)
   const [fertilizers, setFertilizers] = React.useState<FertilizerListType[]>([])
   const [plants, setPlants] = React.useState<PlantListType[]>([])
   const tank = route.params.tank
@@ -54,7 +57,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
     ? {
         name: tank.name || '',
         description: tank.description || '',
-        born: moment(tank.born).format('YYYY-MM-DD') || '',
+        born: moment(tank.born || undefined).format('YYYY-MM-DD'),
         height: tank.height ? tank.height.toString() : '',
         width: tank.width ? tank.width.toString() : '',
         length: tank.length ? tank.length.toString() : '',
@@ -69,7 +72,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
     : {
         name: '',
         description: '',
-        born: '',
+        born: moment().format('YYYY-MM-DD'),
         height: '',
         width: '',
         length: '',
@@ -426,6 +429,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
             setFieldTouched,
             touched,
             handleSubmit,
+            setFieldValue,
           }) => (
             <>
               <RowView>
@@ -459,15 +463,43 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
                       touched.name && errors.name ? errors.name : undefined
                     }
                   />
-                  <Input
-                    label="Born date YYYY-MM-DD"
-                    onChangeText={handleChange('born')}
-                    onBlur={() => setFieldTouched('born')}
-                    value={values.born}
-                    error={
-                      touched.born && errors.born ? errors.born : undefined
-                    }
-                  />
+                  <RowView>
+                    <Text>
+                      Birth day {Platform.OS === 'android' && values.born}
+                      <ErrorText>
+                        {touched.born && errors.born ? errors.born : ''}
+                      </ErrorText>
+                    </Text>
+                    {Platform.OS === 'android' && (
+                      <Icon
+                        icon="calendar"
+                        onPress={() => setShowDatePicker(true)}
+                        size={19}
+                        color={theme.colors.primary}
+                      />
+                    )}
+                    {(Platform.OS === 'ios' || showDatePicker) && (
+                      <FullView>
+                        <DateTimePicker
+                          value={moment(values.born || undefined).toDate()}
+                          mode="date"
+                          display={
+                            Platform.OS === 'ios' ? 'compact' : 'calendar'
+                          }
+                          onChange={(
+                            e: any,
+                            selectedDate: Date | undefined
+                          ) => {
+                            setShowDatePicker(false)
+                            setFieldValue(
+                              'born',
+                              moment(selectedDate).format('YYYY-MM-DD')
+                            )
+                          }}
+                        />
+                      </FullView>
+                    )}
+                  </RowView>
                 </FullView>
               </RowView>
               <RowView>
