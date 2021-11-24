@@ -38,4 +38,5 @@ export const PaperDivider = styled(Divider)`
 `
 export const StyledScrollView = styled.ScrollView`
   padding: ${theme.sizes.padding}px;
+  background-color: ${theme.colors.surface};
 `

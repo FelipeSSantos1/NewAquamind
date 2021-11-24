@@ -25,3 +25,18 @@ export const PaperImage = styled(FastImage)`
   width: 100%;
   height: 100%;
 `
+export const DotsContainerView = styled.View`
+  flex: 1;
+  justify-content: space-evenly;
+`
+export const styles = StyleSheet.create({
+  containerStyle: {
+    top: 5,
+  },
+  dot: {
+    width: 5,
+    height: 5,
+    borderRadius: 2.5,
+    margin: 2.5,
+  },
+})

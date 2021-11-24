@@ -52,7 +52,7 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
         <PaperTitle>Plant List</PaperTitle>
         {_.map(tank.TankPlant, (plant, index) => (
           <RowView key={`plant${index}`}>
-            {!!plant.Plant.avatar && <ImageBox imageUrl={plant.Plant.avatar} />}
+            <ImageBox imageUrl={plant.Plant.avatar} />
             <PaperAssetsText>{plant.Plant.name}</PaperAssetsText>
           </RowView>
         ))}
@@ -70,14 +70,14 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
         {tank &&
           _.map(tank.TankFertilizer, (fertilizer, index) => (
             <RowView key={`plant${index}`}>
-              {!!fertilizer.Fertilizer.avatar && (
-                <ImageBox imageUrl={fertilizer.Fertilizer.avatar} />
-              )}
+              <ImageBox imageUrl={fertilizer.Fertilizer.avatar} />
               <PaperAssetsText>
                 {`${fertilizer.amount}${fertilizer.Fertilizer.unit} of ${fertilizer.Fertilizer.name}`}
               </PaperAssetsText>
             </RowView>
           ))}
+        {/* fix android bottom margin */}
+        <PaperTitle> </PaperTitle>
       </>
     )
   }

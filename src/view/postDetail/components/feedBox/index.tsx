@@ -1,7 +1,10 @@
 import React from 'react'
-import { StyleSheet } from 'react-native'
+import { StyleSheet, Animated } from 'react-native'
 import Image from 'react-native-fast-image'
-import PagerView from 'react-native-pager-view'
+import PagerView, {
+  PagerViewOnPageScrollEventData,
+} from 'react-native-pager-view'
+import { ScalingDot } from 'react-native-animated-pagination-dots'
 import _ from 'lodash'
 
 import { fullImageUrl } from '../../../../services/helper'
@@ -9,7 +12,15 @@ import theme from '../../../../theme'
 import UserHeader from '../userHeader'
 import Footer from '../footer'
 import { FeedBoxProps } from './types'
-import { ContentView, PaperImage, BlurBackground } from './styles'
+import {
+  ContentView,
+  PaperImage,
+  BlurBackground,
+  DotsContainerView,
+  styles,
+} from './styles'
+
+const AnimatedPagerView = Animated.createAnimatedComponent(PagerView)
 
 const FeedBox: React.FC<FeedBoxProps> = ({ feed, showHeader, showFooter }) => {
   const width = theme.sizes.width
@@ -18,6 +29,37 @@ const FeedBox: React.FC<FeedBoxProps> = ({ feed, showHeader, showFooter }) => {
   const viewWidth = theme.sizes.width
   const heightRatio = width / maxHeightRatio
   const viewHeight = heightRatio > viewWidth ? viewWidth : heightRatio
+
+  const ref = React.useRef<PagerView>(null)
+  const scrollOffsetAnimatedValue = React.useRef(new Animated.Value(0)).current
+  const positionAnimatedValue = React.useRef(new Animated.Value(0)).current
+  const inputRange = [0, feed.Photos.length]
+  const scrollX = Animated.add(
+    scrollOffsetAnimatedValue,
+    positionAnimatedValue
+  ).interpolate({
+    inputRange,
+    outputRange: [0, feed.Photos.length * width],
+  })
+
+  const onPageScroll = React.useMemo(
+    () =>
+      Animated.event<PagerViewOnPageScrollEventData>(
+        [
+          {
+            nativeEvent: {
+              offset: scrollOffsetAnimatedValue,
+              position: positionAnimatedValue,
+            },
+          },
+        ],
+        {
+          useNativeDriver: false,
+        }
+      ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    []
+  )
 
   const dimentions = () => {
     if (feed.Tank?.length && feed.Tank?.width && feed.Tank?.height) {
@@ -49,8 +91,8 @@ const FeedBox: React.FC<FeedBoxProps> = ({ feed, showHeader, showFooter }) => {
     })
   }
 
-  const styles = StyleSheet.create({
-    pagerView: {
+  const stylesPagerView = StyleSheet.create({
+    PagerView: {
       width: viewWidth,
       height: viewHeight,
     },
@@ -67,9 +109,27 @@ const FeedBox: React.FC<FeedBoxProps> = ({ feed, showHeader, showFooter }) => {
           profileId={feed.profileId}
         />
       )}
-      <PagerView style={styles.pagerView} initialPage={0} showPageIndicator>
+      <AnimatedPagerView
+        initialPage={0}
+        ref={ref}
+        style={stylesPagerView.PagerView}
+        onPageScroll={onPageScroll}
+      >
         {renderImages()}
-      </PagerView>
+      </AnimatedPagerView>
+      {feed.Photos.length > 1 && (
+        <DotsContainerView>
+          <ScalingDot
+            data={feed.Photos}
+            //@ts-ignore
+            scrollX={scrollX}
+            containerStyle={styles.containerStyle}
+            inActiveDotColor={theme.colors.text}
+            activeDotColor={theme.colors.text}
+            dotStyle={styles.dot}
+          />
+        </DotsContainerView>
+      )}
       {showFooter && (
         <Footer
           likes={feed._count.LikePost}

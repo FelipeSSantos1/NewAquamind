@@ -105,7 +105,9 @@ const Profile: React.FC<NavPropsProfile> = () => {
         maxWidth: 1280,
       })
 
-      const response = await API.updatePhoto({ avatar: compressed })
+      const response = await API.updatePhoto({
+        avatar: _.replace(compressed, /\s/g, ''),
+      })
       if (!response) {
         dispatch(ConfigRTK.actions.setLoading({ visible: false }))
         dispatch(

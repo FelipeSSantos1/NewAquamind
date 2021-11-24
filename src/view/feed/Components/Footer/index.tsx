@@ -102,16 +102,17 @@ const Footer: React.FC<FooterProps> = ({
       return
     }
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
-
-    NotificationAPI.sendOne({
-      to: feeds[postIndex].Profile.id,
-      title: likePostNotificationTitle,
-      postId: feeds[postIndex].id,
-      body: likePostNotificationBody(user.Profile.username),
-      data: {
-        url: `${deepLinkURL}likePostComment/${feeds[postIndex].id}`,
-      },
-    })
+    if (feeds[postIndex].Profile.id !== user.profileId) {
+      NotificationAPI.sendOne({
+        to: feeds[postIndex].Profile.id,
+        title: likePostNotificationTitle,
+        postId: feeds[postIndex].id,
+        body: likePostNotificationBody(user.Profile.username),
+        data: {
+          url: `${deepLinkURL}likePostComment/${feeds[postIndex].id}`,
+        },
+      })
+    }
   }
 
   const dislikePost = async () => {

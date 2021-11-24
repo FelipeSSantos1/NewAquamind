@@ -38,20 +38,23 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   const [ready, setReady] = useState(false)
 
   async function registerForPushNotificationsAsync() {
-    let token
     if (Constants.isDevice || Platform.OS === 'android') {
       const { status: existingStatus } =
         await Notifications.getPermissionsAsync()
       let finalStatus = existingStatus
+
       if (existingStatus !== 'granted') {
         const { status } = await Notifications.requestPermissionsAsync()
         finalStatus = status
       }
+
       if (finalStatus !== 'granted') {
         Alert.alert('Failed to get push token for push notification!')
         return
       }
-      token = (await Notifications.getExpoPushTokenAsync()).data
+
+      const token = (await Notifications.getExpoPushTokenAsync()).data
+
       if (Platform.OS === 'android') {
         Notifications.setNotificationChannelAsync('default', {
           name: 'default',
@@ -59,9 +62,9 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
           vibrationPattern: [0, 250, 250, 250],
         })
       }
-    }
 
-    return token
+      return token
+    }
   }
 
   useEffect(() => {

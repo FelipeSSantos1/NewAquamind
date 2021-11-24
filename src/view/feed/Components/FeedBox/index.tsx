@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Animated, View } from 'react-native'
+import { StyleSheet, Animated } from 'react-native'
 import Image from 'react-native-fast-image'
 import PagerView, {
   PagerViewOnPageScrollEventData,
@@ -7,6 +7,7 @@ import PagerView, {
 import { useDispatch } from 'react-redux'
 import * as Haptics from 'expo-haptics'
 import produce from 'immer'
+import { ScalingDot } from 'react-native-animated-pagination-dots'
 import _ from 'lodash'
 
 import {
@@ -18,14 +19,19 @@ import {
 import theme from '../../../../theme'
 import UserHeader from '../userHeader'
 import Footer from '../footer'
-import DoubleTap from '../../../components/doubleTap'
+// import DoubleTap from '../../../components/doubleTap'
 import { FeedBoxProps } from './types'
 import ConfigRTK from '../../../../store/config'
 import FeedRTK from '../../../../store/feed'
 import * as API from '../../../../API/feed'
 import * as NotificationAPI from '../../../../API/notification'
-import { ScalingDot } from 'react-native-animated-pagination-dots'
-import { ContentView, PaperImage, BlurBackground, styles } from './styles'
+import {
+  ContentView,
+  PaperImage,
+  BlurBackground,
+  DotsContainerView,
+  styles,
+} from './styles'
 
 const AnimatedPagerView = Animated.createAnimatedComponent(PagerView)
 
@@ -176,33 +182,31 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
         navigation={navigation}
         profileId={feed.profileId}
       />
-      <DoubleTap
+      {/* <DoubleTap
         onPress={_.debounce(() => likePost(feed.id), 500, { leading: true })}
+      > */}
+      <AnimatedPagerView
+        initialPage={0}
+        ref={ref}
+        style={stylesPagerView.PagerView}
+        onPageScroll={onPageScroll}
       >
-        <AnimatedPagerView
-          initialPage={0}
-          ref={ref}
-          style={stylesPagerView.PagerView}
-          onPageScroll={onPageScroll}
-        >
-          {renderImages()}
-        </AnimatedPagerView>
-        {feed.Photos.length > 1 && (
-          <View style={styles.dotsContainer}>
-            <View style={styles.dotContainer}>
-              <ScalingDot
-                data={feed.Photos}
-                //@ts-ignore
-                scrollX={scrollX}
-                containerStyle={styles.containerStyle}
-                inActiveDotColor={theme.colors.text}
-                activeDotColor={theme.colors.text}
-                dotStyle={styles.dot}
-              />
-            </View>
-          </View>
-        )}
-      </DoubleTap>
+        {renderImages()}
+      </AnimatedPagerView>
+      {feed.Photos.length > 1 && (
+        <DotsContainerView>
+          <ScalingDot
+            data={feed.Photos}
+            //@ts-ignore
+            scrollX={scrollX}
+            containerStyle={styles.containerStyle}
+            inActiveDotColor={theme.colors.text}
+            activeDotColor={theme.colors.text}
+            dotStyle={styles.dot}
+          />
+        </DotsContainerView>
+      )}
+      {/* </DoubleTap> */}
       <Footer
         liked={!!feed.LikePost.length}
         likes={feed._count.LikePost}

@@ -112,16 +112,18 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
     await fetch()
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
     setLikeRefreshing(false)
-    NotificationAPI.sendOne({
-      to: response.profileId,
-      title: likeCommentNotificationTitle,
-      postId: postId,
-      commentId: response.commentId,
-      body: likeCommentNotificationBody(user.Profile.username),
-      data: {
-        url: `${deepLinkURL}likePostComment/${postId}/${response.commentId}`,
-      },
-    })
+    if (response.profileId !== user.profileId) {
+      NotificationAPI.sendOne({
+        to: response.profileId,
+        title: likeCommentNotificationTitle,
+        postId: postId,
+        commentId: response.commentId,
+        body: likeCommentNotificationBody(user.Profile.username),
+        data: {
+          url: `${deepLinkURL}likePostComment/${postId}/${response.commentId}`,
+        },
+      })
+    }
   }
 
   const dislikeComment = async (id: number) => {
@@ -277,7 +279,7 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
     if (parentId) {
       const parentComment = _.find(comment, { id: parentId })
-      if (parentComment) {
+      if (parentComment && parentComment?.Profile.id !== user.profileId) {
         NotificationAPI.sendOne({
           to: parentComment?.Profile.id,
           title: likeCommentNotificationTitle,
@@ -317,7 +319,7 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
             mode="outlined"
             value={textComment}
             onChangeText={setTextComment}
-            autoComplete
+            autoComplete="off"
           />
           <IconButton
             icon="arrow-up-circle"

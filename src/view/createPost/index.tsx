@@ -182,7 +182,7 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
             mode="outlined"
             value={textDescription}
             onChangeText={setTextDescription}
-            autoComplete
+            autoComplete="off"
           />
           {tank.length > 0 && (
             <>

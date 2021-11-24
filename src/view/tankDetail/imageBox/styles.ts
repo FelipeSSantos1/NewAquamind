@@ -15,4 +15,6 @@ export const ImageBox = styled.View`
 `
 export const ImageBoxImage = styled.Image`
   flex: 1;
+  width: ${width / 5 - theme.sizes.padding / 1.5}px;
+  height: ${width / 5 - theme.sizes.padding / 1.5}px;
 `

@@ -65,7 +65,7 @@ const AddPlant: React.FC<NavPropsPlantList> = ({ navigation, route }) => {
       <Searchbar
         value={search}
         onChangeText={text => changeSearchText(text)}
-        autoComplete
+        autoComplete="off"
       />
       <FlatList
         data={_.filter(plant, item => {

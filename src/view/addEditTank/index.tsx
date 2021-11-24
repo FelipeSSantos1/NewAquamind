@@ -309,7 +309,9 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
             loadingMessage: 'Uploading Photo...',
           })
         )
-        const response = await API.updatePhoto(tank.id, { avatar: compressed })
+        const response = await API.updatePhoto(tank.id, {
+          avatar: _.replace(compressed, /\s/g, ''),
+        })
         if (!response) {
           dispatch(
             ConfigRTK.actions.setAlert({
