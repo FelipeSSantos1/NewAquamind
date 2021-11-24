@@ -80,6 +80,8 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
               }
             }
           }
+        } else {
+          await SecureStore.setItemAsync('pnToken', 'noToken')
         }
       })
     }
