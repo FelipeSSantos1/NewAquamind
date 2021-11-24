@@ -7109,10 +7109,10 @@ react-native-codegen@^0.0.7:
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
 
-react-native-compressor@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/react-native-compressor/-/react-native-compressor-1.0.3.tgz#c9282f90402a4f23ac4fd3cf114523d6966b59ad"
-  integrity sha512-eABp5sj+CEQawngaDzJUPa2m/IorilQHwoxxzZqsFRzttlbqiMXg+0KjvRVXsHz7QcvUlKXf77DOUs6ol2SABg==
+react-native-compressor@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-compressor/-/react-native-compressor-1.1.0.tgz#d0cdcba3c82a296d13b38f2540edaa476a26a01c"
+  integrity sha512-1Am4ULBZ5JUSZg8p9MVrf+ZzdtQLf8J+P85MjUnvtr8x127wATDEsbO0u3fJ48t84eME98kdOzaJAHe6H7u/EQ==
   dependencies:
     react-native-get-random-values "^1.7.0"
 
