@@ -1,4 +1,5 @@
 .env
+*.aab
 # OSX
 #
 .DS_Store

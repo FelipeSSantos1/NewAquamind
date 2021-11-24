@@ -117,7 +117,7 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
     for (const image of images) {
       const compressed = await Image.compress(image.uri, {
         returnableOutputType: 'base64',
-        compressionMethod: Platform.OS === 'ios' ? 'auto' : 'manual',
+        compressionMethod: 'auto',
         maxHeight: 1280,
         maxWidth: 1280,
       })
