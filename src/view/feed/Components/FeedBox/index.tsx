@@ -4,39 +4,40 @@ import Image from 'react-native-fast-image'
 import PagerView, {
   PagerViewOnPageScrollEventData,
 } from 'react-native-pager-view'
-import { useDispatch } from 'react-redux'
-import * as Haptics from 'expo-haptics'
-import produce from 'immer'
+// import { useDispatch } from 'react-redux'
+// import * as Haptics from 'expo-haptics'
+// import produce from 'immer'
 import { ScalingDot } from 'react-native-animated-pagination-dots'
 import _ from 'lodash'
 
 import {
   fullImageUrl,
-  likePostNotificationBody,
-  likePostNotificationTitle,
-  deepLinkURL,
+  // likePostNotificationBody,
+  // likePostNotificationTitle,
+  // deepLinkURL,
 } from '../../../../services/helper'
 import theme from '../../../../theme'
 import UserHeader from '../userHeader'
 import Footer from '../footer'
 // import DoubleTap from '../../../components/doubleTap'
 import { FeedBoxProps } from './types'
-import ConfigRTK from '../../../../store/config'
-import FeedRTK from '../../../../store/feed'
-import * as API from '../../../../API/feed'
-import * as NotificationAPI from '../../../../API/notification'
+// import ConfigRTK from '../../../../store/config'
+// import FeedRTK from '../../../../store/feed'
+// import * as API from '../../../../API/feed'
+// import * as NotificationAPI from '../../../../API/notification'
 import {
   ContentView,
   PaperImage,
   BlurBackground,
   DotsContainerView,
   styles,
+  Container,
 } from './styles'
 
 const AnimatedPagerView = Animated.createAnimatedComponent(PagerView)
 
 const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
-  const dispatch = useDispatch()
+  // const dispatch = useDispatch()
   const ref = React.useRef<PagerView>(null)
 
   const width = theme.sizes.width
@@ -106,65 +107,65 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
     })
   }
 
-  const likePost = async (feedId: number) => {
-    const postIndex = _.findIndex(feeds, { id: feedId })
-    if (feeds[postIndex].LikePost.length) {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
-      return
-    }
+  // const likePost = async (feedId: number) => {
+  //   const postIndex = _.findIndex(feeds, { id: feedId })
+  //   if (feeds[postIndex].LikePost.length) {
+  //     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+  //     return
+  //   }
 
-    const newFeed = produce(feeds, draft => {
-      draft[postIndex].LikePost = [
-        {
-          postId: feedId,
-          profileId: user.profileId,
-        },
-      ]
-      feeds[postIndex]._count.LikePost += 1
-    })
-    dispatch(FeedRTK.actions.setFeed(newFeed))
+  //   const newFeed = produce(feeds, draft => {
+  //     draft[postIndex].LikePost = [
+  //       {
+  //         postId: feedId,
+  //         profileId: user.profileId,
+  //       },
+  //     ]
+  //     feeds[postIndex]._count.LikePost += 1
+  //   })
+  //   dispatch(FeedRTK.actions.setFeed(newFeed))
 
-    const response = await API.likePost(feedId)
-    if (!response) {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
-      const newFeedError = produce(feeds, draft => {
-        draft[postIndex].LikePost = []
-        feeds[postIndex]._count.LikePost -= 1
-      })
-      dispatch(FeedRTK.actions.setFeed(newFeedError))
+  //   const response = await API.likePost(feedId)
+  //   if (!response) {
+  //     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+  //     const newFeedError = produce(feeds, draft => {
+  //       draft[postIndex].LikePost = []
+  //       feeds[postIndex]._count.LikePost -= 1
+  //     })
+  //     dispatch(FeedRTK.actions.setFeed(newFeedError))
 
-      return
-    }
-    if ('statusCode' in response) {
-      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
-      const newFeedError = produce(feeds, draft => {
-        draft[postIndex].LikePost = []
-        feeds[postIndex]._count.LikePost -= 1
-      })
-      dispatch(FeedRTK.actions.setFeed(newFeedError))
+  //     return
+  //   }
+  //   if ('statusCode' in response) {
+  //     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+  //     const newFeedError = produce(feeds, draft => {
+  //       draft[postIndex].LikePost = []
+  //       feeds[postIndex]._count.LikePost -= 1
+  //     })
+  //     dispatch(FeedRTK.actions.setFeed(newFeedError))
 
-      dispatch(
-        ConfigRTK.actions.setAlert({
-          visible: true,
-          alertTitle: 'Oops!',
-          alertMessage: response.message,
-          okText: 'Ok',
-        })
-      )
-      return
-    }
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+  //     dispatch(
+  //       ConfigRTK.actions.setAlert({
+  //         visible: true,
+  //         alertTitle: 'Oops!',
+  //         alertMessage: response.message,
+  //         okText: 'Ok',
+  //       })
+  //     )
+  //     return
+  //   }
+  //   Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
 
-    NotificationAPI.sendOne({
-      to: feeds[postIndex].Profile.id,
-      title: likePostNotificationTitle,
-      postId: feeds[postIndex].id,
-      body: likePostNotificationBody(user.Profile.username),
-      data: {
-        url: `${deepLinkURL}likePostComment/${feeds[postIndex].id}`,
-      },
-    })
-  }
+  //   NotificationAPI.sendOne({
+  //     to: feeds[postIndex].Profile.id,
+  //     title: likePostNotificationTitle,
+  //     postId: feeds[postIndex].id,
+  //     body: likePostNotificationBody(user.Profile.username),
+  //     data: {
+  //       url: `${deepLinkURL}likePostComment/${feeds[postIndex].id}`,
+  //     },
+  //   })
+  // }
 
   const stylesPagerView = StyleSheet.create({
     PagerView: {
@@ -173,7 +174,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
     },
   })
   return (
-    <>
+    <Container>
       <UserHeader
         userName={feed.Profile.username}
         url={feed.Profile?.avatar}
@@ -220,7 +221,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
         username={feed.Profile.username}
         profileId={feed.profileId}
       />
-    </>
+    </Container>
   )
 }
 

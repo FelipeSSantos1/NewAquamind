@@ -9,6 +9,7 @@ import theme from '../../theme'
 export const Container = styled.ScrollView`
   flex: 1;
   padding: ${theme.sizes.padding}px;
+  background-color: ${theme.colors.background};
 `
 export const PaperKeyboardAvoidingView = styled.KeyboardAvoidingView`
   flex: 1;

@@ -35,4 +35,5 @@ export const SaveButon = styled(Button)`
 `
 export const PaperKeyboardAvoidingView = styled.KeyboardAvoidingView`
   flex: 1;
+  background-color: ${theme.colors.background};
 `

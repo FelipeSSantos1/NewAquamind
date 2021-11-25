@@ -31,6 +31,7 @@
     "@react-navigation/native-stack": "^6.2.5",
     "@reduxjs/toolkit": "^1.6.2",
     "axios": "^0.24.0",
+    "color": "^4.0.1",
     "expo": "^43.0.3",
     "expo-app-loading": "~1.2.1",
     "expo-blur": "~10.0.3",
@@ -69,8 +70,10 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@babel/plugin-proposal-numeric-separator": "^7.16.0",
     "@babel/runtime": "^7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
+    "@types/color": "^3.0.2",
     "@types/jest": "^26.0.23",
     "@types/react-native": "^0.65.0",
     "@types/react-native-snap-carousel": "^3.8.5",

@@ -6,5 +6,6 @@ module.exports = {
         inlineRequires: true,
       },
     }),
+    plugins: ['@babel/plugin-proposal-numeric-separator'],
   },
 }

@@ -5,6 +5,9 @@ import FastImage from 'react-native-fast-image'
 
 import theme from '../../../../theme'
 
+export const Container = styled.View`
+  background-color: ${theme.colors.background};
+`
 export const RowView = styled.View`
   flex-direction: row;
   align-items: center;

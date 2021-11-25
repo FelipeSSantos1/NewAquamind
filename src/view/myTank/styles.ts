@@ -4,6 +4,7 @@ import theme from '../../theme'
 
 export const Container = styled.View`
   flex: 1;
+  background-color: ${theme.colors.background};
 `
 export const PaperFAB = styled(FAB)`
   position: absolute;
