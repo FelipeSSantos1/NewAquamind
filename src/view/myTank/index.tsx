@@ -13,7 +13,7 @@ import * as API from '../../API/tank'
 import ConfigRTK from '../../store/config'
 import { NavPropsTank } from 'routes/types'
 import { Container, PaperFAB, BannerTop } from './styles'
-import _ from 'lodash'
+import map from 'lodash/map'
 
 const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
   const { tank } = useSelector((state: RootState) => state)
@@ -115,7 +115,7 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
   }
 
   const renderTanks = () => {
-    return _.map(tank, (item, index) => (
+    return map(tank, (item, index) => (
       <Strip
         key={`tank-${index}`}
         createdAt={item.born || null}

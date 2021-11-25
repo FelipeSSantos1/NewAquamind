@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import moment from 'moment'
-import _ from 'lodash'
+import map from 'lodash/map'
+import toInteger from 'lodash/toInteger'
 
 import * as tankAPI from '../../API/tank'
 import { fullImageUrl } from '../../services/helper'
@@ -50,7 +51,7 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
       <>
         <PaperDivider />
         <PaperTitle>Plant List</PaperTitle>
-        {_.map(tank.TankPlant, (plant, index) => (
+        {map(tank.TankPlant, (plant, index) => (
           <RowView key={`plant${index}`}>
             <ImageBox imageUrl={plant.Plant.avatar} />
             <PaperAssetsText>{plant.Plant.name}</PaperAssetsText>
@@ -68,7 +69,7 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
         <PaperDivider />
         <PaperTitle>Fertilizer List</PaperTitle>
         {tank &&
-          _.map(tank.TankFertilizer, (fertilizer, index) => (
+          map(tank.TankFertilizer, (fertilizer, index) => (
             <RowView key={`plant${index}`}>
               <ImageBox imageUrl={fertilizer.Fertilizer.avatar} />
               <PaperAssetsText>
@@ -130,7 +131,7 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
           compact
         >
           {!!tank.width && !!tank.height && !!tank.length
-            ? `${_.toInteger(
+            ? `${toInteger(
                 (tank.width * tank.height * tank.length) / 1000
               )} litres`
             : 'none'}

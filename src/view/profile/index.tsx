@@ -3,7 +3,9 @@ import { Platform } from 'react-native'
 import { TouchableRipple } from 'react-native-paper'
 import { Formik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
-import _ from 'lodash'
+import replace from 'lodash/replace'
+import deburr from 'lodash/deburr'
+import debounce from 'lodash/debounce'
 import { Image } from 'react-native-compressor'
 import * as ImagePicker from 'expo-image-picker'
 
@@ -106,7 +108,7 @@ const Profile: React.FC<NavPropsProfile> = () => {
       })
 
       const response = await API.updatePhoto({
-        avatar: _.replace(compressed, /\s/g, ''),
+        avatar: replace(compressed, /\s/g, ''),
       })
       if (!response) {
         dispatch(ConfigRTK.actions.setLoading({ visible: false }))
@@ -147,7 +149,7 @@ const Profile: React.FC<NavPropsProfile> = () => {
 
   const updateProfile = async (values: FormData) => {
     setLoading(true)
-    values.username = _.replace(_.deburr(values.username), /[^a-z0-9_-]/g, '')
+    values.username = replace(deburr(values.username), /[^a-z0-9_-]/g, '')
     const response = await API.updateProfile(values)
     if (!response) {
       setLoading(false)
@@ -224,7 +226,7 @@ const Profile: React.FC<NavPropsProfile> = () => {
                 label="Username"
                 onChangeText={text =>
                   handleChange('username')(
-                    _.replace(_.deburr(text), /[^a-z0-9_-]/g, '')
+                    replace(deburr(text), /[^a-z0-9_-]/g, '')
                   )
                 }
                 onBlur={() => setFieldTouched('username')}
@@ -256,7 +258,7 @@ const Profile: React.FC<NavPropsProfile> = () => {
                 error={touched.bio && errors.bio ? errors.bio : undefined}
               />
               <PaperButton
-                onPress={_.debounce(() => handleSubmit(), 300)}
+                onPress={debounce(() => handleSubmit(), 300)}
                 disabled={loading}
                 loading={loading}
               >

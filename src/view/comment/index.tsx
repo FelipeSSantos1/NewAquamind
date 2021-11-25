@@ -3,7 +3,11 @@ import { FlatList, Platform, TextInput } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { Divider, IconButton } from 'react-native-paper'
 import * as Haptics from 'expo-haptics'
-import _ from 'lodash'
+import map from 'lodash/map'
+import debounce from 'lodash/debounce'
+import trim from 'lodash/trim'
+import find from 'lodash/find'
+import replace from 'lodash/replace'
 
 import {
   fullImageUrl,
@@ -188,23 +192,21 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
     const mainliked = item.LikeComment.length > 0
 
     const subComments = (comments: SubComment[]) => {
-      return _.map(comments, subComment => {
+      return map(comments, subComment => {
         const subLiked = subComment.LikeComment.length > 0
         return (
           <Strip
             key={subComment.id}
             item={subComment}
-            deleteFunction={_.debounce(
-              () => deleteComment(subComment.id),
-              300,
-              { leading: true }
-            )}
-            likeFunction={_.debounce(
+            deleteFunction={debounce(() => deleteComment(subComment.id), 300, {
+              leading: true,
+            })}
+            likeFunction={debounce(
               () => toggleLike(subComment.id, subLiked),
               300,
               { leading: true }
             )}
-            replyFunction={_.debounce(
+            replyFunction={debounce(
               () =>
                 replyHandler(
                   subComment.Profile.username,
@@ -226,13 +228,13 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
         <Strip
           key={item.id}
           item={item}
-          deleteFunction={_.debounce(() => deleteComment(item.id), 300, {
+          deleteFunction={debounce(() => deleteComment(item.id), 300, {
             leading: true,
           })}
-          likeFunction={_.debounce(() => toggleLike(item.id, mainliked), 300, {
+          likeFunction={debounce(() => toggleLike(item.id, mainliked), 300, {
             leading: true,
           })}
-          replyFunction={_.debounce(
+          replyFunction={debounce(
             () => replyHandler(item.Profile.username, item.id),
             300
           )}
@@ -250,7 +252,7 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
     setLoadingAddComment(true)
     const response = await API.addComment({
       postId,
-      comment: _.replace(_.trim(textComment), /\r?\n|\r/, ''),
+      comment: replace(trim(textComment), /\r?\n|\r/, ''),
       parentId,
     })
     if (!response) {
@@ -278,7 +280,7 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
     inputTextRef.current?.blur()
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
     if (parentId) {
-      const parentComment = _.find(comment, { id: parentId })
+      const parentComment = find(comment, { id: parentId })
       if (parentComment && parentComment?.Profile.id !== user.profileId) {
         NotificationAPI.sendOne({
           to: parentComment?.Profile.id,
@@ -324,7 +326,7 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
           <IconButton
             icon="arrow-up-circle"
             color={theme.colors.primary}
-            onPress={_.debounce(() => addComment(), 300)}
+            onPress={debounce(() => addComment(), 300)}
             disabled={!textComment || loadingAddComment}
           />
         </RowView>

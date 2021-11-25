@@ -5,7 +5,8 @@ import PagerView, {
   PagerViewOnPageScrollEventData,
 } from 'react-native-pager-view'
 import { ScalingDot } from 'react-native-animated-pagination-dots'
-import _ from 'lodash'
+import min from 'lodash/min'
+import map from 'lodash/map'
 
 import { fullImageUrl } from '../../../../services/helper'
 import theme from '../../../../theme'
@@ -25,7 +26,7 @@ const AnimatedPagerView = Animated.createAnimatedComponent(PagerView)
 const FeedBox: React.FC<FeedBoxProps> = ({ feed, showHeader, showFooter }) => {
   const width = theme.sizes.width
   const maxHeightRatio =
-    _.min(_.map(feed.Photos, photo => photo.width / photo.height)) || 1
+    min(map(feed.Photos, photo => photo.width / photo.height)) || 1
   const viewWidth = theme.sizes.width
   const heightRatio = width / maxHeightRatio
   const viewHeight = heightRatio > viewWidth ? viewWidth : heightRatio
@@ -70,7 +71,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ feed, showHeader, showFooter }) => {
   }
 
   const renderImages = () => {
-    return _.map(feed.Photos, photo => {
+    return map(feed.Photos, photo => {
       const imageHeight = width * (photo.height / photo.width)
       const imageWidth = width * (photo.width / photo.height)
       const landscape = photo.width > photo.height

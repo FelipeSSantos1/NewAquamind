@@ -3,7 +3,9 @@ import { Button, IconButton } from 'react-native-paper'
 import { Pressable } from 'react-native'
 import * as Haptics from 'expo-haptics'
 import produce from 'immer'
-import _ from 'lodash'
+import findIndex from 'lodash/findIndex'
+import pullAt from 'lodash/pullAt'
+import debounce from 'lodash/debounce'
 
 import theme from '../../../../theme'
 import {
@@ -61,7 +63,7 @@ const Footer: React.FC<FooterProps> = ({
   }, [comments])
 
   const likePost = async () => {
-    const postIndex = _.findIndex(feeds, { id: feedId })
+    const postIndex = findIndex(feeds, { id: feedId })
     const newFeed = produce(feeds, draft => {
       draft[postIndex].LikePost = [
         {
@@ -116,7 +118,7 @@ const Footer: React.FC<FooterProps> = ({
   }
 
   const dislikePost = async () => {
-    const postIndex = _.findIndex(feeds, { id: feedId })
+    const postIndex = findIndex(feeds, { id: feedId })
     const newFeed = produce(feeds, draft => {
       draft[postIndex].LikePost = []
       feeds[postIndex]._count.LikePost -= 1
@@ -187,7 +189,7 @@ const Footer: React.FC<FooterProps> = ({
 
   const deletePost = async () => {
     setDeleting(true)
-    const postIndex = _.findIndex(feeds, { id: feedId })
+    const postIndex = findIndex(feeds, { id: feedId })
     const response = await API.deletePost(feedId)
     setDeleting(false)
     if (!response) {
@@ -210,7 +212,7 @@ const Footer: React.FC<FooterProps> = ({
 
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
     const newFeedError = produce(feeds, draft => {
-      _.pullAt(draft, [postIndex])
+      pullAt(draft, [postIndex])
     })
     dispatch(FeedRTK.actions.setFeed(newFeedError))
   }
@@ -222,7 +224,7 @@ const Footer: React.FC<FooterProps> = ({
           <IconButton
             icon={liked ? 'heart' : 'heart-outline'}
             color={liked ? theme.colors.error : theme.colors.text}
-            onPress={_.debounce(toggleLike, 300, { trailing: true })}
+            onPress={debounce(toggleLike, 300, { trailing: true })}
             animated={true}
           />
           <IconButton

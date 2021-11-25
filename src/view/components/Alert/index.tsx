@@ -1,7 +1,8 @@
 import React from 'react'
 import { Portal, Dialog, Paragraph } from 'react-native-paper'
 import { useDispatch, useSelector } from 'react-redux'
-import _ from 'lodash'
+import isEmpty from 'lodash/isEmpty'
+import trim from 'lodash/trim'
 
 import { RootState } from '../../../store/rootReducer'
 import ConfigRTK from '../../../store/config'
@@ -37,12 +38,12 @@ const Alert: React.FC = () => {
           <Paragraph>{config.alert.alertMessage}</Paragraph>
         </Dialog.Content>
         <Dialog.Actions>
-          {!_.isEmpty(_.trim(config.alert.cancelText)) && (
+          {!isEmpty(trim(config.alert.cancelText)) && (
             <Button
               color={theme.colors.error}
               onPress={() => dispatch(ConfigRTK.actions.hideAlert())}
             >
-              {_.trim(config.alert.cancelText)}
+              {trim(config.alert.cancelText)}
             </Button>
           )}
           <Button
@@ -53,8 +54,8 @@ const Alert: React.FC = () => {
               dispatch(ConfigRTK.actions.hideAlert())
             }}
           >
-            {!_.isEmpty(_.trim(config.alert.okText))
-              ? _.trim(config.alert.okText)
+            {!isEmpty(trim(config.alert.okText))
+              ? trim(config.alert.okText)
               : 'Done'}
           </Button>
         </Dialog.Actions>

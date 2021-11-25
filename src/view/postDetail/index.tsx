@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { FlatList } from 'react-native'
 import { useSelector } from 'react-redux'
-import _ from 'lodash'
+import map from 'lodash/map'
 
 import { GetPostByIdResponse } from '../../API/feed/types'
 import FakeLoadingScreen from '../components/fakeLoadingScreen'
@@ -43,7 +43,7 @@ const PostDetail: React.FC<NavPropsPostDetail> = ({ route }) => {
 
   const renderComments = ({ item }: { item: CommentState }) => {
     const subComments = (comments: SubComment[]) => {
-      return _.map(comments, subComment => {
+      return map(comments, subComment => {
         return (
           <Strip
             key={subComment.id}

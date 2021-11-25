@@ -2,7 +2,9 @@ import React, { useEffect } from 'react'
 import { Platform, LayoutAnimation } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import * as ImagePicker from 'expo-image-picker'
-import _ from 'lodash'
+import filter from 'lodash/filter'
+import map from 'lodash/map'
+import replace from 'lodash/replace'
 import { Image } from 'react-native-compressor'
 
 import { RootState } from '../../store/rootReducer'
@@ -79,14 +81,14 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
 
   const renderImages = () => {
     const removeImage = (selectedImage: string) => {
-      const newImages = _.filter(images, image => {
+      const newImages = filter(images, image => {
         return image.uri !== selectedImage
       })
       LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
       setImages(newImages)
     }
 
-    return _.map(images, (image, index) => (
+    return map(images, (image, index) => (
       <ImageBox
         key={index}
         imageUrl={image.uri}
@@ -123,7 +125,7 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
       })
 
       compressedImages.push({
-        image: _.replace(compressed, /\s/g, ''),
+        image: replace(compressed, /\s/g, ''),
         height: image.height,
         width: image.width,
       })
@@ -195,7 +197,7 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
                 }
               >
                 <StyledPicker.Item key={0} label="none" value={0} />
-                {_.map(tank, currentTank => (
+                {map(tank, currentTank => (
                   <StyledPicker.Item
                     key={currentTank.id}
                     label={currentTank.name}

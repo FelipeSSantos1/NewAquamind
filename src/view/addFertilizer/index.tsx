@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { TouchableRipple, Divider } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux'
 import { FlatList, LayoutAnimation } from 'react-native'
-import _ from 'lodash'
+import filter from 'lodash/filter'
+import toUpper from 'lodash/toUpper'
 
 import * as API from '../../API/fertilizer'
 import FertilizerRTK from '../../store/fertilizer'
@@ -65,7 +66,11 @@ const AddFertilizer: React.FC<NavPropsFertilizerList> = ({
 
   return (
     <MainView>
-      <Searchbar value={search} onChangeText={text => changeSearchText(text)} />
+      <Searchbar
+        value={search}
+        onChangeText={text => changeSearchText(text)}
+        autoComplete="off"
+      />
       <SelectDose
         visible={selectDoseAlert}
         onDismiss={setSelectDoseAlert}
@@ -76,8 +81,8 @@ const AddFertilizer: React.FC<NavPropsFertilizerList> = ({
         route={route}
       />
       <FlatList
-        data={_.filter(fertilizer, item => {
-          if (_.toUpper(item.name).search(_.toUpper(search)) !== -1) {
+        data={filter(fertilizer, item => {
+          if (toUpper(item.name).search(toUpper(search)) !== -1) {
             return true
           }
           return false

@@ -3,7 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { Alert, FlatList, Platform } from 'react-native'
 import { Button } from 'react-native-paper'
 import * as ImagePicker from 'expo-image-picker'
-import _ from 'lodash'
+import trim from 'lodash/trim'
+import debounce from 'lodash/debounce'
 import * as Notifications from 'expo-notifications'
 import Constants from 'expo-constants'
 import * as SecureStore from 'expo-secure-store'
@@ -70,13 +71,13 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   useEffect(() => {
     if (ready) {
       registerForPushNotificationsAsync().then(async token => {
-        if (_.trim(token)) {
+        if (trim(token)) {
           const pnToken = await SecureStore.getItemAsync('pnToken')
-          if (!pnToken || _.trim(token) !== pnToken) {
-            const response = await UserAPI.updatePNToken(_.trim(token))
+          if (!pnToken || trim(token) !== pnToken) {
+            const response = await UserAPI.updatePNToken(trim(token))
             if (response && !('statusCode' in response)) {
               if (token) {
-                await SecureStore.setItemAsync('pnToken', _.trim(token))
+                await SecureStore.setItemAsync('pnToken', trim(token))
               }
             }
           }
@@ -91,7 +92,7 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
     const showAlert = async () => {
       const pnToken = await SecureStore.getItemAsync('pnToken')
 
-      if (_.trim(pnToken || undefined)) {
+      if (trim(pnToken || undefined)) {
         setReady(true)
         return
       }
@@ -212,7 +213,7 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
             uppercase={false}
             loading={bottomRefreshing}
             disabled={bottomRefreshing}
-            onPress={_.debounce(async () => {
+            onPress={debounce(async () => {
               setBottomRefreshing(true)
               await fetchFeed()
               setBottomRefreshing(false)

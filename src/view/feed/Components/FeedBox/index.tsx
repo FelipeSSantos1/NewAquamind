@@ -8,7 +8,10 @@ import PagerView, {
 // import * as Haptics from 'expo-haptics'
 // import produce from 'immer'
 import { ScalingDot } from 'react-native-animated-pagination-dots'
-import _ from 'lodash'
+import min from 'lodash/min'
+import map from 'lodash/map'
+// import findIndex from 'lodash/findIndex'
+// import debounce from 'lodash/debounce'
 
 import {
   fullImageUrl,
@@ -42,7 +45,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
 
   const width = theme.sizes.width
   const maxHeightRatio =
-    _.min(_.map(feed.Photos, photo => photo.width / photo.height)) || 1
+    min(map(feed.Photos, photo => photo.width / photo.height)) || 1
   const viewWidth = theme.sizes.width
   const heightRatio = width / maxHeightRatio
   const viewHeight = heightRatio > viewWidth ? viewWidth : heightRatio
@@ -86,7 +89,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
   }
 
   const renderImages = () => {
-    return _.map(feed.Photos, photo => {
+    return map(feed.Photos, photo => {
       const imageHeight = width * (photo.height / photo.width)
       const imageWidth = width * (photo.width / photo.height)
       const landscape = photo.width > photo.height
@@ -108,7 +111,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
   }
 
   // const likePost = async (feedId: number) => {
-  //   const postIndex = _.findIndex(feeds, { id: feedId })
+  //   const postIndex = findIndex(feeds, { id: feedId })
   //   if (feeds[postIndex].LikePost.length) {
   //     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
   //     return
@@ -184,7 +187,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
         profileId={feed.profileId}
       />
       {/* <DoubleTap
-        onPress={_.debounce(() => likePost(feed.id), 500, { leading: true })}
+        onPress={debounce(() => likePost(feed.id), 500, { leading: true })}
       > */}
       <AnimatedPagerView
         initialPage={0}

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { TouchableRipple, Divider } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux'
 import { FlatList } from 'react-native'
-import _ from 'lodash'
+import filter from 'lodash/filter'
+import toUpper from 'lodash/toUpper'
 
 import * as API from '../../API/plant'
 import PlantRTK from '../../store/plant'
@@ -68,8 +69,8 @@ const AddPlant: React.FC<NavPropsPlantList> = ({ navigation, route }) => {
         autoComplete="off"
       />
       <FlatList
-        data={_.filter(plant, item => {
-          if (_.toUpper(item.name).search(_.toUpper(search)) !== -1) {
+        data={filter(plant, item => {
+          if (toUpper(item.name).search(toUpper(search)) !== -1) {
             return true
           }
           return false

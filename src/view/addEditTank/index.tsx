@@ -7,7 +7,11 @@ import * as ImagePicker from 'expo-image-picker'
 import { Image } from 'react-native-compressor'
 import moment from 'moment'
 import DateTimePicker from '@react-native-community/datetimepicker'
-import _ from 'lodash'
+import forEach from 'lodash/forEach'
+import find from 'lodash/find'
+import map from 'lodash/map'
+import replace from 'lodash/replace'
+import filter from 'lodash/filter'
 
 import { CreateParams } from '../../API/tank/types'
 import ConfigRTK from '../../store/config'
@@ -91,7 +95,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
     })
     if (route.params.tank) {
       const pushFertilizers: FertilizerListType[] = []
-      _.forEach(route.params.tank.TankFertilizer, fertilizer => {
+      forEach(route.params.tank.TankFertilizer, fertilizer => {
         pushFertilizers.push({
           id: fertilizer.Fertilizer.id,
           name: fertilizer.Fertilizer.name,
@@ -101,7 +105,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
       })
       setFertilizers(pushFertilizers)
       const pushPlants: PlantListType[] = []
-      _.forEach(route.params.tank.TankPlant, plant => {
+      forEach(route.params.tank.TankPlant, plant => {
         pushPlants.push({
           avatar: plant.Plant.avatar,
           id: plant.Plant.id,
@@ -114,7 +118,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
   useEffect(() => {
     if (route.params.plants) {
       const plantToAdd = route.params.plants
-      if (plants.length > 0 && !!_.find(plants, { id: plantToAdd.id })) {
+      if (plants.length > 0 && !!find(plants, { id: plantToAdd.id })) {
         dispatch(
           ConfigRTK.actions.setAlert({
             visible: true,
@@ -134,7 +138,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
       const fertilizerToAdd = route.params.fertilizers
       if (
         fertilizers.length > 0 &&
-        !!_.find(fertilizers, { id: fertilizerToAdd.id })
+        !!find(fertilizers, { id: fertilizerToAdd.id })
       ) {
         dispatch(
           ConfigRTK.actions.setAlert({
@@ -159,10 +163,10 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
         loadingMessage: 'Saving...',
       })
     )
-    const validPlants = _.map(plants, plant => {
+    const validPlants = map(plants, plant => {
       return { plantId: Number(plant.id) }
     })
-    const validFertilizers = _.map(fertilizers, fertilizer => {
+    const validFertilizers = map(fertilizers, fertilizer => {
       return {
         fertilizerId: Number(fertilizer.id),
         amount: Number(fertilizer.dose),
@@ -313,7 +317,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
           })
         )
         const response = await API.updatePhoto(tank.id, {
-          avatar: _.replace(compressed, /\s/g, ''),
+          avatar: replace(compressed, /\s/g, ''),
         })
         if (!response) {
           dispatch(
@@ -360,15 +364,15 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
 
   const removeFertilizer = (id: number) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-    setFertilizers(_.filter(fertilizers, item => item.id !== id))
+    setFertilizers(filter(fertilizers, item => item.id !== id))
   }
   const removePlant = (id: number) => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-    setPlants(_.filter(plants, item => item.id !== id))
+    setPlants(filter(plants, item => item.id !== id))
   }
 
   const renderFertilizerList = () => {
-    return _.map(fertilizers, (fertilizer, index) => (
+    return map(fertilizers, (fertilizer, index) => (
       <StripFlatList key={`fert-${index}`}>
         <RowViewSpaceBetween>
           <RowView>
@@ -388,7 +392,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
     ))
   }
   const renderPlantList = () => {
-    return _.map(plants, (plant, index) => (
+    return map(plants, (plant, index) => (
       <StripFlatList key={`fert-${index}`}>
         <RowViewSpaceBetween>
           <RowView>
