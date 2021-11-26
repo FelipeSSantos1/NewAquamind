@@ -60,7 +60,7 @@ const theme: MyTheme = {
     primary: '#086BDB',
     green: '#245F5C',
     accent: '#7A08DD',
-    darkenBackground: '#F7F9FF',
+    darkenBackground: Color('#434655').lightness(97).toString(),
     background: '#FFF',
     surface: '#FFF',
     error: '#DD3308',

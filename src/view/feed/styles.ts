@@ -10,3 +10,6 @@ export const PaperFAB = styled(FAB)`
   bottom: 0;
   background-color: ${theme.colors.primary};
 `
+export const PaperFlatList = styled.FlatList`
+  background-color: ${theme.colors.background};
+`

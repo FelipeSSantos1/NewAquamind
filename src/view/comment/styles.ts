@@ -6,6 +6,7 @@ import theme from '../../theme'
 
 export const Container = styled.View`
   flex: 1;
+  background-color: ${theme.colors.background};
 `
 export const PaperTextInput = styled(TextInput)`
   flex: 1;
@@ -15,6 +16,9 @@ export const PaperTextInput = styled(TextInput)`
 export const RowView = styled.View`
   flex-direction: row;
   align-items: flex-end;
+  background-color: ${theme.colors.darkenBackground};
+  border-top-width: ${StyleSheet.hairlineWidth}px;
+  border-top-color: ${theme.colors.disabled};
 `
 export const PaperAvatar = styled(Avatar.Image)`
   background-color: transparent;

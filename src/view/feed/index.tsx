@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Alert, FlatList, Platform } from 'react-native'
+import { Alert, Platform } from 'react-native'
 import { Button } from 'react-native-paper'
 import * as ImagePicker from 'expo-image-picker'
 import trim from 'lodash/trim'
@@ -17,7 +17,7 @@ import { getAllFeed } from '../../API/feed'
 import * as UserAPI from '../../API/user'
 import { NavPropsFeed } from '../../routes/types'
 import FeedBox from './components/feedBox'
-import { PaperFAB } from './styles'
+import { PaperFAB, PaperFlatList } from './styles'
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -197,11 +197,11 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
 
   return (
     <>
-      <FlatList
+      <PaperFlatList
         showsVerticalScrollIndicator={false}
         data={feeds}
-        renderItem={item => renderFeed(item)}
-        keyExtractor={item => item.id.toString()}
+        renderItem={item => renderFeed(item as { item: Feed })}
+        keyExtractor={item => (item as Feed).id.toString()}
         onRefresh={resetData}
         refreshing={refreshing}
         onEndReachedThreshold={0.5}
