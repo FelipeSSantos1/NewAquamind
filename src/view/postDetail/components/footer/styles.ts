@@ -10,8 +10,6 @@ export const RowView = styled.View`
 `
 export const TextDescription = styled(PaperText)`
   margin-left: ${theme.sizes.margin}px;
-  margin-top: ${theme.sizes.margin}px;
-  color: ${theme.colors.text};
 `
 export const Text = styled(PaperText)`
   margin-right: ${theme.sizes.margin}px;
@@ -20,5 +18,4 @@ export const Text = styled(PaperText)`
 `
 export const TextUserName = styled(PaperText)`
   font-family: ${theme.fonts.medium.fontFamily};
-  color: ${theme.colors.accent};
 `

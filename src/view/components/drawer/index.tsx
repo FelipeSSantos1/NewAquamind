@@ -56,8 +56,15 @@ const BottomDrawer: React.FC = () => {
               <ScrollView showsVerticalScrollIndicator={false}>
                 <Drawer.Item
                   label="Profile"
-                  icon="account"
+                  icon="account-outline"
                   onPress={() => hide(() => navigation.navigate('Profile'))}
+                />
+                <Drawer.Item
+                  label="Notification Center"
+                  icon="bell-outline"
+                  onPress={() =>
+                    hide(() => navigation.navigate('Notification'))
+                  }
                 />
                 <Drawer.Item
                   label="Send us a message"

@@ -13,6 +13,7 @@ import {
   fullImageUrl,
   likeCommentNotificationBody,
   likeCommentNotificationTitle,
+  replyCommentNotificationTitle,
   replyCommentNotificationBody,
   deepLinkURL,
 } from '../../services/helper'
@@ -284,7 +285,7 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
       if (parentComment && parentComment?.Profile.id !== user.profileId) {
         NotificationAPI.sendOne({
           to: parentComment?.Profile.id,
-          title: likeCommentNotificationTitle,
+          title: replyCommentNotificationTitle,
           postId: postId,
           commentId: response.id,
           body: replyCommentNotificationBody(user.Profile.username),

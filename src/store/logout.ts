@@ -6,6 +6,8 @@ import ConfigRTK from './config'
 import UserRTK from './user'
 import FeedRTK from './feed'
 import TankRTK from './tank'
+import CommentRTK from './comment'
+import NotificationRTK from './notification'
 
 export default async () => {
   const { dispatch } = store
@@ -16,6 +18,8 @@ export default async () => {
   await SecureStore.deleteItemAsync('accessToken')
   await SecureStore.deleteItemAsync('refreshToken')
 
+  dispatch(CommentRTK.actions.logout())
+  dispatch(NotificationRTK.actions.logout())
   dispatch(UserRTK.actions.logout())
   dispatch(FeedRTK.actions.logout())
   dispatch(TankRTK.actions.logout())

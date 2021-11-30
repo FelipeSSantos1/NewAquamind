@@ -15,6 +15,7 @@ import FeedView from '../view/feed'
 import CommentView from '../view/comment'
 import TankView from '../view/myTank'
 import ContactUsView from '../view/contactUs'
+import NotificationView from '../view/notification'
 import CreatePostView from '../view/createPost'
 import TankDetailView from '../view/tankDetail'
 import AddEditTankView from '../view/addEditTank'
@@ -78,6 +79,14 @@ const General = () => [
     component={ContactUsView}
     options={{
       title: 'Contact Us',
+    }}
+  />,
+  <GeneralStack.Screen
+    key="GeneralNotification"
+    name="Notification"
+    component={NotificationView}
+    options={{
+      title: 'Notification Center',
     }}
   />,
 ]

@@ -28,6 +28,7 @@ export const PaperImage = styled(FastImage)`
 export const DotsContainerView = styled.View`
   flex: 1;
   justify-content: space-evenly;
+  margin-bottom: 20px;
 `
 export const styles = StyleSheet.create({
   containerStyle: {

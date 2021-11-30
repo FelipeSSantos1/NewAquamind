@@ -7,6 +7,7 @@ import comment from './comment'
 import tank from './tank'
 import fertilizer from './fertilizer'
 import plant from './plant'
+import notification from './notification'
 
 export const rootReducer = combineReducers({
   user: user.reducer,
@@ -16,6 +17,7 @@ export const rootReducer = combineReducers({
   tank: tank.reducer,
   fertilizer: fertilizer.reducer,
   plant: plant.reducer,
+  notification: notification.reducer,
 })
 
 export type RootState = ReturnType<typeof rootReducer>
