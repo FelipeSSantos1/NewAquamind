@@ -1,5 +1,6 @@
 import styled from 'styled-components/native'
 import { Dimensions, StyleSheet } from 'react-native'
+import FastImage from 'react-native-fast-image'
 
 import theme from '../../../theme'
 
@@ -13,7 +14,7 @@ export const ImageBox = styled.View`
   margin: ${theme.sizes.padding}px ${theme.sizes.padding}px 0 0;
   background-color: ${theme.colors.surface};
 `
-export const ImageBoxImage = styled.Image`
+export const ImageBoxImage = styled(FastImage)`
   flex: 1;
   width: ${width / 5 - theme.sizes.padding / 1.5}px;
   height: ${width / 5 - theme.sizes.padding / 1.5}px;

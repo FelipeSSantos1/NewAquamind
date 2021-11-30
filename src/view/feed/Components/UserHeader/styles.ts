@@ -1,5 +1,6 @@
 import styled from 'styled-components/native'
 import { Text as TextPaper } from 'react-native-paper'
+import FastImage from 'react-native-fast-image'
 
 import theme from '../../../../theme'
 
@@ -10,7 +11,7 @@ export const RowView = styled.View`
   width: ${theme.sizes.width}px;
   z-index: 1;
 `
-export const Avatar = styled.Image`
+export const Avatar = styled(FastImage)`
   width: 34px;
   height: 34px;
   border-radius: 17px;

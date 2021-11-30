@@ -1,5 +1,6 @@
 import styled from 'styled-components/native'
 import { IconButton, Button } from 'react-native-paper'
+import FastImage from 'react-native-fast-image'
 
 import Slot from './components/headerSlot'
 import theme from '../../theme'
@@ -14,7 +15,7 @@ export const MainView = styled.ScrollView`
 export const HeaderView = styled.View`
   background-color: ${theme.colors.primary};
 `
-export const Avatar = styled.Image`
+export const Avatar = styled(FastImage)`
   width: ${theme.sizes.width / 5}px;
   height: ${theme.sizes.width / 5}px;
   border-radius: ${theme.sizes.width / 5 / 2}px;

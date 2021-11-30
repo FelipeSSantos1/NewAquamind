@@ -1,5 +1,6 @@
 import styled from 'styled-components/native'
 import { Button, Text, Title, Divider } from 'react-native-paper'
+import FastImage from 'react-native-fast-image'
 
 import theme from '../../theme'
 
@@ -9,7 +10,7 @@ export const Container = styled.View`
   padding: ${theme.sizes.pagePadding}px;
   padding-top: ${theme.sizes.pagePadding * 2.5}px;
 `
-export const HeaderImage = styled.Image`
+export const HeaderImage = styled(FastImage)`
   width: ${theme.sizes.width - theme.sizes.padding * 2}px;
   height: ${theme.sizes.width / 2}px;
   margin-bottom: ${theme.sizes.margin}px;

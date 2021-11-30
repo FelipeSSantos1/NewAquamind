@@ -23,7 +23,7 @@ export const RowView = styled.View`
   flex-direction: row;
   align-items: center;
 `
-export const TankThumbImage = styled.Image`
+export const TankThumbImage = styled(FastImage)`
   width: ${70}px;
   height: ${70}px;
   border-radius: 35px;
