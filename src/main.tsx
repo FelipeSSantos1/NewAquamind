@@ -141,6 +141,14 @@ const App: React.FC = () => {
                       path: 'resetPassword/:token',
                       exact: true,
                     },
+                    Login: {
+                      path: 'login',
+                      exact: true,
+                    },
+                    CreateAccount: {
+                      path: 'createAccount',
+                      exact: true,
+                    },
                   },
                 },
               },

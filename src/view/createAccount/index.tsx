@@ -33,7 +33,6 @@ const CreateAccount: React.FC<NavPropsCreateAccount> = ({ navigation }) => {
   const [showModal, setShowModal] = useState(false)
   const passwordInputRef = useRef<typeof Input & TextInput>(null)
   const confirmPasswordInputRef = useRef<typeof Input & TextInput>(null)
-  //confirmPasswordInputRef
 
   const resendEmail = async ({ email }: { email: string }) => {
     setSendIsLoading(true)
