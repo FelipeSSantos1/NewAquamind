@@ -51,13 +51,13 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>Give $(PRODUCT_NAME) permission to access your camera</string>
+	<string>Give $(PRODUCT_NAME) permission to access your camera for you be able to take a picture and publish it on feed</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSMicrophoneUsageDescription</key>
-	<string>Give $(PRODUCT_NAME) permission to use your microphone</string>
+	<string>Give $(PRODUCT_NAME) permission to use your microphone for you be able to do a video and publish it on feed</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Give $(PRODUCT_NAME) permission to save photos</string>
+	<string>Give $(PRODUCT_NAME) permission to access your photos for you be able to pick and publish them on feed</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
