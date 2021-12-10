@@ -33,7 +33,7 @@
     "@reduxjs/toolkit": "^1.6.2",
     "axios": "^0.24.0",
     "color": "^4.1.0",
-    "expo": "^43.0.3",
+    "expo": "^43.0.4",
     "expo-app-loading": "~1.2.1",
     "expo-blur": "~10.0.3",
     "expo-device": "~4.0.3",
