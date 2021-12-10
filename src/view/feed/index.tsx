@@ -36,8 +36,6 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   const [cursor, setCursor] = useState(0)
 
   // Notification things ******************************************************
-  const [ready, setReady] = useState(false)
-
   async function registerForPushNotificationsAsync() {
     if (Constants.isDevice || Platform.OS === 'android') {
       const { status: existingStatus } =
@@ -69,45 +67,19 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   }
 
   useEffect(() => {
-    if (ready) {
-      registerForPushNotificationsAsync().then(async token => {
-        if (trim(token)) {
-          const pnToken = await SecureStore.getItemAsync('pnToken')
-          if (!pnToken || trim(token) !== pnToken) {
-            const response = await UserAPI.updatePNToken(trim(token))
-            if (response && !('statusCode' in response)) {
-              if (token) {
-                await SecureStore.setItemAsync('pnToken', trim(token))
-              }
-            }
-          }
-        } else {
-          await SecureStore.setItemAsync('pnToken', 'noToken')
-        }
-      })
-    }
-  }, [dispatch, ready])
-
-  useEffect(() => {
-    const showAlert = async () => {
+    registerForPushNotificationsAsync().then(async token => {
       const pnToken = await SecureStore.getItemAsync('pnToken')
-
-      if (trim(pnToken || undefined)) {
-        setReady(true)
-        return
+      if (trim(token) && trim(token) !== pnToken) {
+        const response = await UserAPI.updatePNToken(trim(token))
+        if (response && !('statusCode' in response)) {
+          if (token) {
+            await SecureStore.setItemAsync('pnToken', trim(token))
+          }
+        }
+      } else {
+        await SecureStore.setItemAsync('pnToken', 'noToken')
       }
-      dispatch(
-        ConfigRTK.actions.setAlert({
-          alertTitle: 'Notifications',
-          alertMessage:
-            'Enable notifications to get notified when someone likes your photos',
-          visible: true,
-          okPress: () => setReady(true),
-          okText: 'OK',
-        })
-      )
-    }
-    showAlert()
+    })
   }, [dispatch])
   // End Notification things **************************************************
 
