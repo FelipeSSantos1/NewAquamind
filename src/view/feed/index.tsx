@@ -121,7 +121,6 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   const resetData = async () => {
     setCursor(0)
     setRefreshing(true)
-    dispatch(FeedRTK.actions.logout())
     await fetchFeed()
     setRefreshing(false)
   }
