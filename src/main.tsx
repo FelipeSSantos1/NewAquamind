@@ -1,4 +1,5 @@
 import React from 'react'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { Linking, Platform, StatusBar, UIManager, LogBox } from 'react-native'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
@@ -108,63 +109,66 @@ const App: React.FC = () => {
   }
 
   return (
-    <Provider store={store}>
-      <PaperProvider theme={myTheme}>
-        <NavigationContainer
-          linking={{
-            ...linking,
-            config: {
-              screens: {
-                Tabs: {
-                  screens: {
-                    FeedTab: {
-                      screens: {
-                        PostDetail: {
-                          path: 'likePostComment/:postId/:commentId?',
-                          parse: {
-                            postId: Number,
-                            commentId: Number,
+    // eslint-disable-next-line react-native/no-inline-styles
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <Provider store={store}>
+        <PaperProvider theme={myTheme}>
+          <NavigationContainer
+            linking={{
+              ...linking,
+              config: {
+                screens: {
+                  Tabs: {
+                    screens: {
+                      FeedTab: {
+                        screens: {
+                          PostDetail: {
+                            path: 'likePostComment/:postId/:commentId?',
+                            parse: {
+                              postId: Number,
+                              commentId: Number,
+                            },
+                            exact: true,
                           },
-                          exact: true,
                         },
                       },
                     },
                   },
-                },
-                Auth: {
-                  screens: {
-                    ValidateEmail: {
-                      path: 'validateEmail/:token',
-                      exact: true,
-                    },
-                    ResetPassword: {
-                      path: 'resetPassword/:token',
-                      exact: true,
-                    },
-                    Login: {
-                      path: 'login',
-                      exact: true,
-                    },
-                    CreateAccount: {
-                      path: 'createAccount',
-                      exact: true,
+                  Auth: {
+                    screens: {
+                      ValidateEmail: {
+                        path: 'validateEmail/:token',
+                        exact: true,
+                      },
+                      ResetPassword: {
+                        path: 'resetPassword/:token',
+                        exact: true,
+                      },
+                      Login: {
+                        path: 'login',
+                        exact: true,
+                      },
+                      CreateAccount: {
+                        path: 'createAccount',
+                        exact: true,
+                      },
                     },
                   },
                 },
               },
-            },
-          }}
-        >
-          <PersistGate loading={<AppLoading />} persistor={persistor}>
-            <StatusBar barStyle="light-content" />
-            <Routes />
-            <Drawer />
-            <Alert />
-            <Spinner />
-          </PersistGate>
-        </NavigationContainer>
-      </PaperProvider>
-    </Provider>
+            }}
+          >
+            <PersistGate loading={<AppLoading />} persistor={persistor}>
+              <StatusBar barStyle="light-content" />
+              <Routes />
+              <Drawer />
+              <Alert />
+              <Spinner />
+            </PersistGate>
+          </NavigationContainer>
+        </PaperProvider>
+      </Provider>
+    </GestureHandlerRootView>
   )
 }
 
