@@ -1,6 +1,7 @@
 import React from 'react'
 import { IconButton } from 'react-native-paper'
 import moment from 'moment'
+import Swipeable from 'react-native-gesture-handler/Swipeable'
 
 import theme from '../../../../theme'
 import { fullImageUrl } from '../../../../services/helper'
@@ -13,8 +14,10 @@ import {
   ContentView,
   FooterRowView,
   FooterText,
-  PaperButton,
-  LabelStyle,
+  ActionView,
+  DeleteButton,
+  ReplyButton,
+  Icon,
 } from './styles'
 
 const Strip: React.FC<PropsType> = ({
@@ -28,54 +31,70 @@ const Strip: React.FC<PropsType> = ({
   deleteFunction,
 }) => {
   const liked = item.LikeComment.length > 0
-  return (
-    <RowView sub={sub}>
-      <Avatar source={fullImageUrl(item.Profile.avatar)} size={30} />
-      <ContentView>
-        <RowView sub={false}>
-          <TextMessage>
-            <TextUserName>{item.Profile.username} </TextUserName>
-            {item.comment}
-          </TextMessage>
-          <IconButton
-            icon={liked ? 'heart' : 'heart-outline'}
-            color={liked ? theme.colors.error : theme.colors.text}
-            onPress={likeFunction}
-            disabled={refreshing}
-            animated={true}
-            size={15}
-          />
-        </RowView>
-        <FooterRowView sub={false}>
-          <FooterText>{moment(item.createdAt).fromNow()}</FooterText>
-          <FooterText>{`${item._count.LikeComment} likes`}</FooterText>
-          <PaperButton
-            mode="text"
+
+  const renderRightActions = () => {
+    return (
+      <ActionView>
+        <ReplyButton
+          onPress={replyFunction}
+          rippleColor={theme.colors.onSurface}
+        >
+          <Icon
             compact
-            color={theme.colors.lightText}
-            labelStyle={LabelStyle.text}
             uppercase={false}
-            onPress={replyFunction}
+            labelStyle={{ fontSize: theme.fonts.sizes.xxsmall }}
+            icon="reply"
           >
             Reply
-          </PaperButton>
-          {renderDelete && (
-            <PaperButton
-              disabled={deleteRefreshing}
-              loading={deleteRefreshing}
-              mode="text"
+          </Icon>
+        </ReplyButton>
+        {renderDelete && (
+          <DeleteButton
+            onPress={deleteFunction}
+            disabled={deleteRefreshing}
+            rippleColor={theme.colors.onSurface}
+          >
+            <Icon
               compact
-              color={theme.colors.lightText}
-              labelStyle={LabelStyle.text}
               uppercase={false}
-              onPress={deleteFunction}
+              labelStyle={{ fontSize: theme.fonts.sizes.xxsmall }}
+              icon="delete-outline"
+              loading={deleteRefreshing}
             >
               Delete
-            </PaperButton>
-          )}
-        </FooterRowView>
-      </ContentView>
-    </RowView>
+            </Icon>
+          </DeleteButton>
+        )}
+      </ActionView>
+    )
+  }
+
+  return (
+    <Swipeable renderRightActions={renderRightActions}>
+      <RowView sub={sub}>
+        <Avatar source={fullImageUrl(item.Profile.avatar)} size={30} />
+        <ContentView>
+          <RowView sub={false}>
+            <TextMessage>
+              <TextUserName>{item.Profile.username} </TextUserName>
+              {item.comment}
+            </TextMessage>
+            <IconButton
+              icon={liked ? 'heart' : 'heart-outline'}
+              color={liked ? theme.colors.error : theme.colors.text}
+              onPress={likeFunction}
+              disabled={refreshing}
+              animated={true}
+              size={15}
+            />
+          </RowView>
+          <FooterRowView sub={false}>
+            <FooterText>{moment(item.createdAt).fromNow()}</FooterText>
+            <FooterText>{`${item._count.LikeComment} likes`}</FooterText>
+          </FooterRowView>
+        </ContentView>
+      </RowView>
+    </Swipeable>
   )
 }
 

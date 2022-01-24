@@ -1,6 +1,11 @@
 import styled from 'styled-components/native'
 import { StyleSheet } from 'react-native'
-import { Avatar as PaperAvatar, Text, Button } from 'react-native-paper'
+import {
+  Avatar as PaperAvatar,
+  Text,
+  Button,
+  TouchableRipple,
+} from 'react-native-paper'
 
 import { RowViewType } from './types'
 import theme from '../../../../theme'
@@ -9,6 +14,7 @@ export const RowView = styled.View<RowViewType>`
   flex-direction: row;
   align-items: center;
   margin-left: ${props => (props.sub ? 30 : 0)}px;
+  background-color: ${theme.colors.surface};
 `
 export const Avatar = styled(PaperAvatar.Image)`
   background-color: transparent;
@@ -38,10 +44,25 @@ export const FooterRowView = styled(RowView)`
   flex-direction: row;
   align-items: center;
 `
-export const PaperButton = styled(Button)``
-export const LabelStyle = StyleSheet.create({
-  text: {
-    fontFamily: theme.fonts.light.fontFamily,
-    fontSize: theme.fonts.sizes.small,
-  },
-})
+export const ActionView = styled.View`
+  flex-direction: row;
+  width: 150px;
+  justify-content: space-between;
+`
+export const ReplyButton = styled(TouchableRipple)`
+  background-color: ${theme.colors.text};
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+`
+export const DeleteButton = styled(TouchableRipple)`
+  background-color: ${theme.colors.error};
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+`
+export const Icon = styled(Button).attrs({
+  color: theme.colors.surface,
+})`
+  margin: 0;
+`

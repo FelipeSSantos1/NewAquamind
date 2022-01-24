@@ -34,7 +34,7 @@ const Strip: React.FC<NavPropsTank & StripProps> = ({
   onDelete,
   onUpdate,
 }) => {
-  const renderLeftActions = () => {
+  const renderRightActions = () => {
     return (
       <ActionView>
         <UpdateButton
@@ -69,7 +69,7 @@ const Strip: React.FC<NavPropsTank & StripProps> = ({
     )
   }
   return (
-    <Swipeable renderRightActions={renderLeftActions}>
+    <Swipeable renderRightActions={renderRightActions}>
       <Container>
         <MainView
           onPress={() =>
