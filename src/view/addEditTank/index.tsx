@@ -12,6 +12,7 @@ import find from 'lodash/find'
 import map from 'lodash/map'
 import replace from 'lodash/replace'
 import filter from 'lodash/filter'
+import Swipeable from 'react-native-gesture-handler/Swipeable'
 
 import { CreateParams } from '../../API/tank/types'
 import ConfigRTK from '../../store/config'
@@ -42,11 +43,11 @@ import {
   FlatListText,
   StripFlatList,
   Icon,
-  RowViewSpaceBetween,
   ThumbImageList,
   CameraIcon,
   CameraIconBkg,
   ErrorText,
+  DeleteButton,
 } from './styles'
 
 const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
@@ -371,10 +372,25 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
     setPlants(filter(plants, item => item.id !== id))
   }
 
+  const renderRightActions = (fnDelete: CallableFunction) => {
+    return (
+      <DeleteButton
+        onPress={() => fnDelete()}
+        rippleColor={theme.colors.onSurface}
+      >
+        <Icon icon="delete-outline" color={theme.colors.surface} />
+      </DeleteButton>
+    )
+  }
   const renderFertilizerList = () => {
     return map(fertilizers, (fertilizer, index) => (
-      <StripFlatList key={`fert-${index}`}>
-        <RowViewSpaceBetween>
+      <Swipeable
+        renderRightActions={() =>
+          renderRightActions(() => removeFertilizer(fertilizer.id))
+        }
+        key={`fert-${index}`}
+      >
+        <StripFlatList>
           <RowView>
             <ThumbImageList
               source={fullImageUrl(fertilizer.avatar)}
@@ -382,19 +398,20 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
             />
             <FlatListText>{fertilizer.name}</FlatListText>
           </RowView>
-          <Icon
-            icon="delete-outline"
-            onPress={() => removeFertilizer(fertilizer.id)}
-            color={theme.colors.error}
-          />
-        </RowViewSpaceBetween>
-      </StripFlatList>
+        </StripFlatList>
+      </Swipeable>
     ))
   }
+
   const renderPlantList = () => {
     return map(plants, (plant, index) => (
-      <StripFlatList key={`fert-${index}`}>
-        <RowViewSpaceBetween>
+      <Swipeable
+        renderRightActions={() =>
+          renderRightActions(() => removePlant(plant.id))
+        }
+        key={`plant-${index}`}
+      >
+        <StripFlatList>
           <RowView>
             <ThumbImageList
               source={fullImageUrl(plant.avatar)}
@@ -402,13 +419,8 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
             />
             <FlatListText>{plant.name}</FlatListText>
           </RowView>
-          <Icon
-            icon="delete-outline"
-            onPress={() => removePlant(plant.id)}
-            color={theme.colors.error}
-          />
-        </RowViewSpaceBetween>
-      </StripFlatList>
+        </StripFlatList>
+      </Swipeable>
     ))
   }
 
