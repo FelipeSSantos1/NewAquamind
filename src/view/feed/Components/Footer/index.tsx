@@ -234,7 +234,7 @@ const Footer: React.FC<FooterProps> = ({
           />
         </RowView>
         <RowView>
-          {tankId && profileId !== user.profileId && (
+          {tankId && (
             <Button
               icon="information-outline"
               mode="text"

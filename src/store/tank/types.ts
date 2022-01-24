@@ -41,7 +41,17 @@ export type Tank = {
   profileId: number | null
 }
 
+type Photo = {
+  id: number
+  url: string
+  width: number
+  height: number
+}
+
 export type TankState = Tank & {
   TankFertilizer: TankFertilizer[]
   TankPlant: TankPlant[]
+  Posts: {
+    Photos: Photo[]
+  }[]
 }

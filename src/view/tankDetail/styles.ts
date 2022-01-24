@@ -20,6 +20,8 @@ export const DetailIcon = styled(Button)`
 `
 export const RowView = styled.View`
   flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
 `
 export const PaperText = styled(Text)`
   flex: 1;

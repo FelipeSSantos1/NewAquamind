@@ -21,9 +21,11 @@ import {
   PaperDivider,
 } from './styles'
 import theme from '../../theme'
+import { Pressable, ScrollView } from 'react-native'
 
 const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
   const [tank, setTank] = React.useState<TankState | undefined>(undefined)
+  const [selectedPhoto, setSelectedPhoto] = React.useState('')
 
   useEffect(() => {
     if (route.params.tank) {
@@ -39,6 +41,33 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
     }
     getTank()
   }, [route.params.tank, route.params.tankId])
+
+  const renderPhotos = () => {
+    if (!tank || !tank.Posts[0].Photos.length) {
+      return null
+    }
+
+    return (
+      <>
+        <PaperDivider />
+        <PaperTitle>Photos</PaperTitle>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+          <RowView>
+            {map(tank.Posts[0].Photos, photo => (
+              <Pressable
+                key={photo.id}
+                onPress={() => {
+                  setSelectedPhoto(photo.url)
+                }}
+              >
+                <ImageBox imageUrl={photo.url} />
+              </Pressable>
+            ))}
+          </RowView>
+        </ScrollView>
+      </>
+    )
+  }
 
   const renderPlantList = () => {
     if (!tank) {
@@ -89,7 +118,14 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
 
   return (
     <StyledScrollView showsVerticalScrollIndicator={false}>
-      <HeaderImage source={fullImageUrl(tank.avatar)} resizeMode="cover" />
+      <HeaderImage
+        source={
+          selectedPhoto
+            ? fullImageUrl(selectedPhoto)
+            : fullImageUrl(tank.avatar)
+        }
+        resizeMode="cover"
+      />
       {!!tank.name && <PaperTitle>{tank.name}</PaperTitle>}
       {!!tank.born && (
         <PaperText>
@@ -165,6 +201,7 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
           <PaperBoldText>{tank.light}</PaperBoldText>
         </PaperText>
       )}
+      {renderPhotos()}
       {renderPlantList()}
       {renderFertilizerList()}
     </StyledScrollView>

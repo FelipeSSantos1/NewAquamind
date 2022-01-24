@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Alert, Platform } from 'react-native'
-import { Button } from 'react-native-paper'
 import * as ImagePicker from 'expo-image-picker'
 import trim from 'lodash/trim'
-import debounce from 'lodash/debounce'
 import * as Notifications from 'expo-notifications'
 import Constants from 'expo-constants'
 import * as SecureStore from 'expo-secure-store'
@@ -32,7 +30,6 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   const feeds = useSelector((state: RootState) => state.feed)
   const { user } = useSelector((state: RootState) => state)
   const [refreshing, setRefreshing] = useState(false)
-  const [bottomRefreshing, setBottomRefreshing] = useState(false)
   const [cursor, setCursor] = useState(0)
 
   // Notification things ******************************************************
@@ -177,22 +174,6 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
         refreshing={refreshing}
         onEndReachedThreshold={0.5}
         onEndReached={() => fetchFeed()}
-        ListFooterComponent={
-          <Button
-            mode="text"
-            compact
-            uppercase={false}
-            loading={bottomRefreshing}
-            disabled={bottomRefreshing}
-            onPress={debounce(async () => {
-              setBottomRefreshing(true)
-              await fetchFeed()
-              setBottomRefreshing(false)
-            }, 300)}
-          >
-            Load More
-          </Button>
-        }
       />
       <PaperFAB icon="plus" onPress={pickImage} small />
     </>
