@@ -13,3 +13,6 @@ export type PropsType = {
   renderDelete: boolean
   deleteRefreshing: boolean
 }
+export type ActionViewType = {
+  renderDelete: boolean
+}

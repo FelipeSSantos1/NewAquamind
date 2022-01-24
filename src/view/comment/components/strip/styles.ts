@@ -9,6 +9,7 @@ import {
 
 import { RowViewType } from './types'
 import theme from '../../../../theme'
+import { ActionViewType } from './types'
 
 export const RowView = styled.View<RowViewType>`
   flex-direction: row;
@@ -44,9 +45,9 @@ export const FooterRowView = styled(RowView)`
   flex-direction: row;
   align-items: center;
 `
-export const ActionView = styled.View`
+export const ActionView = styled.View<ActionViewType>`
   flex-direction: row;
-  width: 150px;
+  width: ${props => (props.renderDelete ? 150 : 75)}px;
   justify-content: space-between;
 `
 export const ReplyButton = styled(TouchableRipple)`

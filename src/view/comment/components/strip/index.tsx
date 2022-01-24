@@ -34,7 +34,7 @@ const Strip: React.FC<PropsType> = ({
 
   const renderRightActions = () => {
     return (
-      <ActionView>
+      <ActionView renderDelete={renderDelete}>
         <ReplyButton
           onPress={replyFunction}
           rippleColor={theme.colors.onSurface}
