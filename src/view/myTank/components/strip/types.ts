@@ -9,6 +9,4 @@ export type StripProps = {
   onDelete: CallableFunction
   onUpdate: CallableFunction
   loadingDelete: boolean
-  actionActive: boolean
-  setActionActive: CallableFunction
 }

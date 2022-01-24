@@ -1,6 +1,7 @@
 import React from 'react'
 import moment from 'moment'
 import { Divider } from 'react-native-paper'
+import Swipeable from 'react-native-gesture-handler/Swipeable'
 
 import { StripProps } from './types'
 import { fullImageUrl } from '../../../../services/helper'
@@ -15,11 +16,11 @@ import {
   TankHeaderText,
   MainView,
   Container,
-  FooterView,
-  SpecButton,
   DeleteButton,
   UpdateButton,
   Icon,
+  Arrow,
+  ActionView,
 } from './styles'
 
 const Strip: React.FC<NavPropsTank & StripProps> = ({
@@ -32,76 +33,68 @@ const Strip: React.FC<NavPropsTank & StripProps> = ({
   loadingDelete,
   onDelete,
   onUpdate,
-  actionActive,
-  setActionActive,
 }) => {
+  const renderLeftActions = () => {
+    return (
+      <ActionView>
+        <UpdateButton
+          onPress={() => onUpdate()}
+          rippleColor={theme.colors.onSurface}
+        >
+          <Icon
+            compact
+            uppercase={false}
+            labelStyle={{ fontSize: theme.fonts.sizes.xxsmall }}
+            icon="square-edit-outline"
+          >
+            Update
+          </Icon>
+        </UpdateButton>
+        <DeleteButton
+          onPress={() => onDelete()}
+          disabled={loadingDelete}
+          rippleColor={theme.colors.onSurface}
+        >
+          <Icon
+            compact
+            uppercase={false}
+            labelStyle={{ fontSize: theme.fonts.sizes.xxsmall }}
+            icon="delete-outline"
+            loading={loadingDelete}
+          >
+            Delete
+          </Icon>
+        </DeleteButton>
+      </ActionView>
+    )
+  }
   return (
-    <Container>
-      <MainView onPress={() => setActionActive()}>
-        <TankView>
-          <TankHeaderView>
-            <TankHeaderThumb source={fullImageUrl(imageURL)} />
-            <TankHeaderDetailView>
-              {!!title && <TankHeaderTitle>{title}</TankHeaderTitle>}
-              {!!createdAt && (
-                <TankHeaderText>{moment(createdAt).fromNow()}</TankHeaderText>
-              )}
-              {!!dimensions && (
-                <TankHeaderText>{`${dimensions} cm`}</TankHeaderText>
-              )}
-            </TankHeaderDetailView>
-          </TankHeaderView>
-        </TankView>
-      </MainView>
-      {actionActive && (
-        <FooterView>
-          <DeleteButton
-            onPress={() => onDelete()}
-            disabled={loadingDelete}
-            rippleColor={theme.colors.onSurface}
-          >
-            <Icon
-              compact
-              uppercase={false}
-              labelStyle={{ fontSize: theme.fonts.sizes.xxsmall }}
-              icon="delete-outline"
-              loading={loadingDelete}
-            >
-              Delete
-            </Icon>
-          </DeleteButton>
-          <UpdateButton
-            onPress={() => onUpdate()}
-            rippleColor={theme.colors.onSurface}
-          >
-            <Icon
-              compact
-              uppercase={false}
-              labelStyle={{ fontSize: theme.fonts.sizes.xxsmall }}
-              icon="square-edit-outline"
-            >
-              Update
-            </Icon>
-          </UpdateButton>
-          <SpecButton
-            onPress={() =>
-              navigation.navigate('TankDetail', { tank, tankId: tank.id })
-            }
-            rippleColor={theme.colors.onSurface}
-          >
-            <Icon
-              compact
-              uppercase={false}
-              labelStyle={{ fontSize: theme.fonts.sizes.xxsmall }}
-              icon="information-outline"
-            >
-              Spec
-            </Icon>
-          </SpecButton>
-        </FooterView>
-      )}
-      <Divider />
-    </Container>
+    <Swipeable renderRightActions={renderLeftActions}>
+      <Container>
+        <MainView
+          onPress={() =>
+            navigation.navigate('TankDetail', { tank, tankId: tank.id })
+          }
+        >
+          <TankView>
+            <TankHeaderView>
+              <TankHeaderThumb source={fullImageUrl(imageURL)} />
+              <TankHeaderDetailView>
+                {!!title && <TankHeaderTitle>{title}</TankHeaderTitle>}
+                {!!createdAt && (
+                  <TankHeaderText>{moment(createdAt).fromNow()}</TankHeaderText>
+                )}
+                {!!dimensions && (
+                  <TankHeaderText>{`${dimensions} cm`}</TankHeaderText>
+                )}
+              </TankHeaderDetailView>
+              <Arrow icon="chevron-right" />
+            </TankHeaderView>
+          </TankView>
+        </MainView>
+        <Divider />
+      </Container>
+    </Swipeable>
   )
 }
 

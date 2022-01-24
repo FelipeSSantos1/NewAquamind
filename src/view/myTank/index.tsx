@@ -19,7 +19,6 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
   const { tank } = useSelector((state: RootState) => state)
   const [refreshing, setRefreshing] = React.useState(false)
   const [loadingDelete, setLoadingDelete] = React.useState(false)
-  const [actionActive, setActionActive] = React.useState<boolean[]>([])
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -35,7 +34,6 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
   }, [dispatch])
 
   const reFetch = useCallback(async () => {
-    setActionActive([])
     setRefreshing(true)
     const response = await API.getAllByUser()
     setRefreshing(false)
@@ -111,7 +109,6 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
         ? LayoutAnimation.Presets.spring
         : LayoutAnimation.Presets.easeInEaseOut
     )
-    setActionActive(newActionActive)
   }
 
   const renderTanks = () => {
@@ -134,8 +131,6 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
         }}
         onUpdate={() => navigation.navigate('AddEditTank', { tank: item })}
         loadingDelete={loadingDelete}
-        actionActive={actionActive[index]}
-        setActionActive={() => togleActionActive(index, !actionActive[index])}
       />
     ))
   }

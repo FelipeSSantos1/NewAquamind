@@ -1,6 +1,7 @@
 import styled from 'styled-components/native'
-import { Text, Button, TouchableRipple } from 'react-native-paper'
+import { Text, Button, TouchableRipple, IconButton } from 'react-native-paper'
 import FastImage from 'react-native-fast-image'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 import theme from '../../../../theme'
 
@@ -12,12 +13,6 @@ export const Icon = styled(Button).attrs({
   color: theme.colors.surface,
 })`
   margin: 0;
-`
-export const SpecButton = styled(TouchableRipple)`
-  background-color: ${theme.colors.primary};
-  align-items: center;
-  justify-content: center;
-  flex: 1;
 `
 export const DeleteButton = styled(TouchableRipple)`
   background-color: ${theme.colors.error};
@@ -35,11 +30,12 @@ export const Container = styled.View`
   background-color: ${theme.colors.surface};
   flex: 1;
 `
-export const FooterView = styled.View`
+export const ActionView = styled.View`
   flex-direction: row;
+  width: 170px;
   justify-content: space-between;
 `
-export const MainView = styled(TouchableRipple)`
+export const MainView = styled(TouchableOpacity)`
   flex-direction: row;
   padding: ${theme.sizes.margin / 2}px 0;
 `
@@ -68,4 +64,7 @@ export const TankHeaderThumb = styled(FastImage)`
 `
 export const TankComments = styled(TankHeaderText)`
   align-self: flex-end;
+`
+export const Arrow = styled(IconButton)`
+  margin-right: ${theme.sizes.margin}px;
 `
