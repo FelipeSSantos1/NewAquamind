@@ -1,33 +1,32 @@
 import React from 'react'
-import { StyleSheet, Animated } from 'react-native'
+import { StyleSheet, Animated, TouchableWithoutFeedback } from 'react-native'
 import Image from 'react-native-fast-image'
+import Pinchable from 'react-native-pinchable'
 import PagerView, {
   PagerViewOnPageScrollEventData,
 } from 'react-native-pager-view'
-// import { useDispatch } from 'react-redux'
-// import * as Haptics from 'expo-haptics'
-// import produce from 'immer'
+import { useDispatch } from 'react-redux'
+import * as Haptics from 'expo-haptics'
+import produce from 'immer'
 import { ScalingDot } from 'react-native-animated-pagination-dots'
 import min from 'lodash/min'
 import map from 'lodash/map'
-// import findIndex from 'lodash/findIndex'
-// import debounce from 'lodash/debounce'
+import findIndex from 'lodash/findIndex'
 
 import {
   fullImageUrl,
-  // likePostNotificationBody,
-  // likePostNotificationTitle,
-  // deepLinkURL,
+  likePostNotificationBody,
+  likePostNotificationTitle,
+  deepLinkURL,
 } from '../../../../services/helper'
 import theme from '../../../../theme'
 import UserHeader from '../userHeader'
 import Footer from '../footer'
-// import DoubleTap from '../../../components/doubleTap'
 import { FeedBoxProps } from './types'
-// import ConfigRTK from '../../../../store/config'
-// import FeedRTK from '../../../../store/feed'
-// import * as API from '../../../../API/feed'
-// import * as NotificationAPI from '../../../../API/notification'
+import ConfigRTK from '../../../../store/config'
+import FeedRTK from '../../../../store/feed'
+import * as API from '../../../../API/feed'
+import * as NotificationAPI from '../../../../API/notification'
 import {
   ContentView,
   PaperImage,
@@ -40,8 +39,9 @@ import {
 const AnimatedPagerView = Animated.createAnimatedComponent(PagerView)
 
 const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
   const ref = React.useRef<PagerView>(null)
+  const [lastTapTime, setLastTapTime] = React.useState(Date.now())
 
   const width = theme.sizes.width
   const maxHeightRatio =
@@ -88,6 +88,77 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
     }
   }
 
+  const likePost = async (feedId: number) => {
+    const postIndex = findIndex(feeds, { id: feedId })
+    if (feeds[postIndex].LikePost.length) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+      return
+    }
+
+    const newFeed = produce(feeds, draft => {
+      draft[postIndex].LikePost = [
+        {
+          postId: feedId,
+          profileId: user.profileId,
+        },
+      ]
+      feeds[postIndex]._count.LikePost += 1
+    })
+    dispatch(FeedRTK.actions.setFeed(newFeed))
+
+    const response = await API.likePost(feedId)
+    if (!response) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+      const newFeedError = produce(feeds, draft => {
+        draft[postIndex].LikePost = []
+        feeds[postIndex]._count.LikePost -= 1
+      })
+      dispatch(FeedRTK.actions.setFeed(newFeedError))
+
+      return
+    }
+    if ('statusCode' in response) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
+      const newFeedError = produce(feeds, draft => {
+        draft[postIndex].LikePost = []
+        feeds[postIndex]._count.LikePost -= 1
+      })
+      dispatch(FeedRTK.actions.setFeed(newFeedError))
+
+      dispatch(
+        ConfigRTK.actions.setAlert({
+          visible: true,
+          alertTitle: 'Oops!',
+          alertMessage: response.message,
+          okText: 'Ok',
+        })
+      )
+      return
+    }
+    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
+
+    NotificationAPI.sendOne({
+      to: feeds[postIndex].Profile.id,
+      title: likePostNotificationTitle,
+      postId: feeds[postIndex].id,
+      body: likePostNotificationBody(user.Profile.username),
+      data: {
+        url: `${deepLinkURL}likePostComment/${feeds[postIndex].id}`,
+      },
+    })
+  }
+
+  const handleDoubleTap = (feedId: number) => {
+    const now = Date.now()
+    if (now - lastTapTime < 350) {
+      // double tap
+      likePost(feedId)
+      setLastTapTime(Date.now())
+    } else {
+      setLastTapTime(now)
+    }
+  }
+
   const renderImages = () => {
     return map(feed.Photos, photo => {
       const imageHeight = width * (photo.height / photo.width)
@@ -97,78 +168,24 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
         <ContentView key={photo.id}>
           <PaperImage resizeMode="cover" source={fullImageUrl(photo.url)} />
           <BlurBackground intensity={100}>
-            <Image
-              source={fullImageUrl(photo.url)}
-              style={{
-                width: landscape ? width : imageWidth,
-                height: landscape ? imageHeight : width,
-              }}
-            />
+            <Pinchable>
+              <TouchableWithoutFeedback
+                onPress={() => handleDoubleTap(feed.id)}
+              >
+                <Image
+                  source={fullImageUrl(photo.url)}
+                  style={{
+                    width: landscape ? width : imageWidth,
+                    height: landscape ? imageHeight : width,
+                  }}
+                />
+              </TouchableWithoutFeedback>
+            </Pinchable>
           </BlurBackground>
         </ContentView>
       )
     })
   }
-
-  // const likePost = async (feedId: number) => {
-  //   const postIndex = findIndex(feeds, { id: feedId })
-  //   if (feeds[postIndex].LikePost.length) {
-  //     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
-  //     return
-  //   }
-
-  //   const newFeed = produce(feeds, draft => {
-  //     draft[postIndex].LikePost = [
-  //       {
-  //         postId: feedId,
-  //         profileId: user.profileId,
-  //       },
-  //     ]
-  //     feeds[postIndex]._count.LikePost += 1
-  //   })
-  //   dispatch(FeedRTK.actions.setFeed(newFeed))
-
-  //   const response = await API.likePost(feedId)
-  //   if (!response) {
-  //     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
-  //     const newFeedError = produce(feeds, draft => {
-  //       draft[postIndex].LikePost = []
-  //       feeds[postIndex]._count.LikePost -= 1
-  //     })
-  //     dispatch(FeedRTK.actions.setFeed(newFeedError))
-
-  //     return
-  //   }
-  //   if ('statusCode' in response) {
-  //     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
-  //     const newFeedError = produce(feeds, draft => {
-  //       draft[postIndex].LikePost = []
-  //       feeds[postIndex]._count.LikePost -= 1
-  //     })
-  //     dispatch(FeedRTK.actions.setFeed(newFeedError))
-
-  //     dispatch(
-  //       ConfigRTK.actions.setAlert({
-  //         visible: true,
-  //         alertTitle: 'Oops!',
-  //         alertMessage: response.message,
-  //         okText: 'Ok',
-  //       })
-  //     )
-  //     return
-  //   }
-  //   Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
-
-  //   NotificationAPI.sendOne({
-  //     to: feeds[postIndex].Profile.id,
-  //     title: likePostNotificationTitle,
-  //     postId: feeds[postIndex].id,
-  //     body: likePostNotificationBody(user.Profile.username),
-  //     data: {
-  //       url: `${deepLinkURL}likePostComment/${feeds[postIndex].id}`,
-  //     },
-  //   })
-  // }
 
   const stylesPagerView = StyleSheet.create({
     PagerView: {
@@ -186,9 +203,6 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
         navigation={navigation}
         profileId={feed.profileId}
       />
-      {/* <DoubleTap
-        onPress={debounce(() => likePost(feed.id), 500, { leading: true })}
-      > */}
       <AnimatedPagerView
         initialPage={0}
         ref={ref}
@@ -210,7 +224,6 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
           />
         </DotsContainerView>
       )}
-      {/* </DoubleTap> */}
       <Footer
         liked={!!feed.LikePost.length}
         likes={feed._count.LikePost}

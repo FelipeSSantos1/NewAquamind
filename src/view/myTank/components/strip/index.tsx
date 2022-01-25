@@ -72,8 +72,12 @@ const Strip: React.FC<NavPropsTank & StripProps> = ({
   return (
     <Swipeable
       renderRightActions={renderRightActions}
-      onSwipeableOpen={() => Haptics.NotificationFeedbackType.Success}
-      onSwipeableClose={() => Haptics.NotificationFeedbackType.Success}
+      onSwipeableOpen={() =>
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+      }
+      onSwipeableClose={() =>
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
+      }
     >
       <Container>
         <MainView
