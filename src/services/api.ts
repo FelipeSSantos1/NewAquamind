@@ -7,7 +7,7 @@ import Logout from '../store/logout'
 const baseURL = __DEV__
   ? Platform.OS === 'ios'
     ? 'http://localhost:3000'
-    : 'http://192.168.0.123:3000'
+    : 'http://192.168.0.118:3000'
   : 'https://aquamind.app/api'
 const api = axios.create({
   baseURL,
