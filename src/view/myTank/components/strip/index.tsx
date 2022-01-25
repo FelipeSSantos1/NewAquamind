@@ -2,6 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import { Divider } from 'react-native-paper'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
+import * as Haptics from 'expo-haptics'
 
 import { StripProps } from './types'
 import { fullImageUrl } from '../../../../services/helper'
@@ -69,7 +70,11 @@ const Strip: React.FC<NavPropsTank & StripProps> = ({
     )
   }
   return (
-    <Swipeable renderRightActions={renderRightActions}>
+    <Swipeable
+      renderRightActions={renderRightActions}
+      onSwipeableOpen={() => Haptics.NotificationFeedbackType.Success}
+      onSwipeableClose={() => Haptics.NotificationFeedbackType.Success}
+    >
       <Container>
         <MainView
           onPress={() =>

@@ -2,6 +2,7 @@ import React from 'react'
 import { IconButton } from 'react-native-paper'
 import moment from 'moment'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
+import * as Haptics from 'expo-haptics'
 
 import theme from '../../../../theme'
 import { fullImageUrl } from '../../../../services/helper'
@@ -70,7 +71,11 @@ const Strip: React.FC<PropsType> = ({
   }
 
   return (
-    <Swipeable renderRightActions={renderRightActions}>
+    <Swipeable
+      renderRightActions={renderRightActions}
+      onSwipeableOpen={() => Haptics.NotificationFeedbackType.Success}
+      onSwipeableClose={() => Haptics.NotificationFeedbackType.Success}
+    >
       <RowView sub={sub}>
         <Avatar source={fullImageUrl(item.Profile.avatar)} size={30} />
         <ContentView>

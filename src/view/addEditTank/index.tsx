@@ -13,6 +13,7 @@ import map from 'lodash/map'
 import replace from 'lodash/replace'
 import filter from 'lodash/filter'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
+import * as Haptics from 'expo-haptics'
 
 import { CreateParams } from '../../API/tank/types'
 import ConfigRTK from '../../store/config'
@@ -388,6 +389,8 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
         renderRightActions={() =>
           renderRightActions(() => removeFertilizer(fertilizer.id))
         }
+        onSwipeableOpen={() => Haptics.NotificationFeedbackType.Success}
+        onSwipeableClose={() => Haptics.NotificationFeedbackType.Success}
         key={`fert-${index}`}
       >
         <StripFlatList>
@@ -409,6 +412,8 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
         renderRightActions={() =>
           renderRightActions(() => removePlant(plant.id))
         }
+        onSwipeableOpen={() => Haptics.NotificationFeedbackType.Success}
+        onSwipeableClose={() => Haptics.NotificationFeedbackType.Success}
         key={`plant-${index}`}
       >
         <StripFlatList>
