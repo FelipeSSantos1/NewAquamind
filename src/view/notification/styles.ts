@@ -28,3 +28,8 @@ export const MessageContent = styled.View`
 export const DateText = styled(Text)`
   color: ${theme.colors.lightText};
 `
+export const IconImage = styled.Image`
+  width: 24px;
+  height: 24px;
+  margin: 0 ${theme.sizes.margin}px;
+`

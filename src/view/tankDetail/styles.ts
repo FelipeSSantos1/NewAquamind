@@ -1,5 +1,5 @@
 import styled from 'styled-components/native'
-import { Button, Text, Title, Divider } from 'react-native-paper'
+import { Text, Title, Divider } from 'react-native-paper'
 import FastImage from 'react-native-fast-image'
 
 import theme from '../../theme'
@@ -15,13 +15,22 @@ export const HeaderImage = styled(FastImage)`
   height: ${theme.sizes.width / 2}px;
   margin-bottom: ${theme.sizes.margin}px;
 `
-export const DetailIcon = styled(Button)`
-  flex: 1;
-`
 export const RowView = styled.View`
   flex-direction: row;
   align-items: center;
   flex-wrap: wrap;
+`
+export const RowViewIconContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: ${theme.sizes.margin}px;
+  width: ${theme.sizes.width / 2 - theme.sizes.margin * 2}px;
+`
+export const RowViewIcon = styled.View`
+  flex-direction: row;
+  align-items: center;
+  width: ${theme.sizes.width / 2 - theme.sizes.margin}px;
 `
 export const PaperText = styled(Text)`
   flex: 1;
@@ -42,4 +51,9 @@ export const PaperDivider = styled(Divider)`
 export const StyledScrollView = styled.ScrollView`
   padding: ${theme.sizes.padding}px;
   background-color: ${theme.colors.surface};
+`
+export const ImageIcon = styled.Image`
+  width: 32px;
+  height: 32px;
+  margin-right: ${theme.sizes.margin / 2}px;
 `

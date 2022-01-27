@@ -11,7 +11,6 @@ import { TankState } from 'store/tank/types'
 import LoadingScreen from '../components/fakeLoadingScreen'
 import {
   HeaderImage,
-  DetailIcon,
   RowView,
   PaperText,
   PaperBoldText,
@@ -19,8 +18,10 @@ import {
   StyledScrollView,
   PaperAssetsText,
   PaperDivider,
+  ImageIcon,
+  RowViewIcon,
+  RowViewIconContainer,
 } from './styles'
-import theme from '../../theme'
 import { Pressable, ScrollView } from 'react-native'
 
 const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
@@ -141,48 +142,38 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
           )}
         </PaperText>
       )}
-      <RowView>
-        <DetailIcon
-          icon="molecule-co2"
-          uppercase={false}
-          color={theme.colors.text}
-          compact
-        >
-          {tank.co2 ? `${tank.co2} bubbles/sec` : 'none'}
-        </DetailIcon>
-        <DetailIcon
-          icon="ceiling-light"
-          uppercase={false}
-          color={theme.colors.text}
-          compact
-        >
-          {tank.dayLight ? `${tank.dayLight} hours` : 'none'}
-        </DetailIcon>
-      </RowView>
-      <RowView>
-        <DetailIcon
-          icon="water"
-          uppercase={false}
-          color={theme.colors.text}
-          compact
-        >
-          {!!tank.width && !!tank.height && !!tank.length
-            ? `${toInteger(
-                (tank.width * tank.height * tank.length) / 1000
-              )} litres`
-            : 'none'}
-        </DetailIcon>
-        <DetailIcon
-          icon="ruler-square"
-          uppercase={false}
-          color={theme.colors.text}
-          compact
-        >
-          {!!tank.width && !!tank.height && !!tank.length
-            ? `${tank.length}x${tank.width}x${tank.height} cm`
-            : 'none'}
-        </DetailIcon>
-      </RowView>
+      <RowViewIconContainer>
+        <RowViewIcon>
+          <ImageIcon source={require('../../assets/icons/co2.png')} />
+          <PaperText>{tank.co2 ? `${tank.co2} bubbles/sec` : 'none'}</PaperText>
+        </RowViewIcon>
+        <RowViewIcon>
+          <ImageIcon source={require('../../assets/icons/day-and-night.png')} />
+          <PaperText>
+            {tank.dayLight ? `${tank.dayLight} hours` : 'none'}
+          </PaperText>
+        </RowViewIcon>
+      </RowViewIconContainer>
+      <RowViewIconContainer>
+        <RowViewIcon>
+          <ImageIcon source={require('../../assets/icons/liter.png')} />
+          <PaperText>
+            {!!tank.width && !!tank.height && !!tank.length
+              ? `${toInteger(
+                  (tank.width * tank.height * tank.length) / 1000
+                )} litres`
+              : 'none'}
+          </PaperText>
+        </RowViewIcon>
+        <RowViewIcon>
+          <ImageIcon source={require('../../assets/icons/measure.png')} />
+          <PaperText>
+            {!!tank.width && !!tank.height && !!tank.length
+              ? `${tank.length}x${tank.width}x${tank.height} cm`
+              : 'none'}
+          </PaperText>
+        </RowViewIcon>
+      </RowViewIconContainer>
       {!!tank.filter && (
         <PaperText>
           {'Filter '}

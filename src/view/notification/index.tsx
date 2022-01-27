@@ -2,7 +2,7 @@ import React from 'react'
 import { Text } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
-import { Divider, IconButton, Subheading } from 'react-native-paper'
+import { Divider, Subheading } from 'react-native-paper'
 import moment from 'moment'
 
 import { NavPropsNotification } from '../../routes/types'
@@ -17,6 +17,7 @@ import {
   TitleContent,
   DateText,
   StyledPressable,
+  IconImage,
 } from './styles'
 
 const Notification: React.FC<NavPropsNotification> = ({ navigation }) => {
@@ -32,14 +33,23 @@ const Notification: React.FC<NavPropsNotification> = ({ navigation }) => {
   }, [dispacth])
 
   const renderList = (item: NotificationState) => {
-    let iconType = 'bell-outline'
-    if (item.title) {
-      iconType =
-        item.title.search('Liked') !== -1
-          ? 'heart-outline'
-          : item.title.search('Replied') !== -1
-          ? 'comment-text-multiple-outline'
-          : 'bell-outline'
+    let iconType = require('../../assets/icons/notification.png')
+    switch (item.title) {
+      case 'Comment Replied':
+        iconType = require('../../assets/icons/replied.png')
+        break
+      case 'Someone liked your comment':
+        iconType = require('../../assets/icons/likeComment.png')
+        break
+      case 'Post Liked':
+        iconType = require('../../assets/icons/likePost.png')
+        break
+      case 'New comment':
+        iconType = require('../../assets/icons/newComment.png')
+        break
+      default:
+        iconType = require('../../assets/icons/notification.png')
+        break
     }
 
     const handleClick = () => {
@@ -53,7 +63,7 @@ const Notification: React.FC<NavPropsNotification> = ({ navigation }) => {
     return (
       <StyledPressable onPress={handleClick}>
         <>
-          <IconButton icon={iconType} />
+          <IconImage source={iconType} />
           <MessageContent>
             <TitleContent>
               <MessageContent>
