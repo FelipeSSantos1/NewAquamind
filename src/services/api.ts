@@ -1,14 +1,9 @@
 import axios from 'axios'
 import * as SecureStore from 'expo-secure-store'
-import { Platform } from 'react-native'
 
 import Logout from '../store/logout'
 
-const baseURL = __DEV__
-  ? Platform.OS === 'ios'
-    ? 'http://localhost:3000'
-    : 'http://192.168.0.118:3000'
-  : 'https://aquamind.app/api'
+const baseURL = 'http://localhost:3000' // 'https://aquamind.app/api' | 'http://192.168.0.118:3000'
 const api = axios.create({
   baseURL,
   headers: {
