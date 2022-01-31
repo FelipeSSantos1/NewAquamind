@@ -88,14 +88,27 @@ export type ParamListTankStack = ParamListGeneralStack & {
   }
 }
 export type ParamLibraryStack = ParamListGeneralStack & {
-  Lib: {}
-  LibPlants: {}
+  Lib: undefined
+  LibPlants: undefined
   LibPlantDetail: {
     plantId: number
   }
-  LibWoods: {}
-  LibRocks: {}
-  LibAlgae: {}
+  LibWoods: undefined
+  LibWoodDetail: {
+    woodId: number
+  }
+  LibRocks: undefined
+  LibRockDetail: {
+    rockId: number
+  }
+  LibAlgae: undefined
+  LibAlgaeDetail: {
+    algaeId: number
+  }
+  LibFish: undefined
+  LibFishDetail: {
+    fishId: number
+  }
 }
 // Root ************************************************************************
 export type NavPropsAuth = NativeStackScreenProps<ParamListMainStack, 'Auth'>

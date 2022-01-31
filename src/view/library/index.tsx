@@ -8,40 +8,51 @@ import {
   RowView,
   Image,
   PaperTitle,
+  PaperTouchableRipple,
 } from './styles'
 
-const Library: React.FC<NavPropsLib> = () => {
+const Library: React.FC<NavPropsLib> = ({ navigation }) => {
   return (
     <Container>
       <RowView>
-        <PaperContainer>
-          <Image source={require('../../assets/icons/libPlants.png')} />
-          <PaperTitle>Plants</PaperTitle>
-        </PaperContainer>
-        <PaperContainer>
-          <Image source={require('../../assets/icons/root.png')} />
-          <PaperTitle>Wood</PaperTitle>
-          <PaperRedText>coming soon</PaperRedText>
-        </PaperContainer>
+        <PaperTouchableRipple onPress={() => navigation.navigate('LibPlants')}>
+          <PaperContainer>
+            <Image source={require('../../assets/icons/libPlants.png')} />
+            <PaperTitle>Plants</PaperTitle>
+          </PaperContainer>
+        </PaperTouchableRipple>
+        <PaperTouchableRipple>
+          <PaperContainer>
+            <Image source={require('../../assets/icons/root.png')} />
+            <PaperTitle>Wood</PaperTitle>
+            <PaperRedText>coming soon</PaperRedText>
+          </PaperContainer>
+        </PaperTouchableRipple>
       </RowView>
       <RowView>
-        <PaperContainer>
-          <Image source={require('../../assets/icons/stone.png')} />
-          <PaperTitle>Rocks</PaperTitle>
-          <PaperRedText>coming soon</PaperRedText>
-        </PaperContainer>
-        <PaperContainer>
-          <Image source={require('../../assets/icons/algae.png')} />
-          <PaperTitle>Algae</PaperTitle>
-          <PaperRedText>coming soon</PaperRedText>
-        </PaperContainer>
+        <PaperTouchableRipple>
+          <PaperContainer>
+            <Image source={require('../../assets/icons/stone.png')} />
+            <PaperTitle>Rocks</PaperTitle>
+            <PaperRedText>coming soon</PaperRedText>
+          </PaperContainer>
+        </PaperTouchableRipple>
+        <PaperTouchableRipple>
+          <PaperContainer>
+            <Image source={require('../../assets/icons/algae.png')} />
+            <PaperTitle>Algae</PaperTitle>
+            <PaperRedText>coming soon</PaperRedText>
+          </PaperContainer>
+        </PaperTouchableRipple>
       </RowView>
       <RowView>
-        <PaperContainer>
-          <Image source={require('../../assets/Avatar.png')} />
-          <PaperTitle>Fish</PaperTitle>
-          <PaperRedText>coming soon</PaperRedText>
-        </PaperContainer>
+        <PaperTouchableRipple>
+          <PaperContainer>
+            <Image source={require('../../assets/Avatar.png')} />
+            <PaperTitle>Fish</PaperTitle>
+            <PaperRedText>coming soon</PaperRedText>
+          </PaperContainer>
+        </PaperTouchableRipple>
       </RowView>
     </Container>
   )
