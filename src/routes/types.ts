@@ -11,6 +11,7 @@ type RootStackParamList = ParamListMainStack &
   ParamListAuthStack &
   ParamListFeedStack &
   ParamListTankStack &
+  ParamLibraryStack &
   ParamListTabStack
 
 export type ParamListMainStack = {
@@ -20,6 +21,7 @@ export type ParamListMainStack = {
 export type ParamListTabStack = {
   FeedTab: NavigatorScreenParams<ParamListFeedStack>
   TankTab: NavigatorScreenParams<ParamListTankStack>
+  LibTab: NavigatorScreenParams<ParamLibraryStack>
 }
 export type ParamListGeneralStack = {
   Profile: undefined
@@ -84,6 +86,16 @@ export type ParamListTankStack = ParamListGeneralStack & {
   PlantList: {
     tank?: TankState
   }
+}
+export type ParamLibraryStack = ParamListGeneralStack & {
+  Lib: {}
+  LibPlants: {}
+  LibPlantDetail: {
+    plantId: number
+  }
+  LibWoods: {}
+  LibRocks: {}
+  LibAlgae: {}
 }
 // Root ************************************************************************
 export type NavPropsAuth = NativeStackScreenProps<ParamListMainStack, 'Auth'>
@@ -173,6 +185,28 @@ export type NavPropsPlantList = CompositeScreenProps<
   NativeStackScreenProps<ParamListTankStack, 'PlantList'>,
   CompositeScreenProps<
     BottomTabScreenProps<ParamListTabStack, 'TankTab'>,
+    NativeStackScreenProps<ParamListMainStack>
+  >
+>
+// Lib Tab ********************************************************************
+export type NavPropsLib = CompositeScreenProps<
+  NativeStackScreenProps<ParamLibraryStack, 'Lib'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<ParamListTabStack, 'LibTab'>,
+    NativeStackScreenProps<ParamListMainStack>
+  >
+>
+export type NavPropsLibPlants = CompositeScreenProps<
+  NativeStackScreenProps<ParamLibraryStack, 'LibPlants'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<ParamListTabStack, 'LibTab'>,
+    NativeStackScreenProps<ParamListMainStack>
+  >
+>
+export type NavPropsLibPlantDetail = CompositeScreenProps<
+  NativeStackScreenProps<ParamLibraryStack, 'LibPlantDetail'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<ParamListTabStack, 'LibTab'>,
     NativeStackScreenProps<ParamListMainStack>
   >
 >

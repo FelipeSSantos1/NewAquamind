@@ -24,6 +24,9 @@ import ResetPasswordView from '../view/resetPassword'
 import AddFertilizerView from '../view/addFertilizer'
 import AddPlantView from '../view/addPlant'
 import ProfileView from '../view/profile'
+import LibraryView from '../view/library'
+import LibPlantsView from '../view/libPlantsList'
+import LibPlantDetailView from '../view/libPlantDetail'
 import ConfigRTK from '../store/config'
 import theme from '../theme'
 import {
@@ -33,12 +36,14 @@ import {
   ParamListGeneralStack,
   ParamListTabStack,
   ParamListMainStack,
+  ParamLibraryStack,
 } from './types'
 
 const RootStack = createNativeStackNavigator<ParamListMainStack>()
 const AuthStack = createNativeStackNavigator<ParamListAuthStack>()
 const FeedStack = createNativeStackNavigator<ParamListFeedStack>()
 const TankStack = createNativeStackNavigator<ParamListTankStack>()
+const LibStack = createNativeStackNavigator<ParamLibraryStack>()
 const GeneralStack = createNativeStackNavigator<ParamListGeneralStack>()
 const Tab = createBottomTabNavigator<ParamListTabStack>()
 
@@ -212,6 +217,41 @@ const Tank: React.FC = () => {
     </TankStack.Navigator>
   )
 }
+const Lib: React.FC = () => {
+  return (
+    <LibStack.Navigator
+      initialRouteName="Lib"
+      screenOptions={{
+        headerTintColor: theme.colors.surface,
+        headerStyle: {
+          backgroundColor: theme.colors.primary,
+        },
+      }}
+    >
+      <LibStack.Screen
+        name="Lib"
+        component={LibraryView}
+        options={{
+          title: 'Library',
+        }}
+      />
+      <LibStack.Screen
+        name="LibPlants"
+        component={LibPlantsView}
+        options={{
+          title: 'Plants',
+        }}
+      />
+      <LibStack.Screen
+        name="LibPlantDetail"
+        component={LibPlantDetailView}
+        options={{
+          title: 'Plant Detail',
+        }}
+      />
+    </LibStack.Navigator>
+  )
+}
 
 const Tabs: React.FC = () => (
   <Tab.Navigator
@@ -248,6 +288,20 @@ const Tabs: React.FC = () => (
         tabBarIcon: ({ focused }) => (
           <MaterialCommunityIcons
             name={focused ? 'fishbowl' : 'fishbowl-outline'}
+            color={theme.colors.primary}
+            size={24}
+          />
+        ),
+      }}
+    />
+    <Tab.Screen
+      name="LibTab"
+      component={Lib}
+      options={{
+        tabBarLabel: 'Library',
+        tabBarIcon: ({ focused }) => (
+          <MaterialCommunityIcons
+            name={focused ? 'school' : 'school-outline'}
             color={theme.colors.primary}
             size={24}
           />
