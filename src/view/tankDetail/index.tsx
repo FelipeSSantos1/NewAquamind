@@ -175,22 +175,28 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
         </RowViewIcon>
       </RowViewIconContainer>
       {!!tank.filter && (
-        <PaperText>
-          {'Filter '}
-          <PaperBoldText>{tank.filter}</PaperBoldText>
-        </PaperText>
+        <RowViewIconContainer>
+          <RowViewIcon>
+            <ImageIcon source={require('../../assets/icons/waterFilter.png')} />
+            <PaperText>{tank.filter}</PaperText>
+          </RowViewIcon>
+        </RowViewIconContainer>
       )}
       {!!tank.substrate && (
-        <PaperText>
-          {'substrate '}
-          <PaperBoldText>{tank.substrate}</PaperBoldText>
-        </PaperText>
+        <RowViewIconContainer>
+          <RowViewIcon>
+            <ImageIcon source={require('../../assets/icons/soil.png')} />
+            <PaperText>{tank.substrate}</PaperText>
+          </RowViewIcon>
+        </RowViewIconContainer>
       )}
       {!!tank.light && (
-        <PaperText>
-          {'Light '}
-          <PaperBoldText>{tank.light}</PaperBoldText>
-        </PaperText>
+        <RowViewIconContainer>
+          <RowViewIcon>
+            <ImageIcon source={require('../../assets/icons/light.png')} />
+            <PaperText>{tank.light}</PaperText>
+          </RowViewIcon>
+        </RowViewIconContainer>
       )}
       {renderPhotos()}
       {renderPlantList()}
