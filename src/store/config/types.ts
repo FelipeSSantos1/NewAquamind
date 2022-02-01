@@ -14,5 +14,7 @@ export type ConfigState = {
   loading: LoadingState
   authenticated: boolean
   drawerVisible: boolean
+  feedLoading: boolean
+  feedCursor: number
   alert: AlertState
 }

@@ -8,6 +8,8 @@ const initialState: ConfigState = {
   },
   authenticated: false,
   drawerVisible: false,
+  feedLoading: false,
+  feedCursor: 0,
   alert: {
     visible: false,
     alertTitle: ' ',
@@ -51,6 +53,18 @@ export default createSlice({
       return {
         ...state,
         loading: action.payload,
+      }
+    },
+    setFeedLoading: (state, action: PayloadAction<boolean>) => {
+      return {
+        ...state,
+        feedLoading: action.payload,
+      }
+    },
+    setFeedCursor: (state, action: PayloadAction<number>) => {
+      return {
+        ...state,
+        feedCursor: action.payload,
       }
     },
   },

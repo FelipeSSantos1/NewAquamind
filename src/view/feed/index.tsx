@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { Alert, Platform } from 'react-native'
+import { Alert, Platform, FlatList } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import trim from 'lodash/trim'
 import * as Notifications from 'expo-notifications'
-import Constants from 'expo-constants'
 import * as SecureStore from 'expo-secure-store'
+import * as Device from 'expo-device'
 
 import ConfigRTK from '../../store/config'
 import FeedRTK from '../../store/feed'
@@ -27,14 +27,13 @@ Notifications.setNotificationHandler({
 
 const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   const dispatch = useDispatch()
+  const flatListRef = useRef<FlatList>(null)
   const feeds = useSelector((state: RootState) => state.feed)
-  const { user } = useSelector((state: RootState) => state)
-  const [refreshing, setRefreshing] = useState(false)
-  const [cursor, setCursor] = useState(0)
+  const { user, config } = useSelector((state: RootState) => state)
 
   // Notification things ******************************************************
   async function registerForPushNotificationsAsync() {
-    if (Constants.isDevice || Platform.OS === 'android') {
+    if (Device.isDevice || Platform.OS === 'android') {
       const { status: existingStatus } =
         await Notifications.getPermissionsAsync()
       let finalStatus = existingStatus
@@ -80,8 +79,14 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   }, [dispatch])
   // End Notification things **************************************************
 
+  useEffect(() => {
+    if (config.feedCursor === 0 && feeds.length > 0) {
+      flatListRef.current?.scrollToIndex({ animated: true, index: 0 })
+    }
+  }, [config.feedCursor, feeds.length])
+
   const fetchFeed = async () => {
-    const response = await getAllFeed({ take: 10, cursor })
+    const response = await getAllFeed({ take: 10, cursor: config.feedCursor })
 
     if (!response) {
       return
@@ -99,13 +104,15 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
     }
 
     if (response) {
-      if (cursor > 0) {
+      if (config.feedCursor > 0) {
         dispatch(FeedRTK.actions.setFeed([...feeds, ...response]))
       } else {
         dispatch(FeedRTK.actions.setFeed(response))
       }
       if (response.length) {
-        setCursor(response[response.length - 1].id)
+        dispatch(
+          ConfigRTK.actions.setFeedCursor(response[response.length - 1].id)
+        )
       }
     }
   }
@@ -116,10 +123,10 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   }, [dispatch])
 
   const resetData = async () => {
-    setCursor(0)
-    setRefreshing(true)
+    dispatch(ConfigRTK.actions.setFeedCursor(0))
+    dispatch(ConfigRTK.actions.setFeedLoading(true))
     await fetchFeed()
-    setRefreshing(false)
+    dispatch(ConfigRTK.actions.setFeedLoading(false))
   }
 
   const renderFeed = ({ item }: { item: Feed }) => (
@@ -166,13 +173,14 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   return (
     <>
       <PaperFlatList
+        ref={flatListRef}
         showsVerticalScrollIndicator={false}
         data={feeds}
         renderItem={item => renderFeed(item as { item: Feed })}
         keyExtractor={item => (item as Feed).id.toString()}
         onRefresh={resetData}
-        refreshing={refreshing}
-        onEndReachedThreshold={0.5}
+        refreshing={config.feedLoading || false}
+        onEndReachedThreshold={3}
         onEndReached={() => fetchFeed()}
       />
       <PaperFAB icon="plus" onPress={pickImage} small />

@@ -36,6 +36,7 @@ import Alert from './view/components/alert'
 import Drawer from './view/components/drawer'
 import { store, persistor } from './store'
 import FeedRTK from './store/feed'
+import ConfigRTK from './store/config'
 import { getAllFeed } from './API/feed'
 import theme from './theme'
 import Routes from './routes'
@@ -49,15 +50,24 @@ const App: React.FC = () => {
   const appState = useRef(AppState.currentState)
 
   const fetchFeed = async () => {
+    store.dispatch(ConfigRTK.actions.setFeedCursor(0))
+    store.dispatch(ConfigRTK.actions.setFeedLoading(true))
     const response = await getAllFeed({ take: 10, cursor: 0 })
 
     if (!response || 'statusCode' in response) {
+      store.dispatch(ConfigRTK.actions.setFeedLoading(false))
       return
     }
 
     if (response) {
       store.dispatch(FeedRTK.actions.setFeed(response))
+      if (response.length) {
+        store.dispatch(
+          ConfigRTK.actions.setFeedCursor(response[response.length - 1].id)
+        )
+      }
     }
+    store.dispatch(ConfigRTK.actions.setFeedLoading(false))
   }
 
   useEffect(() => {
