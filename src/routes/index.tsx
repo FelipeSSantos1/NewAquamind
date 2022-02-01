@@ -218,6 +218,7 @@ const Tank: React.FC = () => {
   )
 }
 const Lib: React.FC = () => {
+  const dispatch = useDispatch()
   return (
     <LibStack.Navigator
       initialRouteName="Lib"
@@ -233,6 +234,18 @@ const Lib: React.FC = () => {
         component={LibraryView}
         options={{
           title: 'Library',
+          headerRight: () => (
+            <IconButton
+              icon="menu"
+              color={theme.colors.surface}
+              onPress={() => {
+                Haptics.notificationAsync(
+                  Haptics.NotificationFeedbackType.Success
+                )
+                dispatch(ConfigRTK.actions.showDrawer(true))
+              }}
+            />
+          ),
         }}
       />
       <LibStack.Screen
@@ -249,6 +262,7 @@ const Lib: React.FC = () => {
           title: 'Plant Detail',
         }}
       />
+      {General()}
     </LibStack.Navigator>
   )
 }
