@@ -1,6 +1,14 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { Linking, Platform, StatusBar, UIManager, LogBox } from 'react-native'
+import {
+  Linking,
+  Platform,
+  StatusBar,
+  UIManager,
+  LogBox,
+  AppState,
+  AppStateStatus,
+} from 'react-native'
 import { Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
 import * as Notifications from 'expo-notifications'
@@ -27,6 +35,8 @@ import Spinner from './view/components/loading'
 import Alert from './view/components/alert'
 import Drawer from './view/components/drawer'
 import { store, persistor } from './store'
+import FeedRTK from './store/feed'
+import { getAllFeed } from './API/feed'
 import theme from './theme'
 import Routes from './routes'
 
@@ -36,6 +46,41 @@ const myTheme = {
 }
 
 const App: React.FC = () => {
+  const appState = useRef(AppState.currentState)
+
+  const fetchFeed = async () => {
+    const response = await getAllFeed({ take: 10, cursor: 0 })
+
+    if (!response || 'statusCode' in response) {
+      return
+    }
+
+    if (response) {
+      store.dispatch(FeedRTK.actions.setFeed(response))
+    }
+  }
+
+  useEffect(() => {
+    const handleAppStateChange = (nextAppState: AppStateStatus) => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === 'active'
+      ) {
+        fetchFeed()
+      }
+      appState.current = nextAppState
+    }
+
+    const appStateListener = AppState.addEventListener(
+      'change',
+      handleAppStateChange
+    )
+
+    return () => {
+      appStateListener.remove()
+    }
+  }, [])
+
   LogBox.ignoreLogs([
     'new NativeEventEmitter',
     "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
