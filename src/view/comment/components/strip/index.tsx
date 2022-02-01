@@ -73,12 +73,7 @@ const Strip: React.FC<PropsType> = ({
   return (
     <Swipeable
       renderRightActions={renderRightActions}
-      onSwipeableOpen={() =>
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-      }
-      onSwipeableClose={() =>
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-      }
+      onActivated={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
     >
       <RowView sub={sub}>
         <Avatar source={fullImageUrl(item.Profile.avatar)} size={30} />

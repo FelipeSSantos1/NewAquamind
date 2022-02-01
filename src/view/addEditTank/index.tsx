@@ -389,10 +389,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
         renderRightActions={() =>
           renderRightActions(() => removeFertilizer(fertilizer.id))
         }
-        onSwipeableOpen={() =>
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-        }
-        onSwipeableClose={() =>
+        onActivated={() =>
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
         }
         key={`fert-${index}`}
@@ -416,10 +413,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
         renderRightActions={() =>
           renderRightActions(() => removePlant(plant.id))
         }
-        onSwipeableOpen={() =>
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-        }
-        onSwipeableClose={() =>
+        onActivated={() =>
           Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
         }
         key={`plant-${index}`}
