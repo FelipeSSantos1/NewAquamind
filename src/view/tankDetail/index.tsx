@@ -21,6 +21,8 @@ import {
   ImageIcon,
   RowViewIcon,
   RowViewIconContainer,
+  RowViewIconContainerOneLine,
+  RowViewIconOneLine,
 } from './styles'
 import { Pressable, ScrollView } from 'react-native'
 
@@ -175,28 +177,28 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
         </RowViewIcon>
       </RowViewIconContainer>
       {!!tank.filter && (
-        <RowViewIconContainer>
-          <RowViewIcon>
+        <RowViewIconContainerOneLine>
+          <RowViewIconOneLine>
             <ImageIcon source={require('../../assets/icons/waterFilter.png')} />
             <PaperText>{tank.filter}</PaperText>
-          </RowViewIcon>
-        </RowViewIconContainer>
+          </RowViewIconOneLine>
+        </RowViewIconContainerOneLine>
       )}
       {!!tank.substrate && (
-        <RowViewIconContainer>
-          <RowViewIcon>
+        <RowViewIconContainerOneLine>
+          <RowViewIconOneLine>
             <ImageIcon source={require('../../assets/icons/soil.png')} />
             <PaperText>{tank.substrate}</PaperText>
-          </RowViewIcon>
-        </RowViewIconContainer>
+          </RowViewIconOneLine>
+        </RowViewIconContainerOneLine>
       )}
       {!!tank.light && (
-        <RowViewIconContainer>
-          <RowViewIcon>
+        <RowViewIconContainerOneLine>
+          <RowViewIconOneLine>
             <ImageIcon source={require('../../assets/icons/light.png')} />
             <PaperText>{tank.light}</PaperText>
-          </RowViewIcon>
-        </RowViewIconContainer>
+          </RowViewIconOneLine>
+        </RowViewIconContainerOneLine>
       )}
       {renderPhotos()}
       {renderPlantList()}

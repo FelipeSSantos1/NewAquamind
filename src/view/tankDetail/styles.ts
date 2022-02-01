@@ -27,10 +27,16 @@ export const RowViewIconContainer = styled.View`
   margin-top: ${theme.sizes.margin}px;
   width: ${theme.sizes.width / 2 - theme.sizes.margin * 2}px;
 `
+export const RowViewIconContainerOneLine = styled(RowViewIconContainer)`
+  width: ${theme.sizes.width - theme.sizes.margin * 2}px;
+`
 export const RowViewIcon = styled.View`
   flex-direction: row;
   align-items: center;
   width: ${theme.sizes.width / 2 - theme.sizes.margin}px;
+`
+export const RowViewIconOneLine = styled(RowViewIcon)`
+  width: ${theme.sizes.width - theme.sizes.margin}px;
 `
 export const PaperText = styled(Text)`
   flex: 1;
