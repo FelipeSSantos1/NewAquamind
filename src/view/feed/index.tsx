@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Alert, Platform, FlatList } from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
@@ -27,6 +27,7 @@ Notifications.setNotificationHandler({
 
 const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   const dispatch = useDispatch()
+  const [loading, setLoading] = useState(false)
   const flatListRef = useRef<FlatList>(null)
   const feeds = useSelector((state: RootState) => state.feed)
   const { user, config } = useSelector((state: RootState) => state)
@@ -80,10 +81,11 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   // End Notification things **************************************************
 
   useEffect(() => {
-    if (config.feedCursor === 0 && feeds.length > 0) {
+    if (config.feedCursor === 0 && feeds.length > 0 && !loading) {
       flatListRef.current?.scrollToIndex({ animated: true, index: 0 })
     }
-  }, [config.feedCursor, feeds.length])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [config.feedCursor])
 
   const fetchFeed = async () => {
     const response = await getAllFeed({ take: 10, cursor: config.feedCursor })
@@ -123,10 +125,10 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   }, [dispatch])
 
   const resetData = async () => {
+    setLoading(true)
     dispatch(ConfigRTK.actions.setFeedCursor(0))
-    dispatch(ConfigRTK.actions.setFeedLoading(true))
     await fetchFeed()
-    dispatch(ConfigRTK.actions.setFeedLoading(false))
+    setLoading(false)
   }
 
   const renderFeed = ({ item }: { item: Feed }) => (
@@ -179,7 +181,7 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
         renderItem={item => renderFeed(item as { item: Feed })}
         keyExtractor={item => (item as Feed).id.toString()}
         onRefresh={resetData}
-        refreshing={config.feedLoading || false}
+        refreshing={config.feedLoading || loading || false}
         onEndReachedThreshold={3}
         onEndReached={() => fetchFeed()}
       />
