@@ -18,7 +18,7 @@ const Library: React.FC<NavPropsLib> = ({ navigation }) => {
         <PaperTouchableRipple onPress={() => navigation.navigate('LibPlants')}>
           <PaperContainer>
             <Image source={require('../../assets/icons/libPlants.png')} />
-            <PaperTitle>Plants</PaperTitle>
+            <PaperTitle>Plant</PaperTitle>
           </PaperContainer>
         </PaperTouchableRipple>
         <PaperTouchableRipple>
@@ -33,7 +33,7 @@ const Library: React.FC<NavPropsLib> = ({ navigation }) => {
         <PaperTouchableRipple>
           <PaperContainer>
             <Image source={require('../../assets/icons/stone.png')} />
-            <PaperTitle>Rocks</PaperTitle>
+            <PaperTitle>Stone</PaperTitle>
             <PaperRedText>coming soon</PaperRedText>
           </PaperContainer>
         </PaperTouchableRipple>
