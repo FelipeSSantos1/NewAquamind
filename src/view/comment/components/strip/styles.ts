@@ -67,3 +67,10 @@ export const Icon = styled(Button).attrs({
 })`
   margin: 0;
 `
+export const PaperButton = styled(Button)``
+export const LabelStyle = StyleSheet.create({
+  text: {
+    fontFamily: theme.fonts.light.fontFamily,
+    fontSize: theme.fonts.sizes.small,
+  },
+})

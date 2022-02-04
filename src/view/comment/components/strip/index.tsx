@@ -19,6 +19,8 @@ import {
   DeleteButton,
   ReplyButton,
   Icon,
+  PaperButton,
+  LabelStyle,
 } from './styles'
 
 const Strip: React.FC<PropsType> = ({
@@ -95,6 +97,17 @@ const Strip: React.FC<PropsType> = ({
           <FooterRowView sub={false}>
             <FooterText>{moment(item.createdAt).fromNow()}</FooterText>
             <FooterText>{`${item._count.LikeComment} likes`}</FooterText>
+            <PaperButton
+              mode="text"
+              compact
+              color={theme.colors.lightText}
+              labelStyle={LabelStyle.text}
+              uppercase={false}
+              onPress={replyFunction}
+              icon="reply"
+            >
+              reply
+            </PaperButton>
           </FooterRowView>
         </ContentView>
       </RowView>

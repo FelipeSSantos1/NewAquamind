@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
-import { FlatList, Platform, TextInput } from 'react-native'
+import { FlatList, Platform, TextInput, Image } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
 import { Divider, IconButton } from 'react-native-paper'
 import * as Haptics from 'expo-haptics'
@@ -33,6 +33,8 @@ import {
   RowView,
   PaperAvatar,
   PaperKeyboardAvoidingView,
+  ReplyText,
+  ReplyPaperChip,
 } from './styles'
 
 const CommentView: React.FC<NavPropsComment> = ({ route }) => {
@@ -41,6 +43,8 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
   const [refreshing, setRefreshing] = useState(false)
   const [likeRefreshing, setLikeRefreshing] = useState(false)
   const [textComment, setTextComment] = useState('')
+  const [toUsername, setToUsername] = useState('')
+  const [toUserAvatar, setToUserAvatar] = useState('')
   const [loadingAddComment, setLoadingAddComment] = useState(false)
   const [loadingDelete, setLoadingDelete] = useState(false)
   const [parentId, setParentId] = useState<number | undefined>(undefined)
@@ -157,10 +161,22 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
     setLikeRefreshing(false)
   }
 
-  const replyHandler = (username: string, parentIdParam: number) => {
+  const replyHandler = (
+    username: string,
+    parentIdParam: number,
+    avatar: string
+  ) => {
     setTextComment(`@${username} `)
+    setToUserAvatar(avatar)
+    setToUsername(username)
     setParentId(parentIdParam)
     inputTextRef.current?.focus()
+  }
+
+  const cancelReply = () => {
+    setToUserAvatar('')
+    setToUsername('')
+    setParentId(undefined)
   }
 
   const deleteComment = async (id: number) => {
@@ -189,7 +205,7 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
   }
 
-  const renderFeed = ({ item }: { item: CommentState }) => {
+  const renderComments = ({ item }: { item: CommentState }) => {
     const mainliked = item.LikeComment.length > 0
 
     const subComments = (comments: SubComment[]) => {
@@ -211,7 +227,8 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
               () =>
                 replyHandler(
                   subComment.Profile.username,
-                  subComment.parentId || subComment.id
+                  subComment.parentId || subComment.id,
+                  subComment.Profile.avatar
                 ),
               300
             )}
@@ -236,7 +253,8 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
             leading: true,
           })}
           replyFunction={debounce(
-            () => replyHandler(item.Profile.username, item.id),
+            () =>
+              replyHandler(item.Profile.username, item.id, item.Profile.avatar),
             300
           )}
           refreshing={likeRefreshing}
@@ -305,13 +323,27 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
       <Container>
         <FlatList
           data={comment}
-          renderItem={item => renderFeed(item)}
+          renderItem={item => renderComments(item)}
           keyExtractor={item => item.id.toString()}
           ItemSeparatorComponent={() => <Divider />}
           onRefresh={refreshData}
           refreshing={refreshing}
           contentContainerStyle={ContentContainerStyle.flatlist}
         />
+        {parentId && (
+          <RowView>
+            <ReplyText>replying to:</ReplyText>
+            <ReplyPaperChip
+              avatar={
+                <Image source={fullImageUrl(toUserAvatar)} resizeMode="cover" />
+              }
+              onClose={() => cancelReply()}
+              mode="outlined"
+            >
+              {toUsername}
+            </ReplyPaperChip>
+          </RowView>
+        )}
         <RowView>
           <PaperAvatar source={fullImageUrl(user.Profile.avatar)} size={40} />
           <PaperTextInput
