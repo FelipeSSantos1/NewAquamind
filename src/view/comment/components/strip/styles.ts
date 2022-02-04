@@ -21,7 +21,6 @@ export const Avatar = styled(PaperAvatar.Image)`
   background-color: transparent;
   border-width: ${StyleSheet.hairlineWidth}px;
   border-color: ${theme.colors.text};
-  margin: ${theme.sizes.padding / 2}px 0;
 `
 export const TextUserName = styled(Text)`
   font-family: ${theme.fonts.medium.fontFamily};
@@ -41,7 +40,7 @@ export const FooterText = styled(Text)`
   font-size: ${theme.fonts.sizes.small}px;
 `
 export const FooterRowView = styled(RowView)`
-  margin: ${theme.sizes.margin / 2}px 0;
+  margin: 0 0 ${theme.sizes.margin / 2}px 30px;
   flex-direction: row;
   align-items: center;
 `

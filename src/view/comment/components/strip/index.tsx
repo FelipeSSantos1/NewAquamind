@@ -78,9 +78,9 @@ const Strip: React.FC<PropsType> = ({
       onActivated={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
     >
       <RowView sub={sub}>
-        <Avatar source={fullImageUrl(item.Profile.avatar)} size={30} />
         <ContentView>
           <RowView sub={false}>
+            <Avatar source={fullImageUrl(item.Profile.avatar)} size={30} />
             <TextMessage>
               <TextUserName>{item.Profile.username} </TextUserName>
               {item.comment}

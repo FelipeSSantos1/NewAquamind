@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react'
 import { FlatList, Platform, TextInput, Image } from 'react-native'
 import { useDispatch, useSelector } from 'react-redux'
-import { Divider, IconButton } from 'react-native-paper'
+import { IconButton } from 'react-native-paper'
 import * as Haptics from 'expo-haptics'
 import map from 'lodash/map'
 import debounce from 'lodash/debounce'
@@ -325,7 +325,6 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
           data={comment}
           renderItem={item => renderComments(item)}
           keyExtractor={item => item.id.toString()}
-          ItemSeparatorComponent={() => <Divider />}
           onRefresh={refreshData}
           refreshing={refreshing}
           contentContainerStyle={ContentContainerStyle.flatlist}
