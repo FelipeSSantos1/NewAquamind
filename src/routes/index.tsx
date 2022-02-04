@@ -27,6 +27,8 @@ import ProfileView from '../view/profile'
 import LibraryView from '../view/library'
 import LibPlantsView from '../view/libPlantsList'
 import LibPlantDetailView from '../view/libPlantDetail'
+import LibAlgaeView from '../view/libAlgaeList'
+import LibAlgaeDetailView from '../view/libAlgaeDetail'
 import ConfigRTK from '../store/config'
 import theme from '../theme'
 import {
@@ -260,6 +262,20 @@ const Lib: React.FC = () => {
         component={LibPlantDetailView}
         options={{
           title: 'Plant Detail',
+        }}
+      />
+      <LibStack.Screen
+        name="LibAlgae"
+        component={LibAlgaeView}
+        options={{
+          title: 'Algae',
+        }}
+      />
+      <LibStack.Screen
+        name="LibAlgaeDetail"
+        component={LibAlgaeDetailView}
+        options={{
+          title: 'Algae Detail',
         }}
       />
       {General()}

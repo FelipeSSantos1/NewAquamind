@@ -2,7 +2,6 @@ import API from '../../services/api'
 import { AxiosError } from 'axios'
 
 import { PlantState } from '../../store/plant/types'
-import { PlantDetail } from './types'
 
 export async function getAll() {
   const result = API.get<PlantState[]>('/plant')
@@ -21,7 +20,7 @@ export async function getAll() {
 }
 
 export async function getById(id: number) {
-  const result = API.get<PlantDetail>('/plant/' + id)
+  const result = API.get<PlantState>('/plant/' + id)
     .then(response => {
       if (response && response.status === 200) {
         return response.data

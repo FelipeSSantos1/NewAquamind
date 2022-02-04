@@ -12,25 +12,16 @@ type File = {
   fertilizerId: number | null
   algaeId: number | null
 }
-type Brand = {
-  id: number
-  name: string
-  website: string
-  logo: string | null
-  createdAt: Date
-  updatedAt: Date
-}
-type Fertilizer = {
+type Algae = {
   id: number
   name: string
   description: string | null
-  unit: string
-  avatar: string | null
+  cause: string | null
+  treatment: string | null
+  source: string | null
   createdAt: Date
   updatedAt: Date
-  brandId: number | null
 }
-export type FertilizerState = Fertilizer & {
-  Brand: Brand
+export type AlgaeState = Algae & {
   Photos: File[]
 }

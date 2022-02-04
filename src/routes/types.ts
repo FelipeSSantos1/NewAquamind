@@ -223,6 +223,20 @@ export type NavPropsLibPlantDetail = CompositeScreenProps<
     NativeStackScreenProps<ParamListMainStack>
   >
 >
+export type NavPropsLibAlgae = CompositeScreenProps<
+  NativeStackScreenProps<ParamLibraryStack, 'LibAlgae'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<ParamListTabStack, 'LibTab'>,
+    NativeStackScreenProps<ParamListMainStack>
+  >
+>
+export type NavPropsLibAlgaeDetail = CompositeScreenProps<
+  NativeStackScreenProps<ParamLibraryStack, 'LibAlgaeDetail'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<ParamListTabStack, 'LibTab'>,
+    NativeStackScreenProps<ParamListMainStack>
+  >
+>
 // General *********************************************************************
 export type NavPropsProfile = NativeStackScreenProps<
   ParamListGeneralStack,

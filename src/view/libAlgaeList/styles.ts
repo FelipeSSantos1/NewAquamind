@@ -3,6 +3,7 @@ import FastImage from 'react-native-fast-image'
 import {
   Searchbar as PaperSearchbar,
   Text as PaperText,
+  Divider,
 } from 'react-native-paper'
 
 import theme from '../../theme'
@@ -37,4 +38,7 @@ export const ThumbImage = styled(FastImage)`
   border-radius: ${theme.roundness}px;
   align-self: flex-start;
   margin-right: ${theme.sizes.margin}px;
+`
+export const PaperDivider = styled(Divider)`
+  margin: ${theme.sizes.margin}px 0;
 `

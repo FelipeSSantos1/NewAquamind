@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { TouchableRipple, Divider, IconButton } from 'react-native-paper'
+import { TouchableRipple, IconButton } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux'
 import { FlatList } from 'react-native'
 import filter from 'lodash/filter'
 import toUpper from 'lodash/toUpper'
 
-import * as API from '../../API/plant'
-import PlantRTK from '../../store/plant'
-import { PlantState } from '../../store/plant/types'
-import { NavPropsLibPlants } from '../../routes/types'
+import * as API from '../../API/algae'
+import AlgaeRTK from '../../store/algae'
+import { AlgaeState } from '../../store/algae/types'
+import { NavPropsLibAlgae } from '../../routes/types'
 import { RootState } from '../../store/rootReducer'
 import { fullImageUrl } from '../../services/helper'
 import { GoDetailProps } from './types'
@@ -18,13 +18,14 @@ import {
   Text,
   RowView,
   ThumbImage,
+  PaperDivider,
   RowViewText,
 } from './styles'
 
-const LibPlantsList: React.FC<NavPropsLibPlants> = ({ navigation }) => {
+const LibAlgaeList: React.FC<NavPropsLibAlgae> = ({ navigation }) => {
   const dispatch = useDispatch()
   const [search, setSearch] = useState('')
-  const { plant } = useSelector((state: RootState) => state)
+  const { algae } = useSelector((state: RootState) => state)
 
   useEffect(() => {
     const fetchPlants = async () => {
@@ -32,7 +33,7 @@ const LibPlantsList: React.FC<NavPropsLibPlants> = ({ navigation }) => {
       if (!response || 'statusCode' in response) {
         return
       }
-      dispatch(PlantRTK.actions.setPlant(response))
+      dispatch(AlgaeRTK.actions.setAlgae(response))
     }
     fetchPlants()
   }, [dispatch])
@@ -42,16 +43,19 @@ const LibPlantsList: React.FC<NavPropsLibPlants> = ({ navigation }) => {
   }
 
   const goDetail = async ({ id }: GoDetailProps) => {
-    navigation.navigate('LibPlantDetail', {
-      plantId: id,
+    navigation.navigate('LibAlgaeDetail', {
+      algaeId: id,
     })
   }
 
-  const renderList = (item: PlantState) => (
+  const renderList = (item: AlgaeState) => (
     <TouchableRipple onPress={() => goDetail({ id: item.id })}>
       <RowView>
         <RowViewText>
-          <ThumbImage source={fullImageUrl(item.avatar)} resizeMode="contain" />
+          <ThumbImage
+            source={fullImageUrl(item.Photos[0].url)}
+            resizeMode="cover"
+          />
           <Text>{item.name}</Text>
         </RowViewText>
         <IconButton size={24} icon="chevron-right" />
@@ -67,17 +71,18 @@ const LibPlantsList: React.FC<NavPropsLibPlants> = ({ navigation }) => {
         autoComplete="off"
       />
       <FlatList
-        data={filter(plant, item => {
+        data={filter(algae, item => {
           if (toUpper(item.name).search(toUpper(search)) !== -1) {
             return true
           }
           return false
         })}
         renderItem={({ item }) => renderList(item)}
-        ItemSeparatorComponent={() => <Divider />}
+        ItemSeparatorComponent={() => <PaperDivider />}
+        showsVerticalScrollIndicator={false}
       />
     </MainView>
   )
 }
 
-export default LibPlantsList
+export default LibAlgaeList

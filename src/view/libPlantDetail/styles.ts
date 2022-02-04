@@ -9,9 +9,7 @@ export const Container = styled.ScrollView`
   background-color: ${theme.colors.background};
   padding: ${theme.sizes.padding}px;
 `
-export const PaperText = styled(Text)`
-  /* text-align: justify; */
-`
+export const PaperText = styled(Text)``
 export const PaperTitle = styled(Title)`
   margin-bottom: ${theme.sizes.margin}px;
 `

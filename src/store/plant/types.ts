@@ -1,24 +1,3 @@
-type File = {
-  id: number
-  createdAt: Date
-  updatedAt: Date
-  type: 'PHOTO'
-  title: string | null
-  height: number | null
-  width: number | null
-  url: string
-  postId: number | null
-  plantId: number | null
-  fertilizerId: number | null
-}
-type Brand = {
-  id: number
-  name: string
-  website: string
-  logo: string | null
-  createdAt: Date
-  updatedAt: Date
-}
 type Plant = {
   id: number
   name: string
@@ -28,6 +7,31 @@ type Plant = {
   createdAt: Date
   updatedAt: Date
   brandId: number | null
+}
+type Brand = {
+  id: number
+  name: string
+  website: string
+  logo: string | null
+  createdAt: Date
+  updatedAt: Date
+}
+type FileType = {
+  PHOTO: 'PHOTO'
+}
+type File = {
+  id: number
+  createdAt: Date
+  updatedAt: Date
+  type: FileType
+  title: string | null
+  height: number | null
+  width: number | null
+  url: string
+  postId: number | null
+  plantId: number | null
+  fertilizerId: number | null
+  algaeId: number | null
 }
 export type PlantState = Plant & {
   Brand: Brand

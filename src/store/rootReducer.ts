@@ -7,6 +7,7 @@ import comment from './comment'
 import tank from './tank'
 import fertilizer from './fertilizer'
 import plant from './plant'
+import algae from './algae'
 import notification from './notification'
 
 export const rootReducer = combineReducers({
@@ -17,6 +18,7 @@ export const rootReducer = combineReducers({
   tank: tank.reducer,
   fertilizer: fertilizer.reducer,
   plant: plant.reducer,
+  algae: algae.reducer,
   notification: notification.reducer,
 })
 

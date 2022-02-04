@@ -37,11 +37,10 @@ const Library: React.FC<NavPropsLib> = ({ navigation }) => {
             <PaperRedText>coming soon</PaperRedText>
           </PaperContainer>
         </PaperTouchableRipple>
-        <PaperTouchableRipple>
+        <PaperTouchableRipple onPress={() => navigation.navigate('LibAlgae')}>
           <PaperContainer>
             <Image source={require('../../assets/icons/algae.png')} />
             <PaperTitle>Algae</PaperTitle>
-            <PaperRedText>coming soon</PaperRedText>
           </PaperContainer>
         </PaperTouchableRipple>
       </RowView>
