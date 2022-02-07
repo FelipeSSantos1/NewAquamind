@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import { useSelector, useDispatch } from 'react-redux'
 import * as Haptics from 'expo-haptics'
-import { IconButton } from 'react-native-paper'
+import { IconButton, TouchableRipple } from 'react-native-paper'
 
 import PostDetail from '../view/postDetail'
 import { RootState } from '../store/rootReducer'
@@ -80,18 +80,17 @@ const General = () => [
     options={({ navigation }) => ({
       title: 'Post Detail',
       headerLeft: () => (
-        <IconButton
-          icon="chevron-left"
-          size={30}
-          style={{
-            margin: 0,
-            padding: 0,
-          }}
-          color={theme.colors.surface}
+        <TouchableRipple
           onPress={() => {
             navigation.pop()
           }}
-        />
+        >
+          <MaterialCommunityIcons
+            name="chevron-left"
+            color={theme.colors.surface}
+            size={35}
+          />
+        </TouchableRipple>
       ),
     })}
   />,
