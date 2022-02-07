@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -76,9 +77,23 @@ const General = () => [
     key="GeneralPostDetail"
     name="PostDetail"
     component={PostDetail}
-    options={{
+    options={({ navigation }) => ({
       title: 'Post Detail',
-    }}
+      headerLeft: () => (
+        <IconButton
+          icon="chevron-left"
+          size={30}
+          style={{
+            margin: 0,
+            padding: 0,
+          }}
+          color={theme.colors.surface}
+          onPress={() => {
+            navigation.pop()
+          }}
+        />
+      ),
+    })}
   />,
   <GeneralStack.Screen
     key="GeneralContactUs"
