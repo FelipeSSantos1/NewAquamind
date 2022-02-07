@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import moment from 'moment'
 import map from 'lodash/map'
 import toInteger from 'lodash/toInteger'
+import Pinchable from 'react-native-pinchable'
 
 import * as tankAPI from '../../API/tank'
 import { fullImageUrl } from '../../services/helper'
@@ -51,24 +52,20 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
     }
 
     return (
-      <>
-        <PaperDivider />
-        <PaperTitle>Photos</PaperTitle>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-          <RowView>
-            {map(tank.Posts[0].Photos, photo => (
-              <Pressable
-                key={photo.id}
-                onPress={() => {
-                  setSelectedPhoto(photo.url)
-                }}
-              >
-                <ImageBox imageUrl={photo.url} />
-              </Pressable>
-            ))}
-          </RowView>
-        </ScrollView>
-      </>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+        <RowView>
+          {map(tank.Posts[0].Photos, photo => (
+            <Pressable
+              key={photo.id}
+              onPress={() => {
+                setSelectedPhoto(photo.url)
+              }}
+            >
+              <ImageBox imageUrl={photo.url} />
+            </Pressable>
+          ))}
+        </RowView>
+      </ScrollView>
     )
   }
 
@@ -92,6 +89,7 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
       </>
     )
   }
+
   const renderFertilizerList = () => {
     if (tank && tank.TankFertilizer.length === 0) {
       return null
@@ -121,14 +119,17 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
 
   return (
     <StyledScrollView showsVerticalScrollIndicator={false}>
-      <HeaderImage
-        source={
-          selectedPhoto
-            ? fullImageUrl(selectedPhoto)
-            : fullImageUrl(tank.avatar)
-        }
-        resizeMode="cover"
-      />
+      <Pinchable>
+        <HeaderImage
+          source={
+            selectedPhoto
+              ? fullImageUrl(selectedPhoto)
+              : fullImageUrl(tank.avatar)
+          }
+          resizeMode="cover"
+        />
+      </Pinchable>
+      {renderPhotos()}
       {!!tank.name && <PaperTitle>{tank.name}</PaperTitle>}
       {!!tank.born && (
         <PaperText>
@@ -200,7 +201,6 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
           </RowViewIconOneLine>
         </RowViewIconContainerOneLine>
       )}
-      {renderPhotos()}
       {renderPlantList()}
       {renderFertilizerList()}
     </StyledScrollView>
