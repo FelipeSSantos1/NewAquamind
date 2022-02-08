@@ -10,6 +10,7 @@ import { Image } from 'react-native-compressor'
 import { RootState } from '../../store/rootReducer'
 import ConfigRTK from '../../store/config'
 import TankRTK from '../../store/tank'
+import FeedRTK from '../../store/feed'
 import { NavPropsCreatePost } from 'routes/types'
 import ImageBox from './components/imageBox'
 import * as API from '../../API/tank'
@@ -141,17 +142,31 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
       tankId: selectedTank ? selectedTank : undefined,
       photos: compressedImages,
     })
-    dispatch(
-      ConfigRTK.actions.setLoading({
-        visible: false,
-        loadingMessage: '',
-      })
-    )
 
     if (!response) {
+      dispatch(
+        ConfigRTK.actions.setLoading({
+          visible: false,
+          loadingMessage: '',
+        })
+      )
+      dispatch(
+        ConfigRTK.actions.setAlert({
+          visible: true,
+          alertTitle: 'Oops!',
+          alertMessage: 'Something went wrong!',
+          okText: 'Ok',
+        })
+      )
       return
     }
     if ('statusCode' in response) {
+      dispatch(
+        ConfigRTK.actions.setLoading({
+          visible: false,
+          loadingMessage: '',
+        })
+      )
       dispatch(
         ConfigRTK.actions.setAlert({
           visible: true,
@@ -162,6 +177,37 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
       )
       return
     }
+
+    // refreshing feed state
+    dispatch(
+      ConfigRTK.actions.setLoading({
+        visible: true,
+        loadingMessage: 'Refreshing Feed',
+      })
+    )
+    const feedResponse = await FeedAPI.getAllFeed({
+      take: 10,
+      cursor: 0,
+    })
+
+    if (feedResponse && !('statusCode' in feedResponse)) {
+      dispatch(FeedRTK.actions.setFeed(feedResponse))
+
+      if (feedResponse.length) {
+        dispatch(
+          ConfigRTK.actions.setFeedCursor(
+            feedResponse[feedResponse.length - 1].id
+          )
+        )
+      }
+    }
+
+    dispatch(
+      ConfigRTK.actions.setLoading({
+        visible: false,
+        loadingMessage: '',
+      })
+    )
 
     navigation.goBack()
   }

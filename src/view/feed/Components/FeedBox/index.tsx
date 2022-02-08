@@ -165,7 +165,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
       const imageWidth = width * (photo.width / photo.height)
       const landscape = photo.width > photo.height
       return (
-        <ContentView key={photo.id}>
+        <ContentView key={`${feed.id}-${photo.id}`}>
           <PaperImage resizeMode="cover" source={fullImageUrl(photo.url)} />
           <BlurBackground intensity={100}>
             <Pinchable>

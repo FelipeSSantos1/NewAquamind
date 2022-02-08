@@ -87,8 +87,11 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [config.feedCursor])
 
-  const fetchFeed = async () => {
-    const response = await getAllFeed({ take: 10, cursor: config.feedCursor })
+  const fetchFeed = async (cursor: number | null = null) => {
+    const response = await getAllFeed({
+      take: 10,
+      cursor: typeof cursor === 'number' ? cursor : config.feedCursor,
+    })
 
     if (!response) {
       return
@@ -106,7 +109,7 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
     }
 
     if (response) {
-      if (config.feedCursor > 0) {
+      if (typeof cursor !== 'number' && config.feedCursor > 0) {
         dispatch(FeedRTK.actions.setFeed([...feeds, ...response]))
       } else {
         dispatch(FeedRTK.actions.setFeed(response))
@@ -122,12 +125,11 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   useEffect(() => {
     resetData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch])
+  }, [])
 
   const resetData = async () => {
     setLoading(true)
-    dispatch(ConfigRTK.actions.setFeedCursor(0))
-    await fetchFeed()
+    await fetchFeed(0)
     setLoading(false)
   }
 

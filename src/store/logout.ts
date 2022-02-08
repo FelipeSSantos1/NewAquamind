@@ -4,6 +4,7 @@ import FastImage from 'react-native-fast-image'
 
 import ConfigRTK from './config'
 import UserRTK from './user'
+import PlantRTK from './plant'
 import FeedRTK from './feed'
 import TankRTK from './tank'
 import CommentRTK from './comment'
@@ -19,6 +20,7 @@ export default async () => {
   await SecureStore.deleteItemAsync('refreshToken')
 
   dispatch(CommentRTK.actions.logout())
+  dispatch(PlantRTK.actions.logout())
   dispatch(NotificationRTK.actions.logout())
   dispatch(UserRTK.actions.logout())
   dispatch(FeedRTK.actions.logout())
