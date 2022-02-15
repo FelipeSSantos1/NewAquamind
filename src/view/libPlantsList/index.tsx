@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { TouchableRipple, Divider, IconButton } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux'
 import { FlatList } from 'react-native'
+import FakeLoadingScreen from '../components/fakeLoadingScreen'
 import filter from 'lodash/filter'
 import toUpper from 'lodash/toUpper'
+import { useQuery, useQueryClient } from 'react-query'
 
 import * as API from '../../API/plant'
 import PlantRTK from '../../store/plant'
@@ -23,19 +25,23 @@ import {
 
 const LibPlantsList: React.FC<NavPropsLibPlants> = ({ navigation }) => {
   const dispatch = useDispatch()
+  const queryClient = useQueryClient()
   const [search, setSearch] = useState('')
   const { plant } = useSelector((state: RootState) => state)
 
-  useEffect(() => {
-    const fetchPlants = async () => {
-      const response = await API.getAll()
-      if (!response || 'statusCode' in response) {
-        return
-      }
-      dispatch(PlantRTK.actions.setPlant(response))
-    }
-    fetchPlants()
-  }, [dispatch])
+  const { data: response, isFetching } = useQuery('getPlants', API.getAll, {
+    staleTime: 60000 * 60 * 24,
+  })
+  const reFetch = () => {
+    queryClient.fetchQuery('getPlants')
+  }
+
+  if (!response || 'statusCode' in response) {
+    return <FakeLoadingScreen />
+  }
+  if (!isFetching) {
+    dispatch(PlantRTK.actions.setPlant(response))
+  }
 
   const changeSearchText = (text: string) => {
     setSearch(text)
@@ -73,6 +79,8 @@ const LibPlantsList: React.FC<NavPropsLibPlants> = ({ navigation }) => {
           }
           return false
         })}
+        onRefresh={reFetch}
+        refreshing={isFetching}
         renderItem={({ item }) => renderList(item)}
         ItemSeparatorComponent={() => <Divider />}
       />

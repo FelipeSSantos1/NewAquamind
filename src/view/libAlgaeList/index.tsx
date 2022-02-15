@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { TouchableRipple, IconButton } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux'
 import { FlatList } from 'react-native'
+import FakeLoadingScreen from '../components/fakeLoadingScreen'
 import filter from 'lodash/filter'
 import toUpper from 'lodash/toUpper'
+import { useQuery, useQueryClient } from 'react-query'
 
 import * as API from '../../API/algae'
 import AlgaeRTK from '../../store/algae'
@@ -24,19 +26,23 @@ import {
 
 const LibAlgaeList: React.FC<NavPropsLibAlgae> = ({ navigation }) => {
   const dispatch = useDispatch()
+  const queryClient = useQueryClient()
   const [search, setSearch] = useState('')
   const { algae } = useSelector((state: RootState) => state)
 
-  useEffect(() => {
-    const fetchPlants = async () => {
-      const response = await API.getAll()
-      if (!response || 'statusCode' in response) {
-        return
-      }
-      dispatch(AlgaeRTK.actions.setAlgae(response))
-    }
-    fetchPlants()
-  }, [dispatch])
+  const { data: response, isFetching } = useQuery('getAlgaes', API.getAll, {
+    staleTime: 60000 * 60 * 24,
+  })
+  const reFetch = () => {
+    queryClient.invalidateQueries('getAlgaes')
+  }
+
+  if (!response || 'statusCode' in response) {
+    return <FakeLoadingScreen />
+  }
+  if (!isFetching) {
+    dispatch(AlgaeRTK.actions.setAlgae(response))
+  }
 
   const changeSearchText = (text: string) => {
     setSearch(text)
@@ -77,6 +83,8 @@ const LibAlgaeList: React.FC<NavPropsLibAlgae> = ({ navigation }) => {
           }
           return false
         })}
+        onRefresh={reFetch}
+        refreshing={isFetching}
         renderItem={({ item }) => renderList(item)}
         ItemSeparatorComponent={() => <PaperDivider />}
         showsVerticalScrollIndicator={false}

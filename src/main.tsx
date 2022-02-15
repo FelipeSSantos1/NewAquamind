@@ -30,6 +30,7 @@ import {
   Roboto_400Regular,
 } from '@expo-google-fonts/roboto'
 import AppLoading from 'expo-app-loading'
+import { QueryClient, QueryClientProvider } from 'react-query'
 
 import Spinner from './view/components/loading'
 import Alert from './view/components/alert'
@@ -48,6 +49,13 @@ const myTheme = {
 
 const App: React.FC = () => {
   const appState = useRef(AppState.currentState)
+
+  const queryClient = new QueryClient()
+  if (__DEV__) {
+    import('react-query-native-devtools').then(({ addPlugin }) => {
+      addPlugin({ queryClient })
+    })
+  }
 
   const fetchFeed = async () => {
     store.dispatch(ConfigRTK.actions.setFeedCursor(0))
@@ -171,59 +179,61 @@ const App: React.FC = () => {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <Provider store={store}>
         <PaperProvider theme={myTheme}>
-          <NavigationContainer
-            linking={{
-              ...linking,
-              config: {
-                screens: {
-                  Tabs: {
-                    screens: {
-                      FeedTab: {
-                        screens: {
-                          PostDetail: {
-                            path: 'likePostComment/:postId/:commentId?',
-                            parse: {
-                              postId: Number,
-                              commentId: Number,
+          <QueryClientProvider client={queryClient}>
+            <NavigationContainer
+              linking={{
+                ...linking,
+                config: {
+                  screens: {
+                    Tabs: {
+                      screens: {
+                        FeedTab: {
+                          screens: {
+                            PostDetail: {
+                              path: 'likePostComment/:postId/:commentId?',
+                              parse: {
+                                postId: Number,
+                                commentId: Number,
+                              },
+                              exact: true,
                             },
-                            exact: true,
                           },
                         },
                       },
                     },
-                  },
-                  Auth: {
-                    screens: {
-                      ValidateEmail: {
-                        path: 'validateEmail/:token',
-                        exact: true,
-                      },
-                      ResetPassword: {
-                        path: 'resetPassword/:token',
-                        exact: true,
-                      },
-                      Login: {
-                        path: 'login',
-                        exact: true,
-                      },
-                      CreateAccount: {
-                        path: 'createAccount',
-                        exact: true,
+                    Auth: {
+                      screens: {
+                        ValidateEmail: {
+                          path: 'validateEmail/:token',
+                          exact: true,
+                        },
+                        ResetPassword: {
+                          path: 'resetPassword/:token',
+                          exact: true,
+                        },
+                        Login: {
+                          path: 'login',
+                          exact: true,
+                        },
+                        CreateAccount: {
+                          path: 'createAccount',
+                          exact: true,
+                        },
                       },
                     },
                   },
                 },
-              },
-            }}
-          >
-            <PersistGate loading={<AppLoading />} persistor={persistor}>
-              <StatusBar barStyle="light-content" />
-              <Routes />
-              <Drawer />
-              <Alert />
-              <Spinner />
-            </PersistGate>
-          </NavigationContainer>
+              }}
+            >
+              <PersistGate loading={<AppLoading />} persistor={persistor}>
+                <StatusBar barStyle="light-content" />
+                <Routes />
+                <Drawer />
+                <Alert />
+                <Spinner />
+              </PersistGate>
+            </NavigationContainer>
+          </QueryClientProvider>
         </PaperProvider>
       </Provider>
     </GestureHandlerRootView>
