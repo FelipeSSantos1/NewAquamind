@@ -1,6 +1,8 @@
 import React from 'react'
+import { useQueryClient } from 'react-query'
 
 import { NavPropsLib } from '../../routes/types'
+import * as AlgaeAPI from '../../API/algae'
 import {
   Container,
   PaperRedText,
@@ -12,6 +14,12 @@ import {
 } from './styles'
 
 const Library: React.FC<NavPropsLib> = ({ navigation }) => {
+  // START - pre fetching datas ******************************************************
+  const queryClient = useQueryClient()
+  queryClient.prefetchQuery('getAlgaes', AlgaeAPI.getAll, {
+    staleTime: 60000 * 60 * 24,
+  })
+  // END - pre fetching datas ******************************************************
   return (
     <Container>
       <RowView>
