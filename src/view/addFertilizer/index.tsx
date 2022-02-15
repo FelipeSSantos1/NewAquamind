@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { TouchableRipple, Divider } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux'
 import { FlatList, LayoutAnimation } from 'react-native'
 import filter from 'lodash/filter'
 import toUpper from 'lodash/toUpper'
+import { useQuery } from 'react-query'
 
 import * as API from '../../API/fertilizer'
 import FertilizerRTK from '../../store/fertilizer'
@@ -11,9 +12,10 @@ import { FertilizerState } from '../../store/fertilizer/types'
 import { NavPropsFertilizerList } from '../../routes/types'
 import { RootState } from '../../store/rootReducer'
 import SelectDose from './components/selectDose'
-import { MainView, Searchbar, Text, RowView, ThumbImage } from './styles'
 import { fullImageUrl } from '../../services/helper'
 import { handleClickProps } from './types'
+import FakeLoadingScreen from '../components/fakeLoadingScreen'
+import { MainView, Searchbar, Text, RowView, ThumbImage } from './styles'
 
 const AddFertilizer: React.FC<NavPropsFertilizerList> = ({
   route,
@@ -27,16 +29,15 @@ const AddFertilizer: React.FC<NavPropsFertilizerList> = ({
   const [fertilizerAvatar, setFertilizerAvatar] = useState<string | null>(null)
   const { fertilizer } = useSelector((state: RootState) => state)
 
-  useEffect(() => {
-    const fetchFertilizers = async () => {
-      const response = await API.getAll()
-      if (!response || 'statusCode' in response) {
-        return
-      }
-      dispatch(FertilizerRTK.actions.setFertilizer(response))
-    }
-    fetchFertilizers()
-  }, [dispatch])
+  const { data: response, isFetching } = useQuery('getFertilizer', API.getAll, {
+    staleTime: 60000 * 60 * 24,
+  })
+  if (!response || 'statusCode' in response) {
+    return <FakeLoadingScreen />
+  }
+  if (!isFetching) {
+    dispatch(FertilizerRTK.actions.setFertilizer(response))
+  }
 
   const changeSearchText = (text: string) => {
     setSearch(text)

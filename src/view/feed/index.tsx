@@ -6,12 +6,14 @@ import trim from 'lodash/trim'
 import * as Notifications from 'expo-notifications'
 import * as SecureStore from 'expo-secure-store'
 import * as Device from 'expo-device'
+import { useQueryClient } from 'react-query'
 
 import ConfigRTK from '../../store/config'
 import FeedRTK from '../../store/feed'
 import { Feed } from '../../store/feed/types'
 import { RootState } from '../../store/rootReducer'
 import { getAllFeed } from '../../API/feed'
+import * as TankAPI from '../../API/tank'
 import * as UserAPI from '../../API/user'
 import { NavPropsFeed } from '../../routes/types'
 import FeedBox from './components/feedBox'
@@ -31,8 +33,14 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   const flatListRef = useRef<FlatList>(null)
   const feeds = useSelector((state: RootState) => state.feed)
   const { user, config } = useSelector((state: RootState) => state)
+  // START - pre fetching datas ******************************************************
+  const queryClient = useQueryClient()
+  queryClient.prefetchQuery('getUserTanks', TankAPI.getAllByUser, {
+    staleTime: Infinity,
+  })
+  // END - pre fetching datas ******************************************************
 
-  // Notification things ******************************************************
+  // START - Notification things ******************************************************
   async function registerForPushNotificationsAsync() {
     if (Device.isDevice || Platform.OS === 'android') {
       const { status: existingStatus } =
@@ -78,7 +86,7 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
       }
     })
   }, [dispatch])
-  // End Notification things **************************************************
+  // END - Notification things **************************************************
 
   useEffect(() => {
     if (config.feedCursor === 0 && feeds.length > 0 && !loading) {

@@ -1,8 +1,9 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'store/rootReducer'
 import * as Haptics from 'expo-haptics'
 import { ScrollView, RefreshControl, LayoutAnimation } from 'react-native'
+import { useQuery, useQueryClient } from 'react-query'
 
 import BannerImg from '../../assets/banner.png'
 import EmptyScreen from '../components/emptyScreen'
@@ -10,45 +11,51 @@ import { DimentionsString } from './types'
 import Strip from './components/strip'
 import TankRTK from '../../store/tank'
 import * as API from '../../API/tank'
+import * as PlantAPI from '../../API/plant'
+import * as FertilizerAPI from '../../API/fertilizer'
 import ConfigRTK from '../../store/config'
 import { NavPropsTank } from 'routes/types'
 import { Container, PaperFAB, BannerTop } from './styles'
 import map from 'lodash/map'
+import FakeLoadingScreen from '../components/fakeLoadingScreen'
 
 const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
   const { tank } = useSelector((state: RootState) => state)
-  const [refreshing, setRefreshing] = React.useState(false)
   const [loadingDelete, setLoadingDelete] = React.useState(false)
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    async function fetch() {
-      const response = await API.getAllByUser()
-      if (!response || 'statusCode' in response) {
-        return
-      }
-
-      dispatch(TankRTK.actions.setTank(response))
-    }
-    fetch()
-  }, [dispatch])
-
-  const reFetch = useCallback(async () => {
-    setRefreshing(true)
-    const response = await API.getAllByUser()
-    setRefreshing(false)
-    if (!response || 'statusCode' in response) {
-      return
-    }
-
-    dispatch(TankRTK.actions.setTank(response))
-  }, [dispatch])
+  // START - pre fetching datas ******************************************************
+  const queryClient = useQueryClient()
+  queryClient.prefetchQuery('getFertilizer', FertilizerAPI.getAll, {
+    staleTime: 60000 * 60 * 24,
+  })
+  queryClient.prefetchQuery('getPlants', PlantAPI.getAll, {
+    staleTime: 60000 * 60 * 24,
+  })
+  // END - pre fetching datas ******************************************************
 
   useEffect(() => {
     if (route.params.refresh) {
-      reFetch()
+      queryClient.invalidateQueries('getUserTanks')
     }
-  }, [reFetch, route.params.refresh])
+  }, [queryClient, route.params.refresh])
+
+  const { data: response, isFetching } = useQuery(
+    'getUserTanks',
+    API.getAllByUser,
+    {
+      staleTime: Infinity,
+    }
+  )
+  const reFetch = () => {
+    queryClient.invalidateQueries('getUserTanks')
+  }
+
+  if (!response || 'statusCode' in response) {
+    return <FakeLoadingScreen />
+  }
+  if (!isFetching) {
+    dispatch(TankRTK.actions.setTank(response))
+  }
 
   const handleDeleteTank = (id: number, name: string, index: number) => {
     dispatch(
@@ -65,30 +72,27 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
 
   const deleteTank = async (id: number, index: number) => {
     setLoadingDelete(true)
-    setRefreshing(true)
-    const response = await API.deleteTank(id)
-    if (!response) {
+    const deleteResponse = await API.deleteTank(id)
+    if (!deleteResponse) {
       setLoadingDelete(false)
-      setRefreshing(false)
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
       return
     }
-    if ('statusCode' in response) {
+    if ('statusCode' in deleteResponse) {
       setLoadingDelete(false)
-      setRefreshing(false)
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)
       dispatch(
         ConfigRTK.actions.setAlert({
           visible: true,
           alertTitle: 'Oops!',
-          alertMessage: response.message,
+          alertMessage: deleteResponse.message,
           okText: 'Ok',
         })
       )
       return
     }
     togleActionActive(index, false)
-    await reFetch()
+    reFetch()
     setLoadingDelete(false)
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
   }
@@ -149,7 +153,10 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
           <ScrollView
             showsVerticalScrollIndicator={false}
             refreshControl={
-              <RefreshControl refreshing={refreshing} onRefresh={reFetch} />
+              <RefreshControl
+                refreshing={isFetching || loadingDelete}
+                onRefresh={reFetch}
+              />
             }
           >
             {renderTanks()}

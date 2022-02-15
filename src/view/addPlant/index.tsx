@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { TouchableRipple, Divider } from 'react-native-paper'
 import { useSelector, useDispatch } from 'react-redux'
 import { FlatList } from 'react-native'
 import filter from 'lodash/filter'
 import toUpper from 'lodash/toUpper'
+import { useQuery } from 'react-query'
 
 import * as API from '../../API/plant'
 import PlantRTK from '../../store/plant'
@@ -12,6 +13,7 @@ import { NavPropsPlantList } from '../../routes/types'
 import { RootState } from '../../store/rootReducer'
 import { fullImageUrl } from '../../services/helper'
 import { SaveProps } from './types'
+import FakeLoadingScreen from '../components/fakeLoadingScreen'
 import { MainView, Searchbar, Text, RowView, ThumbImage } from './styles'
 
 const AddPlant: React.FC<NavPropsPlantList> = ({ navigation, route }) => {
@@ -19,16 +21,13 @@ const AddPlant: React.FC<NavPropsPlantList> = ({ navigation, route }) => {
   const [search, setSearch] = useState('')
   const { plant } = useSelector((state: RootState) => state)
 
-  useEffect(() => {
-    const fetchPlants = async () => {
-      const response = await API.getAll()
-      if (!response || 'statusCode' in response) {
-        return
-      }
-      dispatch(PlantRTK.actions.setPlant(response))
-    }
-    fetchPlants()
-  }, [dispatch])
+  const { data: response } = useQuery('getPlants', API.getAll, {
+    staleTime: 60000 * 60 * 24,
+  })
+  if (!response || 'statusCode' in response) {
+    return <FakeLoadingScreen />
+  }
+  dispatch(PlantRTK.actions.setPlant(response))
 
   const changeSearchText = (text: string) => {
     setSearch(text)

@@ -10,6 +10,7 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import forEach from 'lodash/forEach'
 import find from 'lodash/find'
 import map from 'lodash/map'
+import debounce from 'lodash/debounce'
 import replace from 'lodash/replace'
 import filter from 'lodash/filter'
 import Swipeable from 'react-native-gesture-handler/Swipeable'
@@ -442,7 +443,9 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
       >
         <Formik
           initialValues={initialValues}
-          onSubmit={values => upsertTank(values)}
+          onSubmit={debounce(values => upsertTank(values), 300, {
+            trailing: true,
+          })}
           validationSchema={formValidation}
         >
           {({

@@ -102,6 +102,8 @@ const App: React.FC = () => {
   LogBox.ignoreLogs([
     'new NativeEventEmitter',
     "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
+    'Warning: Cannot update a component (`Routes`)',
+    'Warning: Cannot update a component (`FeedView`)',
   ])
 
   // it's for LayoutAnimation used on swipeList works
