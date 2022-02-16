@@ -31,11 +31,12 @@ const AddFertilizer: React.FC<NavPropsFertilizerList> = ({
 
   const { data: response, isFetching } = useQuery('getFertilizer', API.getAll, {
     staleTime: 60000 * 60 * 24,
+    cacheTime: 60000 * 60 * 24,
   })
-  if (!response || 'statusCode' in response) {
+  if (isFetching && !fertilizer.length) {
     return <FakeLoadingScreen />
   }
-  if (!isFetching) {
+  if (response && !('statusCode' in response)) {
     dispatch(FertilizerRTK.actions.setFertilizer(response))
   }
 

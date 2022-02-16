@@ -37,6 +37,7 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   const queryClient = useQueryClient()
   queryClient.prefetchQuery('getUserTanks', TankAPI.getAllByUser, {
     staleTime: Infinity,
+    cacheTime: Infinity,
   })
   // END - pre fetching datas ******************************************************
 

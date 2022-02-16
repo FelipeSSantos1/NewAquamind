@@ -31,16 +31,16 @@ const LibPlantsList: React.FC<NavPropsLibPlants> = ({ navigation }) => {
 
   const { data: response, isFetching } = useQuery('getPlants', API.getAll, {
     staleTime: 60000 * 60 * 24,
+    cacheTime: 60000 * 60 * 24,
   })
-  const reFetch = () => {
-    queryClient.fetchQuery('getPlants')
-  }
-
-  if (!response || 'statusCode' in response) {
+  if (isFetching && !plant.length) {
     return <FakeLoadingScreen />
   }
-  if (!isFetching) {
+  if (response && !('statusCode' in response)) {
     dispatch(PlantRTK.actions.setPlant(response))
+  }
+  const reFetch = () => {
+    queryClient.invalidateQueries('getPlants')
   }
 
   const changeSearchText = (text: string) => {

@@ -27,9 +27,11 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
   const queryClient = useQueryClient()
   queryClient.prefetchQuery('getFertilizer', FertilizerAPI.getAll, {
     staleTime: 60000 * 60 * 24,
+    cacheTime: 60000 * 60 * 24,
   })
   queryClient.prefetchQuery('getPlants', PlantAPI.getAll, {
     staleTime: 60000 * 60 * 24,
+    cacheTime: 60000 * 60 * 24,
   })
   // END - pre fetching datas ******************************************************
 
