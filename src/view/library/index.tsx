@@ -3,6 +3,7 @@ import { useQueryClient } from 'react-query'
 
 import { NavPropsLib } from '../../routes/types'
 import * as AlgaeAPI from '../../API/algae'
+import * as PlantAPI from '../../API/plant'
 import {
   Container,
   PaperRedText,
@@ -18,6 +19,11 @@ const Library: React.FC<NavPropsLib> = ({ navigation }) => {
   const queryClient = useQueryClient()
   queryClient.prefetchQuery('getAlgaes', AlgaeAPI.getAll, {
     staleTime: 60000 * 60 * 24,
+    cacheTime: 60000 * 60 * 24,
+  })
+  queryClient.prefetchQuery('getPlants', PlantAPI.getAll, {
+    staleTime: 60000 * 60 * 24,
+    cacheTime: 60000 * 60 * 24,
   })
   // END - pre fetching datas ******************************************************
   return (

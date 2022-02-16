@@ -21,13 +21,16 @@ const AddPlant: React.FC<NavPropsPlantList> = ({ navigation, route }) => {
   const [search, setSearch] = useState('')
   const { plant } = useSelector((state: RootState) => state)
 
-  const { data: response } = useQuery('getPlants', API.getAll, {
+  const { data: response, isFetching } = useQuery('getPlants', API.getAll, {
     staleTime: 60000 * 60 * 24,
+    cacheTime: 60000 * 60 * 24,
   })
-  if (!response || 'statusCode' in response) {
+  if (isFetching && !plant.length) {
     return <FakeLoadingScreen />
   }
-  dispatch(PlantRTK.actions.setPlant(response))
+  if (response && !('statusCode' in response)) {
+    dispatch(PlantRTK.actions.setPlant(response))
+  }
 
   const changeSearchText = (text: string) => {
     setSearch(text)

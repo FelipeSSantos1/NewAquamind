@@ -50,7 +50,9 @@ const myTheme = {
 const App: React.FC = () => {
   const appState = useRef(AppState.currentState)
 
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: 2 } },
+  })
   if (__DEV__) {
     import('react-query-native-devtools').then(({ addPlugin }) => {
       addPlugin({ queryClient })

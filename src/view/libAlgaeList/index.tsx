@@ -32,16 +32,16 @@ const LibAlgaeList: React.FC<NavPropsLibAlgae> = ({ navigation }) => {
 
   const { data: response, isFetching } = useQuery('getAlgaes', API.getAll, {
     staleTime: 60000 * 60 * 24,
+    cacheTime: 60000 * 60 * 24,
   })
-  const reFetch = () => {
-    queryClient.invalidateQueries('getAlgaes')
-  }
-
-  if (!response || 'statusCode' in response) {
+  if (isFetching && !algae.length) {
     return <FakeLoadingScreen />
   }
-  if (!isFetching) {
+  if (response && !('statusCode' in response)) {
     dispatch(AlgaeRTK.actions.setAlgae(response))
+  }
+  const reFetch = () => {
+    queryClient.invalidateQueries('getAlgaes')
   }
 
   const changeSearchText = (text: string) => {
