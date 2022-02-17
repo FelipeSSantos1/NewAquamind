@@ -1,3 +1,5 @@
+import { File } from '../file/types'
+
 type Plant = {
   id: number
   name: string
@@ -15,23 +17,6 @@ type Brand = {
   logo: string | null
   createdAt: Date
   updatedAt: Date
-}
-type FileType = {
-  PHOTO: 'PHOTO'
-}
-type File = {
-  id: number
-  createdAt: Date
-  updatedAt: Date
-  type: FileType
-  title: string | null
-  height: number | null
-  width: number | null
-  url: string
-  postId: number | null
-  plantId: number | null
-  fertilizerId: number | null
-  algaeId: number | null
 }
 export type PlantState = Plant & {
   Brand: Brand

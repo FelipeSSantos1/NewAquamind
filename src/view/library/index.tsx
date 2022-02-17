@@ -4,6 +4,7 @@ import { useQueryClient } from 'react-query'
 import { NavPropsLib } from '../../routes/types'
 import * as AlgaeAPI from '../../API/algae'
 import * as PlantAPI from '../../API/plant'
+import * as StoneAPI from '../../API/stone'
 import {
   Container,
   PaperRedText,
@@ -22,6 +23,10 @@ const Library: React.FC<NavPropsLib> = ({ navigation }) => {
     cacheTime: 60000 * 60 * 24,
   })
   queryClient.prefetchQuery('getPlants', PlantAPI.getAll, {
+    staleTime: 60000 * 60 * 24,
+    cacheTime: 60000 * 60 * 24,
+  })
+  queryClient.prefetchQuery('getStones', StoneAPI.getAll, {
     staleTime: 60000 * 60 * 24,
     cacheTime: 60000 * 60 * 24,
   })
@@ -44,11 +49,10 @@ const Library: React.FC<NavPropsLib> = ({ navigation }) => {
         </PaperTouchableRipple>
       </RowView>
       <RowView>
-        <PaperTouchableRipple>
+        <PaperTouchableRipple onPress={() => navigation.navigate('LibStone')}>
           <PaperContainer>
             <Image source={require('../../assets/icons/stone.png')} />
             <PaperTitle>Stone</PaperTitle>
-            <PaperRedText>coming soon</PaperRedText>
           </PaperContainer>
         </PaperTouchableRipple>
         <PaperTouchableRipple onPress={() => navigation.navigate('LibAlgae')}>

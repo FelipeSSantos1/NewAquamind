@@ -93,13 +93,13 @@ export type ParamLibraryStack = ParamListGeneralStack & {
   LibPlantDetail: {
     plantId: number
   }
-  LibWoods: undefined
+  LibWood: undefined
   LibWoodDetail: {
     woodId: number
   }
-  LibRocks: undefined
-  LibRockDetail: {
-    rockId: number
+  LibStone: undefined
+  LibStoneDetail: {
+    stoneId: number
   }
   LibAlgae: undefined
   LibAlgaeDetail: {
@@ -232,6 +232,20 @@ export type NavPropsLibAlgae = CompositeScreenProps<
 >
 export type NavPropsLibAlgaeDetail = CompositeScreenProps<
   NativeStackScreenProps<ParamLibraryStack, 'LibAlgaeDetail'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<ParamListTabStack, 'LibTab'>,
+    NativeStackScreenProps<ParamListMainStack>
+  >
+>
+export type NavPropsLibStone = CompositeScreenProps<
+  NativeStackScreenProps<ParamLibraryStack, 'LibStone'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<ParamListTabStack, 'LibTab'>,
+    NativeStackScreenProps<ParamListMainStack>
+  >
+>
+export type NavPropsLibStoneDetail = CompositeScreenProps<
+  NativeStackScreenProps<ParamLibraryStack, 'LibStoneDetail'>,
   CompositeScreenProps<
     BottomTabScreenProps<ParamListTabStack, 'LibTab'>,
     NativeStackScreenProps<ParamListMainStack>

@@ -1,17 +1,5 @@
-type File = {
-  id: number
-  createdAt: Date
-  updatedAt: Date
-  type: 'PHOTO'
-  title: string | null
-  height: number | null
-  width: number | null
-  url: string
-  postId: number | null
-  plantId: number | null
-  fertilizerId: number | null
-  algaeId: number | null
-}
+import { File } from '../file/types'
+
 type Brand = {
   id: number
   name: string

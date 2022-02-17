@@ -1,15 +1,14 @@
 import { File } from '../file/types'
 
-type Algae = {
+type Stone = {
   id: number
   name: string
   description: string | null
-  cause: string | null
-  treatment: string | null
+  recommendation: string | null
   source: string | null
   createdAt: Date
   updatedAt: Date
 }
-export type AlgaeState = Algae & {
+export type StoneState = Stone & {
   Photos: File[]
 }
