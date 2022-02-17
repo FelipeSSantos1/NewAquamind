@@ -137,8 +137,8 @@ android {
         applicationId "app.aquamind"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 75
-        versionName "1.4.1"
+        versionCode 78
+        versionName "1.5.0"
     }
     splits {
         abi {
