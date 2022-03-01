@@ -6,9 +6,9 @@ import * as AlgaeAPI from '../../API/algae'
 import * as PlantAPI from '../../API/plant'
 import * as StoneAPI from '../../API/stone'
 import * as FishAPI from '../../API/fish'
+import * as WoodAPI from '../../API/wood'
 import {
   Container,
-  PaperRedText,
   PaperContainer,
   RowView,
   Image,
@@ -35,6 +35,10 @@ const Library: React.FC<NavPropsLib> = ({ navigation }) => {
     staleTime: 60000 * 60 * 24,
     cacheTime: 60000 * 60 * 24,
   })
+  queryClient.prefetchQuery('getWoods', WoodAPI.getAll, {
+    staleTime: 60000 * 60 * 24,
+    cacheTime: 60000 * 60 * 24,
+  })
   // END - pre fetching datas ******************************************************
   return (
     <Container>
@@ -45,11 +49,10 @@ const Library: React.FC<NavPropsLib> = ({ navigation }) => {
             <PaperTitle>Plant</PaperTitle>
           </PaperContainer>
         </PaperTouchableRipple>
-        <PaperTouchableRipple>
+        <PaperTouchableRipple onPress={() => navigation.navigate('LibWood')}>
           <PaperContainer>
             <Image source={require('../../assets/icons/root.png')} />
             <PaperTitle>Wood</PaperTitle>
-            <PaperRedText>coming soon</PaperRedText>
           </PaperContainer>
         </PaperTouchableRipple>
       </RowView>

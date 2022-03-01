@@ -1,14 +1,11 @@
 import styled from 'styled-components/native'
-import { Text, Surface, Title, TouchableRipple } from 'react-native-paper'
+import { Surface, Title, TouchableRipple } from 'react-native-paper'
 
 import theme from '../../theme'
 
 export const Container = styled.ScrollView`
   flex: 1;
   background-color: ${theme.colors.darkenBackground};
-`
-export const PaperRedText = styled(Text)`
-  color: ${theme.colors.error};
 `
 export const PaperTitle = styled(Title)``
 export const RowView = styled.View`

@@ -251,6 +251,13 @@ export type NavPropsLibStoneDetail = CompositeScreenProps<
     NativeStackScreenProps<ParamListMainStack>
   >
 >
+export type NavPropsLibWood = CompositeScreenProps<
+  NativeStackScreenProps<ParamLibraryStack, 'LibWood'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<ParamListTabStack, 'LibTab'>,
+    NativeStackScreenProps<ParamListMainStack>
+  >
+>
 export type NavPropsLibFish = CompositeScreenProps<
   NativeStackScreenProps<ParamLibraryStack, 'LibFish'>,
   CompositeScreenProps<
@@ -260,6 +267,13 @@ export type NavPropsLibFish = CompositeScreenProps<
 >
 export type NavPropsLibFishDetail = CompositeScreenProps<
   NativeStackScreenProps<ParamLibraryStack, 'LibFishDetail'>,
+  CompositeScreenProps<
+    BottomTabScreenProps<ParamListTabStack, 'LibTab'>,
+    NativeStackScreenProps<ParamListMainStack>
+  >
+>
+export type NavPropsLibWoodDetail = CompositeScreenProps<
+  NativeStackScreenProps<ParamLibraryStack, 'LibWoodDetail'>,
   CompositeScreenProps<
     BottomTabScreenProps<ParamListTabStack, 'LibTab'>,
     NativeStackScreenProps<ParamListMainStack>

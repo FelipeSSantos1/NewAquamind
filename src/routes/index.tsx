@@ -31,6 +31,8 @@ import LibAlgaeView from '../view/libAlgaeList'
 import LibAlgaeDetailView from '../view/libAlgaeDetail'
 import LibFishView from '../view/libFishList'
 import LibFishDetailView from '../view/libFishDetail'
+import LibWoodView from '../view/libWoodList'
+import LibWoodDetailView from '../view/libWoodDetail'
 import LibStoneView from '../view/libStoneList'
 import LibStoneDetailView from '../view/libStoneDetail'
 import ConfigRTK from '../store/config'
@@ -307,6 +309,20 @@ const Lib: React.FC = () => {
         component={LibStoneDetailView}
         options={{
           title: 'Stone Detail',
+        }}
+      />
+      <LibStack.Screen
+        name="LibWood"
+        component={LibWoodView}
+        options={{
+          title: 'Wood',
+        }}
+      />
+      <LibStack.Screen
+        name="LibWoodDetail"
+        component={LibWoodDetailView}
+        options={{
+          title: 'Wood Detail',
         }}
       />
       <LibStack.Screen
