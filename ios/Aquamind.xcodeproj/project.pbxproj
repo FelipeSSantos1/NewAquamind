@@ -311,7 +311,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Aquamind/Aquamind.entitlements;
-				CURRENT_PROJECT_VERSION = 78;
+				CURRENT_PROJECT_VERSION = 79;
 				DEVELOPMENT_TEAM = 266U6N9K96;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Aquamind/Info.plist;
@@ -319,7 +319,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.0;
+				MARKETING_VERSION = 1.6.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -341,14 +341,14 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Aquamind/Aquamind.entitlements;
-				CURRENT_PROJECT_VERSION = 78;
+				CURRENT_PROJECT_VERSION = 79;
 				DEVELOPMENT_TEAM = 266U6N9K96;
 				INFOPLIST_FILE = Aquamind/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5.0;
+				MARKETING_VERSION = 1.6.0;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
