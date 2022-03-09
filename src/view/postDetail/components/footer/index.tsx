@@ -4,12 +4,7 @@ import { FooterProps } from './types'
 import { Divider } from 'react-native-paper'
 import { RowView, Text, TextUserName, TextDescription } from './styles'
 
-const Footer: React.FC<FooterProps> = ({
-  likes,
-  comments,
-  description,
-  username,
-}) => {
+const Footer: React.FC<FooterProps> = ({ likes, comments, description, username }) => {
   const [textLikes, setTextLikes] = React.useState('no likes')
   const [textComments, setTextComments] = React.useState('no comments')
 

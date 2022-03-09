@@ -44,8 +44,7 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   // START - Notification things ******************************************************
   async function registerForPushNotificationsAsync() {
     if (Device.isDevice || Platform.OS === 'android') {
-      const { status: existingStatus } =
-        await Notifications.getPermissionsAsync()
+      const { status: existingStatus } = await Notifications.getPermissionsAsync()
       let finalStatus = existingStatus
 
       if (existingStatus !== 'granted') {
@@ -124,9 +123,7 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
         dispatch(FeedRTK.actions.setFeed(response))
       }
       if (response.length) {
-        dispatch(
-          ConfigRTK.actions.setFeedCursor(response[response.length - 1].id)
-        )
+        dispatch(ConfigRTK.actions.setFeedCursor(response[response.length - 1].id))
       }
     }
   }
@@ -143,13 +140,7 @@ const FeedView: React.FC<NavPropsFeed> = ({ navigation }) => {
   }
 
   const renderFeed = ({ item }: { item: Feed }) => (
-    <FeedBox
-      key={item.id}
-      feed={item}
-      navigation={navigation}
-      feeds={feeds}
-      user={user}
-    />
+    <FeedBox key={item.id} feed={item} navigation={navigation} feeds={feeds} user={user} />
   )
 
   const pickImage = async () => {

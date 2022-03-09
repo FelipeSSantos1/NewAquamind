@@ -161,11 +161,7 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
     setLikeRefreshing(false)
   }
 
-  const replyHandler = (
-    username: string,
-    parentIdParam: number,
-    avatar: string
-  ) => {
+  const replyHandler = (username: string, parentIdParam: number, avatar: string) => {
     setTextComment(`@${username} `)
     setToUserAvatar(avatar)
     setToUsername(username)
@@ -218,11 +214,9 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
             deleteFunction={debounce(() => deleteComment(subComment.id), 300, {
               leading: true,
             })}
-            likeFunction={debounce(
-              () => toggleLike(subComment.id, subLiked),
-              300,
-              { leading: true }
-            )}
+            likeFunction={debounce(() => toggleLike(subComment.id, subLiked), 300, {
+              leading: true,
+            })}
             replyFunction={debounce(
               () =>
                 replyHandler(
@@ -253,8 +247,7 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
             leading: true,
           })}
           replyFunction={debounce(
-            () =>
-              replyHandler(item.Profile.username, item.id, item.Profile.avatar),
+            () => replyHandler(item.Profile.username, item.id, item.Profile.avatar),
             300
           )}
           refreshing={likeRefreshing}
@@ -333,9 +326,7 @@ const CommentView: React.FC<NavPropsComment> = ({ route }) => {
           <RowView>
             <ReplyText>replying to:</ReplyText>
             <ReplyPaperChip
-              avatar={
-                <Image source={fullImageUrl(toUserAvatar)} resizeMode="cover" />
-              }
+              avatar={<Image source={fullImageUrl(toUserAvatar)} resizeMode="cover" />}
               onClose={() => cancelReply()}
               mode="outlined"
             >

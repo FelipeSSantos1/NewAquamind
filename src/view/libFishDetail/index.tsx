@@ -19,9 +19,8 @@ import {
 } from './styles'
 
 const LibFishDetail: React.FC<NavPropsLibFishDetail> = ({ route }) => {
-  const { data: selectedFish, isFetching } = useQuery(
-    `getFish${route.params.fishId}`,
-    () => API.getByID(route.params.fishId)
+  const { data: selectedFish, isFetching } = useQuery(`getFish${route.params.fishId}`, () =>
+    API.getByID(route.params.fishId)
   )
   if (isFetching || !selectedFish || 'statusCode' in selectedFish) {
     return <FakeLoadingScreen />
@@ -35,15 +34,11 @@ const LibFishDetail: React.FC<NavPropsLibFishDetail> = ({ route }) => {
         </Pinchable>
       </View>
       <TextContainer>
-        {!!selectedFish.commonName && (
-          <CommonName>{selectedFish.commonName}</CommonName>
-        )}
+        {!!selectedFish.commonName && <CommonName>{selectedFish.commonName}</CommonName>}
         {!!selectedFish.scientificName && (
           <ScientificName>({selectedFish.scientificName})</ScientificName>
         )}
-        {!!selectedFish.description && (
-          <PaperText>{selectedFish.description}</PaperText>
-        )}
+        {!!selectedFish.description && <PaperText>{selectedFish.description}</PaperText>}
         {!!selectedFish.origin && (
           <>
             <PaperTitle>Origin</PaperTitle>

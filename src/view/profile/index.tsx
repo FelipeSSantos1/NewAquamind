@@ -53,8 +53,7 @@ const Profile: React.FC<NavPropsProfile> = () => {
           ConfigRTK.actions.setAlert({
             visible: true,
             alertTitle: 'Oops!',
-            alertMessage:
-              'Something went wrong, check your internet connection and try it again',
+            alertMessage: 'Something went wrong, check your internet connection and try it again',
             okText: 'Ok',
           })
         )
@@ -116,8 +115,7 @@ const Profile: React.FC<NavPropsProfile> = () => {
           ConfigRTK.actions.setAlert({
             visible: true,
             alertTitle: 'Oops!',
-            alertMessage:
-              'Something went wrong on upload photo process, try again!',
+            alertMessage: 'Something went wrong on upload photo process, try again!',
             okText: 'Ok',
           })
         )
@@ -205,14 +203,7 @@ const Profile: React.FC<NavPropsProfile> = () => {
           onSubmit={values => updateProfile(values)}
           validationSchema={FormValidation}
         >
-          {({
-            values,
-            handleChange,
-            errors,
-            setFieldTouched,
-            touched,
-            handleSubmit,
-          }) => (
+          {({ values, handleChange, errors, setFieldTouched, touched, handleSubmit }) => (
             <FormView>
               <Input
                 label="Name"
@@ -225,17 +216,11 @@ const Profile: React.FC<NavPropsProfile> = () => {
               <Input
                 label="Username"
                 onChangeText={text =>
-                  handleChange('username')(
-                    replace(deburr(text), /[^a-z0-9_-]/g, '')
-                  )
+                  handleChange('username')(replace(deburr(text), /[^a-z0-9_-]/g, ''))
                 }
                 onBlur={() => setFieldTouched('username')}
                 value={values.username}
-                error={
-                  touched.username && errors.username
-                    ? errors.username
-                    : undefined
-                }
+                error={touched.username && errors.username ? errors.username : undefined}
                 autoCorrect={false}
                 autoCapitalize="none"
               />
@@ -244,9 +229,7 @@ const Profile: React.FC<NavPropsProfile> = () => {
                 onChangeText={handleChange('country')}
                 onBlur={() => setFieldTouched('country')}
                 value={values.country}
-                error={
-                  touched.country && errors.country ? errors.country : undefined
-                }
+                error={touched.country && errors.country ? errors.country : undefined}
               />
               <Input
                 label="Bio"

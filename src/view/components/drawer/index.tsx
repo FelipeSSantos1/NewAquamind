@@ -23,9 +23,7 @@ const BottomDrawer: React.FC = () => {
   const navigation = useNavigation()
   const contentDrawer = useRef<Animatable.View & View>(null)
   const portalDrawer = useRef<Animatable.View & View>(null)
-  const drawerVisible = useSelector(
-    (state: RootState) => state.config.drawerVisible
-  )
+  const drawerVisible = useSelector((state: RootState) => state.config.drawerVisible)
 
   const hide = async (callback?: CallableFunction) => {
     if (portalDrawer.current?.fadeOut) {
@@ -48,11 +46,7 @@ const BottomDrawer: React.FC = () => {
             <EmptyView />
           </TouchableWithoutFeedback>
           <SafeAreaView>
-            <DialogContent
-              ref={contentDrawer}
-              animation="fadeInUpBig"
-              duration={300}
-            >
+            <DialogContent ref={contentDrawer} animation="fadeInUpBig" duration={300}>
               <ScrollView showsVerticalScrollIndicator={false}>
                 <Drawer.Item
                   label="Profile"
@@ -62,9 +56,7 @@ const BottomDrawer: React.FC = () => {
                 <Drawer.Item
                   label="Notification Center"
                   icon="bell-outline"
-                  onPress={() =>
-                    hide(() => navigation.navigate('Notification'))
-                  }
+                  onPress={() => hide(() => navigation.navigate('Notification'))}
                 />
                 <Drawer.Item
                   label="Send us a message"
@@ -76,11 +68,7 @@ const BottomDrawer: React.FC = () => {
                   icon="format-quote-open"
                   onPress={() => console.log('credits')}
                 /> */}
-                <Drawer.Item
-                  label="Log out"
-                  icon="logout"
-                  onPress={() => Logout()}
-                />
+                <Drawer.Item label="Log out" icon="logout" onPress={() => Logout()} />
               </ScrollView>
             </DialogContent>
             <CloseButtonAnimation animation="fadeIn" duration={200} delay={200}>

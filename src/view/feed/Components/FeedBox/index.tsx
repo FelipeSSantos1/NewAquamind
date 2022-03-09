@@ -2,9 +2,7 @@ import React from 'react'
 import { StyleSheet, Animated, TouchableWithoutFeedback } from 'react-native'
 import Image from 'react-native-fast-image'
 import Pinchable from 'react-native-pinchable'
-import PagerView, {
-  PagerViewOnPageScrollEventData,
-} from 'react-native-pager-view'
+import PagerView, { PagerViewOnPageScrollEventData } from 'react-native-pager-view'
 import { useDispatch } from 'react-redux'
 import * as Haptics from 'expo-haptics'
 import produce from 'immer'
@@ -44,8 +42,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
   const [lastTapTime, setLastTapTime] = React.useState(Date.now())
 
   const width = theme.sizes.width
-  const maxHeightRatio =
-    min(map(feed.Photos, photo => photo.width / photo.height)) || 1
+  const maxHeightRatio = min(map(feed.Photos, photo => photo.width / photo.height)) || 1
   const viewWidth = theme.sizes.width
   const heightRatio = width / maxHeightRatio
   const viewHeight = heightRatio > viewWidth ? viewWidth : heightRatio
@@ -53,10 +50,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
   const scrollOffsetAnimatedValue = React.useRef(new Animated.Value(0)).current
   const positionAnimatedValue = React.useRef(new Animated.Value(0)).current
   const inputRange = [0, feed.Photos.length]
-  const scrollX = Animated.add(
-    scrollOffsetAnimatedValue,
-    positionAnimatedValue
-  ).interpolate({
+  const scrollX = Animated.add(scrollOffsetAnimatedValue, positionAnimatedValue).interpolate({
     inputRange,
     outputRange: [0, feed.Photos.length * width],
   })
@@ -169,9 +163,7 @@ const FeedBox: React.FC<FeedBoxProps> = ({ navigation, feed, feeds, user }) => {
           <PaperImage resizeMode="cover" source={fullImageUrl(photo.url)} />
           <BlurBackground intensity={100}>
             <Pinchable>
-              <TouchableWithoutFeedback
-                onPress={() => handleDoubleTap(feed.id)}
-              >
+              <TouchableWithoutFeedback onPress={() => handleDoubleTap(feed.id)}>
                 <Image
                   source={fullImageUrl(photo.url)}
                   style={{

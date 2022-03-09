@@ -1,10 +1,6 @@
 import styled from 'styled-components/native'
 import FastImage from 'react-native-fast-image'
-import {
-  Searchbar as PaperSearchbar,
-  Text as PaperText,
-  Divider,
-} from 'react-native-paper'
+import { Searchbar as PaperSearchbar, Text as PaperText, Divider } from 'react-native-paper'
 
 import theme from '../../theme'
 
@@ -26,10 +22,7 @@ export const RowView = styled.View`
   width: ${theme.sizes.width - theme.sizes.pagePadding * 2}px;
 `
 export const RowViewText = styled(RowView)`
-  width: ${theme.sizes.width -
-  80 -
-  theme.sizes.margin -
-  theme.sizes.pagePadding * 2}px;
+  width: ${theme.sizes.width - 80 - theme.sizes.margin - theme.sizes.pagePadding * 2}px;
   justify-content: flex-start;
 `
 export const ThumbImage = styled(FastImage)`

@@ -72,9 +72,7 @@ const App: React.FC = () => {
     if (response) {
       store.dispatch(FeedRTK.actions.setFeed(response))
       if (response.length) {
-        store.dispatch(
-          ConfigRTK.actions.setFeedCursor(response[response.length - 1].id)
-        )
+        store.dispatch(ConfigRTK.actions.setFeedCursor(response[response.length - 1].id))
       }
     }
     store.dispatch(ConfigRTK.actions.setFeedLoading(false))
@@ -82,19 +80,13 @@ const App: React.FC = () => {
 
   useEffect(() => {
     const handleAppStateChange = (nextAppState: AppStateStatus) => {
-      if (
-        appState.current.match(/inactive|background/) &&
-        nextAppState === 'active'
-      ) {
+      if (appState.current.match(/inactive|background/) && nextAppState === 'active') {
         fetchFeed()
       }
       appState.current = nextAppState
     }
 
-    const appStateListener = AppState.addEventListener(
-      'change',
-      handleAppStateChange
-    )
+    const appStateListener = AppState.addEventListener('change', handleAppStateChange)
 
     return () => {
       appStateListener.remove()
@@ -109,10 +101,7 @@ const App: React.FC = () => {
   ])
 
   // it's for LayoutAnimation used on swipeList works
-  if (
-    Platform.OS === 'android' &&
-    UIManager.setLayoutAnimationEnabledExperimental
-  ) {
+  if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
     UIManager.setLayoutAnimationEnabledExperimental(true)
   }
 
@@ -139,14 +128,13 @@ const App: React.FC = () => {
       // Listen to incoming links from deep linking
       const myListener = Linking.addEventListener('url', onReceiveURL)
       // Listen to expo push notifications
-      const subscription =
-        Notifications.addNotificationResponseReceivedListener(response => {
-          const url = response.notification.request.content.data.url
-          // Any custom logic to see whether the URL needs to be handled
-          //...
-          // Let React Navigation handle the URL
-          listener(url)
-        })
+      const subscription = Notifications.addNotificationResponseReceivedListener(response => {
+        const url = response.notification.request.content.data.url
+        // Any custom logic to see whether the URL needs to be handled
+        //...
+        // Let React Navigation handle the URL
+        listener(url)
+      })
       return () => {
         // Clean up the event listeners
         if (myListener) {

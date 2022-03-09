@@ -1,9 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack'
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs'
-import {
-  NavigatorScreenParams,
-  CompositeScreenProps,
-} from '@react-navigation/native'
+import { NavigatorScreenParams, CompositeScreenProps } from '@react-navigation/native'
 
 import { TankState } from '../store/tank/types'
 
@@ -280,22 +277,10 @@ export type NavPropsLibWoodDetail = CompositeScreenProps<
   >
 >
 // General *********************************************************************
-export type NavPropsProfile = NativeStackScreenProps<
-  ParamListGeneralStack,
-  'Profile'
->
-export type NavPropsPostDetail = NativeStackScreenProps<
-  ParamListGeneralStack,
-  'PostDetail'
->
-export type NavPropsContactUs = NativeStackScreenProps<
-  ParamListGeneralStack,
-  'ContactUs'
->
-export type NavPropsNotification = NativeStackScreenProps<
-  ParamListGeneralStack,
-  'Notification'
->
+export type NavPropsProfile = NativeStackScreenProps<ParamListGeneralStack, 'Profile'>
+export type NavPropsPostDetail = NativeStackScreenProps<ParamListGeneralStack, 'PostDetail'>
+export type NavPropsContactUs = NativeStackScreenProps<ParamListGeneralStack, 'ContactUs'>
+export type NavPropsNotification = NativeStackScreenProps<ParamListGeneralStack, 'Notification'>
 
 // Global **********************************************************************
 declare global {

@@ -8,7 +8,6 @@ export default createSlice({
   initialState,
   reducers: {
     logout: () => initialState,
-    setFertilizer: (state, action: PayloadAction<FertilizerState[]>) =>
-      action.payload,
+    setFertilizer: (state, action: PayloadAction<FertilizerState[]>) => action.payload,
   },
 })

@@ -79,13 +79,7 @@ const Notification: React.FC<NavPropsNotification> = ({ navigation }) => {
   }
 
   if (notification.length === 0) {
-    return (
-      <EmptyScreen
-        onPress={() => null}
-        text="There is no notification"
-        icon="bell-outline"
-      />
-    )
+    return <EmptyScreen onPress={() => null} text="There is no notification" icon="bell-outline" />
   }
 
   return (

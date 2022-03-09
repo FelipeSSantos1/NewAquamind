@@ -38,10 +38,7 @@ const Strip: React.FC<NavPropsTank & StripProps> = ({
   const renderRightActions = () => {
     return (
       <ActionView>
-        <UpdateButton
-          onPress={() => onUpdate()}
-          rippleColor={theme.colors.onSurface}
-        >
+        <UpdateButton onPress={() => onUpdate()} rippleColor={theme.colors.onSurface}>
           <Icon
             compact
             uppercase={false}
@@ -75,22 +72,14 @@ const Strip: React.FC<NavPropsTank & StripProps> = ({
       onActivated={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
     >
       <Container>
-        <MainView
-          onPress={() =>
-            navigation.navigate('TankDetail', { tank, tankId: tank.id })
-          }
-        >
+        <MainView onPress={() => navigation.navigate('TankDetail', { tank, tankId: tank.id })}>
           <TankView>
             <TankHeaderView>
               <TankHeaderThumb source={fullImageUrl(imageURL)} />
               <TankHeaderDetailView>
                 {!!title && <TankHeaderTitle>{title}</TankHeaderTitle>}
-                {!!createdAt && (
-                  <TankHeaderText>{moment(createdAt).fromNow()}</TankHeaderText>
-                )}
-                {!!dimensions && (
-                  <TankHeaderText>{`${dimensions} cm`}</TankHeaderText>
-                )}
+                {!!createdAt && <TankHeaderText>{moment(createdAt).fromNow()}</TankHeaderText>}
+                {!!dimensions && <TankHeaderText>{`${dimensions} cm`}</TankHeaderText>}
               </TankHeaderDetailView>
               <Arrow icon="chevron-right" />
             </TankHeaderView>

@@ -90,11 +90,7 @@ const General = () => [
             navigation.pop()
           }}
         >
-          <MaterialCommunityIcons
-            name="chevron-left"
-            color={theme.colors.surface}
-            size={35}
-          />
+          <MaterialCommunityIcons name="chevron-left" color={theme.colors.surface} size={35} />
         </TouchableRipple>
       ),
     })}
@@ -138,9 +134,7 @@ const Feed: React.FC = () => {
               icon="menu"
               color={theme.colors.surface}
               onPress={() => {
-                Haptics.notificationAsync(
-                  Haptics.NotificationFeedbackType.Success
-                )
+                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
                 dispatch(ConfigRTK.actions.showDrawer(true))
               }}
             />
@@ -194,9 +188,7 @@ const Tank: React.FC = () => {
               icon="menu"
               color={theme.colors.surface}
               onPress={() => {
-                Haptics.notificationAsync(
-                  Haptics.NotificationFeedbackType.Success
-                )
+                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
                 dispatch(ConfigRTK.actions.showDrawer(true))
               }}
             />
@@ -260,9 +252,7 @@ const Lib: React.FC = () => {
               icon="menu"
               color={theme.colors.surface}
               onPress={() => {
-                Haptics.notificationAsync(
-                  Haptics.NotificationFeedbackType.Success
-                )
+                Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)
                 dispatch(ConfigRTK.actions.showDrawer(true))
               }}
             />

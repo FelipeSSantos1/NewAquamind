@@ -63,11 +63,7 @@ const LibWoodList: React.FC<NavPropsLibWood> = ({ navigation }) => {
 
   return (
     <MainView>
-      <Searchbar
-        value={search}
-        onChangeText={text => changeSearchText(text)}
-        autoComplete="off"
-      />
+      <Searchbar value={search} onChangeText={text => changeSearchText(text)} autoComplete="off" />
       <FlatList
         data={filter(response, item => {
           if (toUpper(item.name).search(toUpper(search)) !== -1) {

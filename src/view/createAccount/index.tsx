@@ -81,10 +81,7 @@ const CreateAccount: React.FC<NavPropsCreateAccount> = ({ navigation }) => {
     }
   }
 
-  const createAccount = async (
-    values: FormData,
-    actions: FormikHelpers<FormData>
-  ) => {
+  const createAccount = async (values: FormData, actions: FormikHelpers<FormData>) => {
     setCreateIsLoading(true)
     const result = await authAPI.createAccount(values)
     setCreateIsLoading(false)
@@ -130,9 +127,7 @@ const CreateAccount: React.FC<NavPropsCreateAccount> = ({ navigation }) => {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageHeader source={headerImage} resizeMode="cover" />
         <Container>
@@ -165,9 +160,7 @@ const CreateAccount: React.FC<NavPropsCreateAccount> = ({ navigation }) => {
                   onChangeText={handleChange('email')}
                   onBlur={() => setFieldTouched('email')}
                   value={values.email}
-                  error={
-                    touched.email && errors.email ? errors.email : undefined
-                  }
+                  error={touched.email && errors.email ? errors.email : undefined}
                   keyboardType="email-address"
                   autoCorrect={false}
                   autoCapitalize="none"
@@ -179,16 +172,10 @@ const CreateAccount: React.FC<NavPropsCreateAccount> = ({ navigation }) => {
                   onChangeText={handleChange('password')}
                   onBlur={() => setFieldTouched('password')}
                   value={values.password}
-                  error={
-                    touched.password && errors.password
-                      ? errors.password
-                      : undefined
-                  }
+                  error={touched.password && errors.password ? errors.password : undefined}
                   secureTextEntry
                   forwardRef={passwordInputRef}
-                  onSubmitEditing={() =>
-                    confirmPasswordInputRef.current?.focus()
-                  }
+                  onSubmitEditing={() => confirmPasswordInputRef.current?.focus()}
                 />
                 <Input
                   label="Confirm Password"
@@ -217,17 +204,12 @@ const CreateAccount: React.FC<NavPropsCreateAccount> = ({ navigation }) => {
             )}
           </Formik>
           <RowView>
-            <SecondaryButton
-              onPress={() => setShowModal(true)}
-              color={theme.colors.accent}
-            >
+            <SecondaryButton onPress={() => setShowModal(true)} color={theme.colors.accent}>
               Didn't received the email? Resend it!
             </SecondaryButton>
           </RowView>
           <RowView>
-            <SecondaryButton onPress={() => navigation.goBack()}>
-              Go to Login
-            </SecondaryButton>
+            <SecondaryButton onPress={() => navigation.goBack()}>Go to Login</SecondaryButton>
           </RowView>
         </Container>
       </ScrollView>
@@ -239,15 +221,7 @@ const CreateAccount: React.FC<NavPropsCreateAccount> = ({ navigation }) => {
         onSubmit={resendEmail}
         validationSchema={FormResendValidation}
       >
-        {({
-          values,
-          handleChange,
-          errors,
-          setFieldTouched,
-          touched,
-          isValid,
-          handleSubmit,
-        }) => (
+        {({ values, handleChange, errors, setFieldTouched, touched, isValid, handleSubmit }) => (
           <Portal>
             <Dialog visible={showModal} onDismiss={() => setShowModal(false)}>
               <Dialog.Title>Send a new email to</Dialog.Title>
@@ -258,9 +232,7 @@ const CreateAccount: React.FC<NavPropsCreateAccount> = ({ navigation }) => {
                   onChangeText={handleChange('email')}
                   onBlur={() => setFieldTouched('email')}
                   value={values.email}
-                  error={
-                    touched.email && errors.email ? errors.email : undefined
-                  }
+                  error={touched.email && errors.email ? errors.email : undefined}
                   keyboardType="email-address"
                   autoCorrect={false}
                   autoCapitalize="none"
@@ -268,16 +240,10 @@ const CreateAccount: React.FC<NavPropsCreateAccount> = ({ navigation }) => {
                 />
               </Dialog.Content>
               <Dialog.Actions>
-                <PaperButton
-                  color={theme.colors.error}
-                  onPress={() => setShowModal(false)}
-                >
+                <PaperButton color={theme.colors.error} onPress={() => setShowModal(false)}>
                   Cancel
                 </PaperButton>
-                <PaperButton
-                  onPress={handleSubmit}
-                  disabled={!isValid || sendIsLoading}
-                >
+                <PaperButton onPress={handleSubmit} disabled={!isValid || sendIsLoading}>
                   Send
                 </PaperButton>
               </Dialog.Actions>

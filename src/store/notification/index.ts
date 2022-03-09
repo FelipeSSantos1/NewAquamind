@@ -8,7 +8,6 @@ export default createSlice({
   initialState,
   reducers: {
     logout: () => initialState,
-    setNotification: (state, action: PayloadAction<NotificationState[]>) =>
-      action.payload,
+    setNotification: (state, action: PayloadAction<NotificationState[]>) => action.payload,
   },
 })

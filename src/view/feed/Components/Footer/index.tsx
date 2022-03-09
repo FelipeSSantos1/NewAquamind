@@ -263,9 +263,7 @@ const Footer: React.FC<FooterProps> = ({
         </Text>
       )}
       <Text>{textLikes}</Text>
-      <Pressable
-        onPress={() => navigation.navigate('Comment', { postId: feedId })}
-      >
+      <Pressable onPress={() => navigation.navigate('Comment', { postId: feedId })}>
         <Text>{textComments}</Text>
       </Pressable>
     </>

@@ -60,10 +60,7 @@ export async function resendEmail(params: ResendEmailParams) {
 }
 
 export async function forgotPassword(params: ForgotPasswordParams) {
-  const result = API.post<ForgotPasswordResponse>(
-    '/auth/forgotPassword',
-    params
-  )
+  const result = API.post<ForgotPasswordResponse>('/auth/forgotPassword', params)
     .then(response => {
       if (response && response.status === 201) {
         return response.data

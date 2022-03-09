@@ -5,9 +5,7 @@ import map from 'lodash/map'
 import Image from 'react-native-fast-image'
 import { Animated, StyleSheet, View } from 'react-native'
 import Pinchable from 'react-native-pinchable'
-import PagerView, {
-  PagerViewOnPageScrollEventData,
-} from 'react-native-pager-view'
+import PagerView, { PagerViewOnPageScrollEventData } from 'react-native-pager-view'
 import { ScalingDot } from 'react-native-animated-pagination-dots'
 
 import { NavPropsLibAlgaeDetail } from '../../routes/types'
@@ -41,8 +39,7 @@ const LibAlgaeDetail: React.FC<NavPropsLibAlgaeDetail> = ({ route }) => {
     min(
       map(
         selectedAlgae?.Photos,
-        photo =>
-          (photo.width ? photo.width : 1) / (photo.height ? photo.height : 1)
+        photo => (photo.width ? photo.width : 1) / (photo.height ? photo.height : 1)
       )
     ) || 1
   const viewWidth = theme.sizes.width
@@ -52,10 +49,7 @@ const LibAlgaeDetail: React.FC<NavPropsLibAlgaeDetail> = ({ route }) => {
   const scrollOffsetAnimatedValue = React.useRef(new Animated.Value(0)).current
   const positionAnimatedValue = React.useRef(new Animated.Value(0)).current
   const inputRange = [0, selectedAlgae ? selectedAlgae.Photos.length : 0]
-  const scrollX = Animated.add(
-    scrollOffsetAnimatedValue,
-    positionAnimatedValue
-  ).interpolate({
+  const scrollX = Animated.add(scrollOffsetAnimatedValue, positionAnimatedValue).interpolate({
     inputRange,
     outputRange: [0, (selectedAlgae ? selectedAlgae.Photos.length : 0) * width],
   })

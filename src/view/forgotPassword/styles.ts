@@ -1,11 +1,6 @@
 import styled from 'styled-components/native'
 import { Image, Dimensions } from 'react-native'
-import {
-  Title,
-  Subheading,
-  Button,
-  Text as PaperText,
-} from 'react-native-paper'
+import { Title, Subheading, Button, Text as PaperText } from 'react-native-paper'
 
 import theme from '../../theme'
 

@@ -1,11 +1,6 @@
 import styled from 'styled-components/native'
 import { StyleSheet } from 'react-native'
-import {
-  Avatar as PaperAvatar,
-  Text,
-  Button,
-  TouchableRipple,
-} from 'react-native-paper'
+import { Avatar as PaperAvatar, Text, Button, TouchableRipple } from 'react-native-paper'
 
 import { RowViewType } from './types'
 import theme from '../../../../theme'

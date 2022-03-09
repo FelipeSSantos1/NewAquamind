@@ -14,14 +14,7 @@ import { NavPropsLibPlants } from '../../routes/types'
 import { RootState } from '../../store/rootReducer'
 import { fullImageUrl } from '../../services/helper'
 import { GoDetailProps } from './types'
-import {
-  MainView,
-  Searchbar,
-  Text,
-  RowView,
-  ThumbImage,
-  RowViewText,
-} from './styles'
+import { MainView, Searchbar, Text, RowView, ThumbImage, RowViewText } from './styles'
 
 const LibPlantsList: React.FC<NavPropsLibPlants> = ({ navigation }) => {
   const dispatch = useDispatch()
@@ -67,11 +60,7 @@ const LibPlantsList: React.FC<NavPropsLibPlants> = ({ navigation }) => {
 
   return (
     <MainView>
-      <Searchbar
-        value={search}
-        onChangeText={text => changeSearchText(text)}
-        autoComplete="off"
-      />
+      <Searchbar value={search} onChangeText={text => changeSearchText(text)} autoComplete="off" />
       <FlatList
         data={filter(plant, item => {
           if (toUpper(item.name).search(toUpper(search)) !== -1) {

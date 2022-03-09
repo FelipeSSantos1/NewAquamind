@@ -8,7 +8,6 @@ export default createSlice({
   initialState,
   reducers: {
     logout: () => initialState,
-    setComment: (state, action: PayloadAction<CommentState[]>) =>
-      action.payload,
+    setComment: (state, action: PayloadAction<CommentState[]>) => action.payload,
   },
 })

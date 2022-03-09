@@ -14,15 +14,7 @@ import { NavPropsLibStone } from '../../routes/types'
 import { RootState } from '../../store/rootReducer'
 import { fullImageUrl } from '../../services/helper'
 import { GoDetailProps } from './types'
-import {
-  MainView,
-  Searchbar,
-  Text,
-  RowView,
-  ThumbImage,
-  PaperDivider,
-  RowViewText,
-} from './styles'
+import { MainView, Searchbar, Text, RowView, ThumbImage, PaperDivider, RowViewText } from './styles'
 
 const LibStoneList: React.FC<NavPropsLibStone> = ({ navigation }) => {
   const dispatch = useDispatch()
@@ -58,10 +50,7 @@ const LibStoneList: React.FC<NavPropsLibStone> = ({ navigation }) => {
     <TouchableRipple onPress={() => goDetail({ id: item.id })}>
       <RowView>
         <RowViewText>
-          <ThumbImage
-            source={fullImageUrl(item.Photos[0].url)}
-            resizeMode="cover"
-          />
+          <ThumbImage source={fullImageUrl(item.Photos[0].url)} resizeMode="cover" />
           <Text>{item.name}</Text>
         </RowViewText>
         <IconButton size={24} icon="chevron-right" />
@@ -71,11 +60,7 @@ const LibStoneList: React.FC<NavPropsLibStone> = ({ navigation }) => {
 
   return (
     <MainView>
-      <Searchbar
-        value={search}
-        onChangeText={text => changeSearchText(text)}
-        autoComplete="off"
-      />
+      <Searchbar value={search} onChangeText={text => changeSearchText(text)} autoComplete="off" />
       <FlatList
         data={filter(stone, item => {
           if (toUpper(item.name).search(toUpper(search)) !== -1) {

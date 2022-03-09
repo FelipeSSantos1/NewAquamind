@@ -38,10 +38,7 @@ const Strip: React.FC<PropsType> = ({
   const renderRightActions = () => {
     return (
       <ActionView renderDelete={renderDelete}>
-        <ReplyButton
-          onPress={replyFunction}
-          rippleColor={theme.colors.onSurface}
-        >
+        <ReplyButton onPress={replyFunction} rippleColor={theme.colors.onSurface}>
           <Icon
             compact
             uppercase={false}

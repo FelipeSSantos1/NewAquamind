@@ -1,11 +1,6 @@
 import styled from 'styled-components/native'
 
-import {
-  Title,
-  ActivityIndicator,
-  Button,
-  IconButton,
-} from 'react-native-paper'
+import { Title, ActivityIndicator, Button, IconButton } from 'react-native-paper'
 import theme from '../../theme'
 
 export const Container = styled.SafeAreaView`

@@ -20,9 +20,7 @@ const Loading: React.FC = () => {
     <Portal>
       <DialogView
         visible={config.loading.visible}
-        onDismiss={() =>
-          dispatch(ConfigRTK.actions.setLoading({ visible: false }))
-        }
+        onDismiss={() => dispatch(ConfigRTK.actions.setLoading({ visible: false }))}
       >
         <DialogContent>
           <View>

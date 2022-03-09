@@ -54,9 +54,7 @@ const Alert: React.FC = () => {
               dispatch(ConfigRTK.actions.hideAlert())
             }}
           >
-            {!isEmpty(trim(config.alert.okText))
-              ? trim(config.alert.okText)
-              : 'Done'}
+            {!isEmpty(trim(config.alert.okText)) ? trim(config.alert.okText) : 'Done'}
           </Button>
         </Dialog.Actions>
       </Dialog>

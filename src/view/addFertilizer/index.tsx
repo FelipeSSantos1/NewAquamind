@@ -17,10 +17,7 @@ import { handleClickProps } from './types'
 import FakeLoadingScreen from '../components/fakeLoadingScreen'
 import { MainView, Searchbar, Text, RowView, ThumbImage } from './styles'
 
-const AddFertilizer: React.FC<NavPropsFertilizerList> = ({
-  route,
-  navigation,
-}) => {
+const AddFertilizer: React.FC<NavPropsFertilizerList> = ({ route, navigation }) => {
   const dispatch = useDispatch()
   const [search, setSearch] = useState('')
   const [selectDoseAlert, setSelectDoseAlert] = useState(false)
@@ -55,9 +52,7 @@ const AddFertilizer: React.FC<NavPropsFertilizerList> = ({
 
   const renderList = (item: FertilizerState) => (
     <TouchableRipple
-      onPress={() =>
-        handleClick({ id: item.id, name: item.name, avatar: item.avatar })
-      }
+      onPress={() => handleClick({ id: item.id, name: item.name, avatar: item.avatar })}
     >
       <RowView>
         <ThumbImage source={fullImageUrl(item.avatar)} resizeMode="contain" />
@@ -68,11 +63,7 @@ const AddFertilizer: React.FC<NavPropsFertilizerList> = ({
 
   return (
     <MainView>
-      <Searchbar
-        value={search}
-        onChangeText={text => changeSearchText(text)}
-        autoComplete="off"
-      />
+      <Searchbar value={search} onChangeText={text => changeSearchText(text)} autoComplete="off" />
       <SelectDose
         visible={selectDoseAlert}
         onDismiss={setSelectDoseAlert}

@@ -73,10 +73,7 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
 
     if (!result.cancelled) {
       LayoutAnimation.configureNext(LayoutAnimation.Presets.spring)
-      setImages([
-        ...images,
-        { uri: result.uri, height: result.height, width: result.width },
-      ])
+      setImages([...images, { uri: result.uri, height: result.height, width: result.width }])
     }
   }
 
@@ -90,11 +87,7 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
     }
 
     return map(images, (image, index) => (
-      <ImageBox
-        key={index}
-        imageUrl={image.uri}
-        onPress={() => removeImage(image.uri)}
-      />
+      <ImageBox key={index} imageUrl={image.uri} onPress={() => removeImage(image.uri)} />
     ))
   }
 
@@ -194,11 +187,7 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
       dispatch(FeedRTK.actions.setFeed(feedResponse))
 
       if (feedResponse.length) {
-        dispatch(
-          ConfigRTK.actions.setFeedCursor(
-            feedResponse[feedResponse.length - 1].id
-          )
-        )
+        dispatch(ConfigRTK.actions.setFeedCursor(feedResponse[feedResponse.length - 1].id))
       }
     }
 
@@ -238,9 +227,7 @@ const CreatePost: React.FC<NavPropsCreatePost> = ({ route, navigation }) => {
               <StyledPicker
                 style={{ backgroundColor: theme.colors.background }}
                 selectedValue={selectedTank}
-                onValueChange={itemValue =>
-                  setSelectedTank(itemValue as number)
-                }
+                onValueChange={itemValue => setSelectedTank(itemValue as number)}
               >
                 <StyledPicker.Item key={0} label="none" value={0} />
                 {map(tank, currentTank => (

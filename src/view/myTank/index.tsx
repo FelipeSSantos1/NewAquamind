@@ -41,13 +41,9 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
     }
   }, [queryClient, route.params.refresh])
 
-  const { data: response, isFetching } = useQuery(
-    'getUserTanks',
-    API.getAllByUser,
-    {
-      staleTime: Infinity,
-    }
-  )
+  const { data: response, isFetching } = useQuery('getUserTanks', API.getAllByUser, {
+    staleTime: Infinity,
+  })
   const reFetch = () => {
     queryClient.invalidateQueries('getUserTanks')
   }
@@ -111,9 +107,7 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
     const newActionActive = []
     newActionActive[index] = value
     LayoutAnimation.configureNext(
-      value
-        ? LayoutAnimation.Presets.spring
-        : LayoutAnimation.Presets.easeInEaseOut
+      value ? LayoutAnimation.Presets.spring : LayoutAnimation.Presets.easeInEaseOut
     )
   }
 
@@ -155,19 +149,12 @@ const MyTank: React.FC<NavPropsTank> = ({ navigation, route }) => {
           <ScrollView
             showsVerticalScrollIndicator={false}
             refreshControl={
-              <RefreshControl
-                refreshing={isFetching || loadingDelete}
-                onRefresh={reFetch}
-              />
+              <RefreshControl refreshing={isFetching || loadingDelete} onRefresh={reFetch} />
             }
           >
             {renderTanks()}
           </ScrollView>
-          <PaperFAB
-            icon="plus"
-            onPress={() => navigation.navigate('AddEditTank', {})}
-            small
-          />
+          <PaperFAB icon="plus" onPress={() => navigation.navigate('AddEditTank', {})} small />
         </>
       )}
     </Container>

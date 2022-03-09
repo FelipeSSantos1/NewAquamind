@@ -11,8 +11,7 @@ export const ImageBox = styled.View`
   border-width: ${StyleSheet.hairlineWidth}px;
   border-color: ${theme.colors.disabled};
   padding: ${theme.sizes.padding / 3}px;
-  margin: ${theme.sizes.padding}px 0 ${theme.sizes.padding}px
-    ${theme.sizes.padding}px;
+  margin: ${theme.sizes.padding}px 0 ${theme.sizes.padding}px ${theme.sizes.padding}px;
   background-color: ${theme.colors.surface};
 `
 export const ImageBoxImage = styled.Image`

@@ -4,19 +4,9 @@ import { useDispatch } from 'react-redux'
 import * as API from '../../API/user'
 import ConfigRTK from '../../store/config'
 import { NavPropsValidateEmail } from '../../routes/types'
-import {
-  Container,
-  PaperTitle,
-  Spinner,
-  PaperButton,
-  PaperIconButton,
-  ReadyView,
-} from './styles'
+import { Container, PaperTitle, Spinner, PaperButton, PaperIconButton, ReadyView } from './styles'
 
-const ValidateEmail: React.FC<NavPropsValidateEmail> = ({
-  navigation,
-  route,
-}) => {
+const ValidateEmail: React.FC<NavPropsValidateEmail> = ({ navigation, route }) => {
   const dispatch = useDispatch()
   const [verified, setVerified] = useState(false)
 
@@ -83,9 +73,7 @@ const ValidateEmail: React.FC<NavPropsValidateEmail> = ({
           <PaperTitle>You are ready to go!</PaperTitle>
         </ReadyView>
       )}
-      <PaperButton onPress={() => navigation.navigate('Login')}>
-        Go to Login
-      </PaperButton>
+      <PaperButton onPress={() => navigation.navigate('Login')}>Go to Login</PaperButton>
     </Container>
   )
 }

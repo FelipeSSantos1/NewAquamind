@@ -8,13 +8,7 @@ import Input from '../components/input'
 import * as API from '../../API/mail'
 import ConfigRTK from '../../store/config'
 import { FormValidation, FormData } from './types'
-import {
-  FormView,
-  SendButton,
-  ScrollView,
-  PaperKeyboardAvoidingView,
-  PaperText,
-} from './styles'
+import { FormView, SendButton, ScrollView, PaperKeyboardAvoidingView, PaperText } from './styles'
 
 const ContactUs: React.FC<NavPropsContactUs> = () => {
   const dispatch = useDispatch()
@@ -60,8 +54,8 @@ const ContactUs: React.FC<NavPropsContactUs> = () => {
       <ScrollView>
         <FormView>
           <PaperText>
-            We are look forward to hearing from you. Please fill out the form
-            below with any suggestion, question, or concern.
+            We are look forward to hearing from you. Please fill out the form below with any
+            suggestion, question, or concern.
           </PaperText>
           <Formik
             initialValues={{
@@ -86,11 +80,7 @@ const ContactUs: React.FC<NavPropsContactUs> = () => {
                   onChangeText={handleChange('subject')}
                   onBlur={() => setFieldTouched('subject')}
                   value={values.subject}
-                  error={
-                    touched.subject && errors.subject
-                      ? errors.subject
-                      : undefined
-                  }
+                  error={touched.subject && errors.subject ? errors.subject : undefined}
                 />
                 <Input
                   label="Message"

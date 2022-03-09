@@ -26,12 +26,7 @@ import Input from '../components/input'
 import { NavPropsAddEditTank } from '../../routes/types'
 import theme from '../../theme'
 import * as API from '../../API/tank'
-import {
-  formValidation,
-  FormData,
-  FertilizerListType,
-  PlantListType,
-} from './types'
+import { formValidation, FormData, FertilizerListType, PlantListType } from './types'
 import {
   PaperKeyboardAvoidingView,
   Container,
@@ -139,10 +134,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
   useEffect(() => {
     if (route.params.fertilizers) {
       const fertilizerToAdd = route.params.fertilizers
-      if (
-        fertilizers.length > 0 &&
-        !!find(fertilizers, { id: fertilizerToAdd.id })
-      ) {
+      if (fertilizers.length > 0 && !!find(fertilizers, { id: fertilizerToAdd.id })) {
         dispatch(
           ConfigRTK.actions.setAlert({
             visible: true,
@@ -376,10 +368,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
 
   const renderRightActions = (fnDelete: CallableFunction) => {
     return (
-      <DeleteButton
-        onPress={() => fnDelete()}
-        rippleColor={theme.colors.onSurface}
-      >
+      <DeleteButton onPress={() => fnDelete()} rippleColor={theme.colors.onSurface}>
         <Icon icon="delete-outline" color={theme.colors.surface} />
       </DeleteButton>
     )
@@ -387,20 +376,13 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
   const renderFertilizerList = () => {
     return map(fertilizers, (fertilizer, index) => (
       <Swipeable
-        renderRightActions={() =>
-          renderRightActions(() => removeFertilizer(fertilizer.id))
-        }
-        onActivated={() =>
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-        }
+        renderRightActions={() => renderRightActions(() => removeFertilizer(fertilizer.id))}
+        onActivated={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
         key={`fert-${index}`}
       >
         <StripFlatList>
           <RowView>
-            <ThumbImageList
-              source={fullImageUrl(fertilizer.avatar)}
-              resizeMode="contain"
-            />
+            <ThumbImageList source={fullImageUrl(fertilizer.avatar)} resizeMode="contain" />
             <FlatListText>{fertilizer.name}</FlatListText>
           </RowView>
         </StripFlatList>
@@ -411,20 +393,13 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
   const renderPlantList = () => {
     return map(plants, (plant, index) => (
       <Swipeable
-        renderRightActions={() =>
-          renderRightActions(() => removePlant(plant.id))
-        }
-        onActivated={() =>
-          Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)
-        }
+        renderRightActions={() => renderRightActions(() => removePlant(plant.id))}
+        onActivated={() => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
         key={`plant-${index}`}
       >
         <StripFlatList>
           <RowView>
-            <ThumbImageList
-              source={fullImageUrl(plant.avatar)}
-              resizeMode="contain"
-            />
+            <ThumbImageList source={fullImageUrl(plant.avatar)} resizeMode="contain" />
             <FlatListText>{plant.name}</FlatListText>
           </RowView>
         </StripFlatList>
@@ -485,16 +460,12 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
                     onChangeText={handleChange('name')}
                     onBlur={() => setFieldTouched('name')}
                     value={values.name}
-                    error={
-                      touched.name && errors.name ? errors.name : undefined
-                    }
+                    error={touched.name && errors.name ? errors.name : undefined}
                   />
                   <RowView>
                     <Text>
                       Birth day {Platform.OS === 'android' && values.born}
-                      <ErrorText>
-                        {touched.born && errors.born ? errors.born : ''}
-                      </ErrorText>
+                      <ErrorText>{touched.born && errors.born ? errors.born : ''}</ErrorText>
                     </Text>
                     {Platform.OS === 'android' && (
                       <Icon
@@ -509,18 +480,10 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
                         <DateTimePicker
                           value={moment(values.born || undefined).toDate()}
                           mode="date"
-                          display={
-                            Platform.OS === 'ios' ? 'compact' : 'calendar'
-                          }
-                          onChange={(
-                            e: any,
-                            selectedDate: Date | undefined
-                          ) => {
+                          display={Platform.OS === 'ios' ? 'compact' : 'calendar'}
+                          onChange={(e: any, selectedDate: Date | undefined) => {
                             setShowDatePicker(false)
-                            setFieldValue(
-                              'born',
-                              moment(selectedDate).format('YYYY-MM-DD')
-                            )
+                            setFieldValue('born', moment(selectedDate).format('YYYY-MM-DD'))
                           }}
                         />
                       </FullView>
@@ -538,11 +501,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
                         onChangeText={handleChange('height')}
                         onBlur={() => setFieldTouched('height')}
                         value={values.height}
-                        error={
-                          touched.height && errors.height
-                            ? errors.height
-                            : undefined
-                        }
+                        error={touched.height && errors.height ? errors.height : undefined}
                       />
                     </FullView>
                     <SmallText>cm</SmallText>
@@ -555,11 +514,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
                         onChangeText={handleChange('length')}
                         onBlur={() => setFieldTouched('length')}
                         value={values.length}
-                        error={
-                          touched.length && errors.length
-                            ? errors.length
-                            : undefined
-                        }
+                        error={touched.length && errors.length ? errors.length : undefined}
                       />
                     </FullView>
                     <SmallText>cm</SmallText>
@@ -572,11 +527,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
                         onChangeText={handleChange('width')}
                         onBlur={() => setFieldTouched('width')}
                         value={values.width}
-                        error={
-                          touched.width && errors.width
-                            ? errors.width
-                            : undefined
-                        }
+                        error={touched.width && errors.width ? errors.width : undefined}
                       />
                     </FullView>
                     <SmallText>cm</SmallText>
@@ -603,11 +554,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
                     onChangeText={handleChange('dayLight')}
                     onBlur={() => setFieldTouched('dayLight')}
                     value={values.dayLight}
-                    error={
-                      touched.dayLight && errors.dayLight
-                        ? errors.dayLight
-                        : undefined
-                    }
+                    error={touched.dayLight && errors.dayLight ? errors.dayLight : undefined}
                   />
                 </FullView>
                 <SmallText>hours/day</SmallText>
@@ -617,9 +564,7 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
                 onChangeText={handleChange('country')}
                 onBlur={() => setFieldTouched('country')}
                 value={values.country}
-                error={
-                  touched.country && errors.country ? errors.country : undefined
-                }
+                error={touched.country && errors.country ? errors.country : undefined}
               />
               <Input
                 label="Light (T5 4 x 45W High Lite Day)"
@@ -633,20 +578,14 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
                 onChangeText={handleChange('substrate')}
                 onBlur={() => setFieldTouched('substrate')}
                 value={values.substrate}
-                error={
-                  touched.substrate && errors.substrate
-                    ? errors.substrate
-                    : undefined
-                }
+                error={touched.substrate && errors.substrate ? errors.substrate : undefined}
               />
               <Input
                 label="Filter OASE Indoor Aquatics Biomaster 250"
                 onChangeText={handleChange('filter')}
                 onBlur={() => setFieldTouched('filter')}
                 value={values.filter}
-                error={
-                  touched.filter && errors.filter ? errors.filter : undefined
-                }
+                error={touched.filter && errors.filter ? errors.filter : undefined}
               />
               <Header
                 title="Add a Fertilizer"
@@ -659,16 +598,10 @@ const AddEditTank: React.FC<NavPropsAddEditTank> = ({ navigation, route }) => {
               {renderFertilizerList()}
               <Header
                 title="Add a Plant"
-                onPress={() =>
-                  navigation.navigate('PlantList', { tank: route.params.tank })
-                }
+                onPress={() => navigation.navigate('PlantList', { tank: route.params.tank })}
               />
               {renderPlantList()}
-              <SubmitButton
-                onPress={handleSubmit}
-                mode="contained"
-                loading={isLoading}
-              >
+              <SubmitButton onPress={handleSubmit} mode="contained" loading={isLoading}>
                 Save
               </SubmitButton>
             </>

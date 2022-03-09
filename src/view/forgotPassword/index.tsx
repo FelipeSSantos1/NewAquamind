@@ -29,10 +29,7 @@ const ForgotPassword: React.FC<NavPropsForgotPassword> = ({ navigation }) => {
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(false)
 
-  const resetPassword = async (
-    { email }: FormData,
-    actions: FormikHelpers<FormData>
-  ) => {
+  const resetPassword = async ({ email }: FormData, actions: FormikHelpers<FormData>) => {
     const device = `${Device.brand} - ${Device.modelName} - ${Device.osName} ${Device.osVersion}`
     const ip = await Network.getIpAddressAsync()
     setIsLoading(true)
@@ -75,9 +72,7 @@ const ForgotPassword: React.FC<NavPropsForgotPassword> = ({ navigation }) => {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageHeader source={headerImage} resizeMode="cover" />
         <Container>
@@ -86,9 +81,7 @@ const ForgotPassword: React.FC<NavPropsForgotPassword> = ({ navigation }) => {
             <AppTitle>Forgot Password</AppTitle>
           </AppNameView>
           <Text>Enter your e-mail address</Text>
-          <Text>
-            We will e-mail you with instructions to reset your password
-          </Text>
+          <Text>We will e-mail you with instructions to reset your password</Text>
           <Formik
             initialValues={{
               email: '',
@@ -111,9 +104,7 @@ const ForgotPassword: React.FC<NavPropsForgotPassword> = ({ navigation }) => {
                   onChangeText={handleChange('email')}
                   onBlur={() => setFieldTouched('email')}
                   value={values.email}
-                  error={
-                    touched.email && errors.email ? errors.email : undefined
-                  }
+                  error={touched.email && errors.email ? errors.email : undefined}
                   keyboardType="email-address"
                   autoCorrect={false}
                   autoCapitalize="none"

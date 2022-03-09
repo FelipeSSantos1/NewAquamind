@@ -30,10 +30,7 @@ const Login: React.FC<NavPropsLogin> = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false)
   const passwordInputRef = useRef<typeof Input & TextInput>(null)
 
-  const checkLogin = async (
-    values: FormData,
-    actions: FormikHelpers<FormData>
-  ) => {
+  const checkLogin = async (values: FormData, actions: FormikHelpers<FormData>) => {
     setIsLoading(true)
     const user = await authAPI.login(values)
     setIsLoading(false)
@@ -77,9 +74,7 @@ const Login: React.FC<NavPropsLogin> = ({ navigation }) => {
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageHeader source={headerImage} resizeMode="cover" />
         <Container>
@@ -110,9 +105,7 @@ const Login: React.FC<NavPropsLogin> = ({ navigation }) => {
                   onChangeText={handleChange('email')}
                   onBlur={() => setFieldTouched('email')}
                   value={values.email}
-                  error={
-                    touched.email && errors.email ? errors.email : undefined
-                  }
+                  error={touched.email && errors.email ? errors.email : undefined}
                   keyboardType="email-address"
                   autoCorrect={false}
                   autoCapitalize="none"
@@ -126,11 +119,7 @@ const Login: React.FC<NavPropsLogin> = ({ navigation }) => {
                   onChangeText={handleChange('password')}
                   onBlur={() => setFieldTouched('password')}
                   value={values.password}
-                  error={
-                    touched.password && errors.password
-                      ? errors.password
-                      : undefined
-                  }
+                  error={touched.password && errors.password ? errors.password : undefined}
                   secureTextEntry
                   onSubmitEditing={handleSubmit}
                   returnKeyType="go"
@@ -147,15 +136,11 @@ const Login: React.FC<NavPropsLogin> = ({ navigation }) => {
             )}
           </Formik>
           <RowView>
-            <SecondaryButton
-              onPress={() => navigation.navigate('CreateAccount')}
-            >
+            <SecondaryButton onPress={() => navigation.navigate('CreateAccount')}>
               Create account
             </SecondaryButton>
             <SeparatorView />
-            <SecondaryButton
-              onPress={() => navigation.navigate('ForgotPassword')}
-            >
+            <SecondaryButton onPress={() => navigation.navigate('ForgotPassword')}>
               Forgot Password
             </SecondaryButton>
           </RowView>

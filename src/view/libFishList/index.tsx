@@ -65,11 +65,7 @@ const LibFishList: React.FC<NavPropsLibFish> = ({ navigation }) => {
 
   return (
     <MainView>
-      <Searchbar
-        value={search}
-        onChangeText={text => changeSearchText(text)}
-        autoComplete="off"
-      />
+      <Searchbar value={search} onChangeText={text => changeSearchText(text)} autoComplete="off" />
       <FlatList
         data={filter(response, item => {
           if (

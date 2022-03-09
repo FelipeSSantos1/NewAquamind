@@ -6,12 +6,7 @@ import { fullImageUrl } from '../../../../services/helper'
 import { UserHeaderProps } from './types'
 import { RowView, Avatar, Text, Dimensions, Date } from './styles'
 
-const UserHeader: React.FC<UserHeaderProps> = ({
-  url,
-  userName,
-  dimensions,
-  date,
-}) => {
+const UserHeader: React.FC<UserHeaderProps> = ({ url, userName, dimensions, date }) => {
   return (
     <RowView>
       <Avatar source={fullImageUrl(url)} />

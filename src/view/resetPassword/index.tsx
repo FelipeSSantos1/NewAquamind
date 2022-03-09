@@ -23,19 +23,13 @@ import {
   ScrollView,
 } from './styles'
 
-const ResetPassword: React.FC<NavPropsResetPassword> = ({
-  navigation,
-  route,
-}) => {
+const ResetPassword: React.FC<NavPropsResetPassword> = ({ navigation, route }) => {
   const dispatch = useDispatch()
   const [loading, setLoading] = useState(false)
   const passwordInputRef = useRef<typeof Input & TextInput>(null)
   const confirmPasswordInputRef = useRef<typeof Input & TextInput>(null)
 
-  const resetPassword = async (
-    values: FormData,
-    actions: FormikHelpers<FormData>
-  ) => {
+  const resetPassword = async (values: FormData, actions: FormikHelpers<FormData>) => {
     setLoading(true)
     const result = await userAPI.resetPassword({
       password: values.password,
@@ -83,9 +77,7 @@ const ResetPassword: React.FC<NavPropsResetPassword> = ({
   }
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-    >
+    <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <ImageHeader source={headerImage} resizeMode="cover" />
         <Container>
@@ -117,16 +109,10 @@ const ResetPassword: React.FC<NavPropsResetPassword> = ({
                   onChangeText={handleChange('password')}
                   onBlur={() => setFieldTouched('password')}
                   value={values.password}
-                  error={
-                    touched.password && errors.password
-                      ? errors.password
-                      : undefined
-                  }
+                  error={touched.password && errors.password ? errors.password : undefined}
                   secureTextEntry
                   forwardRef={passwordInputRef}
-                  onSubmitEditing={() =>
-                    confirmPasswordInputRef.current?.focus()
-                  }
+                  onSubmitEditing={() => confirmPasswordInputRef.current?.focus()}
                 />
                 <Input
                   label="Confirm Password"

@@ -9,8 +9,7 @@ export const RowView = styled.View<RowViewType>`
   flex-direction: row;
   align-items: center;
   margin-left: ${props => (props.sub ? 30 : 0)}px;
-  background-color: ${props =>
-    props.highlight ? theme.colors.accentBackground : 'transparent'};
+  background-color: ${props => (props.highlight ? theme.colors.accentBackground : 'transparent')};
 `
 export const Avatar = styled(PaperAvatar.Image)`
   background-color: transparent;

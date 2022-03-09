@@ -1,10 +1,6 @@
 import styled from 'styled-components/native'
 import FastImage from 'react-native-fast-image'
-import {
-  Searchbar as PaperSearchbar,
-  Text as PaperText,
-  Divider,
-} from 'react-native-paper'
+import { Searchbar as PaperSearchbar, Text as PaperText, Divider } from 'react-native-paper'
 
 import theme from '../../theme'
 

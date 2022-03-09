@@ -47,14 +47,7 @@ const SelectDose: React.FC<NavPropsFertilizerList & SelectDoseProps> = ({
       onSubmit={values => save(values)}
       validationSchema={formValidation}
     >
-      {({
-        values,
-        handleChange,
-        errors,
-        setFieldTouched,
-        isValid,
-        handleSubmit,
-      }) => (
+      {({ values, handleChange, errors, setFieldTouched, isValid, handleSubmit }) => (
         <>
           <Paragraph>How many milliliters do you dose per day?</Paragraph>
           <Input
@@ -69,9 +62,7 @@ const SelectDose: React.FC<NavPropsFertilizerList & SelectDoseProps> = ({
             <Button
               color={theme.colors.error}
               onPress={() => {
-                LayoutAnimation.configureNext(
-                  LayoutAnimation.Presets.easeInEaseOut
-                )
+                LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
                 onDismiss(false)
               }}
             >

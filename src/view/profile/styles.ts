@@ -49,8 +49,7 @@ export const HeaderSlotView = styled(RowView)`
   align-items: center;
   background-color: ${theme.colors.primary};
   height: ${theme.sizes.width / 5 + theme.sizes.margin * 2}px;
-  padding: ${theme.sizes.margin}px ${theme.sizes.margin}px
-    ${theme.sizes.margin}px 0;
+  padding: ${theme.sizes.margin}px ${theme.sizes.margin}px ${theme.sizes.margin}px 0;
 `
 export const HeaderSlot = styled(Slot)``
 export const FormView = styled.View`

@@ -39,11 +39,7 @@ api.interceptors.response.use(
     const originalConfig = error.config
     const UNAUTHORIZED = 401
 
-    if (
-      error.response &&
-      error.response.status === UNAUTHORIZED &&
-      !originalConfig._retry
-    ) {
+    if (error.response && error.response.status === UNAUTHORIZED && !originalConfig._retry) {
       originalConfig._retry = true
 
       const token = await SecureStore.getItemAsync('refreshToken')

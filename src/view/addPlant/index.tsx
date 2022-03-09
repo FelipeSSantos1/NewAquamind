@@ -51,11 +51,7 @@ const AddPlant: React.FC<NavPropsPlantList> = ({ navigation, route }) => {
   }
 
   const renderList = (item: PlantState) => (
-    <TouchableRipple
-      onPress={() =>
-        save({ id: item.id, name: item.name, avatar: item.avatar })
-      }
-    >
+    <TouchableRipple onPress={() => save({ id: item.id, name: item.name, avatar: item.avatar })}>
       <RowView>
         <ThumbImage source={fullImageUrl(item.avatar)} resizeMode="contain" />
         <Text>{item.name}</Text>
@@ -65,11 +61,7 @@ const AddPlant: React.FC<NavPropsPlantList> = ({ navigation, route }) => {
 
   return (
     <MainView>
-      <Searchbar
-        value={search}
-        onChangeText={text => changeSearchText(text)}
-        autoComplete="off"
-      />
+      <Searchbar value={search} onChangeText={text => changeSearchText(text)} autoComplete="off" />
       <FlatList
         data={filter(plant, item => {
           if (toUpper(item.name).search(toUpper(search)) !== -1) {

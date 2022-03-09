@@ -30,8 +30,7 @@ export const StyledPicker = styled(Picker)`
   background-color: ${theme.colors.background};
 `
 export const SaveButon = styled(Button)`
-  margin: ${theme.sizes.margin}px ${theme.sizes.margin}px 0
-    ${theme.sizes.margin}px;
+  margin: ${theme.sizes.margin}px ${theme.sizes.margin}px 0 ${theme.sizes.margin}px;
 `
 export const PaperKeyboardAvoidingView = styled.KeyboardAvoidingView`
   flex: 1;

@@ -121,11 +121,7 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
     <StyledScrollView showsVerticalScrollIndicator={false}>
       <Pinchable>
         <HeaderImage
-          source={
-            selectedPhoto
-              ? fullImageUrl(selectedPhoto)
-              : fullImageUrl(tank.avatar)
-          }
+          source={selectedPhoto ? fullImageUrl(selectedPhoto) : fullImageUrl(tank.avatar)}
           resizeMode="cover"
         />
       </Pinchable>
@@ -134,9 +130,7 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
       {!!tank.born && (
         <PaperText>
           {'Created on '}
-          <PaperBoldText>
-            {moment(tank.born).format('dddd, MMMM Do YYYY')}
-          </PaperBoldText>
+          <PaperBoldText>{moment(tank.born).format('dddd, MMMM Do YYYY')}</PaperBoldText>
           {!!tank.location && (
             <>
               {' in '}
@@ -152,9 +146,7 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
         </RowViewIcon>
         <RowViewIcon>
           <ImageIcon source={require('../../assets/icons/day-and-night.png')} />
-          <PaperText>
-            {tank.dayLight ? `${tank.dayLight} hours` : 'none'}
-          </PaperText>
+          <PaperText>{tank.dayLight ? `${tank.dayLight} hours` : 'none'}</PaperText>
         </RowViewIcon>
       </RowViewIconContainer>
       <RowViewIconContainer>
@@ -162,9 +154,7 @@ const TankDetail: React.FC<NavPropsTankDetail> = ({ route }) => {
           <ImageIcon source={require('../../assets/icons/liter.png')} />
           <PaperText>
             {!!tank.width && !!tank.height && !!tank.length
-              ? `${toInteger(
-                  (tank.width * tank.height * tank.length) / 1000
-                )} litres`
+              ? `${toInteger((tank.width * tank.height * tank.length) / 1000)} litres`
               : 'none'}
           </PaperText>
         </RowViewIcon>
